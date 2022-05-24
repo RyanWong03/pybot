@@ -19,7 +19,7 @@ async def on_ready():
 async def on_message(message: discord.Message):
     channel = client.get_channel(978743346287759390)
     if message.guild is None and not message.author.bot:
-        await channel.send(message.content)
+        await channel.send(message.author + " sent " + message.content)
 
 # @client.command()
 # async def pm(self, ctx, user: discord.Member = None, *, message = None):
