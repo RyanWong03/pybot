@@ -2,6 +2,7 @@ import discord
 import os
 from discord.ext import commands
 from discord.utils import get
+import sympy as sym
 
 intents = discord.Intents.default()
 intents.members = True
@@ -21,19 +22,6 @@ async def on_message(message: discord.Message):
     if message.guild is None and not message.author.bot:
         await channel.send(str(message.author.mention) + " sent " + message.content)
 
-# @client.command()
-# async def pm(self, ctx, user: discord.Member = None, *, message = None):
-#     if user is None:
-#         await ctx.send("Need person to send message to.")
-#     if user is not None:
-#         if message is None:
-#             await ctx.send("Need message to send.")
-#         if message is not None:
-#             myembed = discord.Embed()
-#             myembed.add_field(name=f"(ctx.author) sent you:", value=f"(message)")
-#             myembed.set_footer(text="Testing message")
-#             await user.send(embed=myembed)
-
 @client.command()
 async def talk(ctx):
     await ctx.send("Hello")
@@ -44,7 +32,7 @@ async def test(ctx):
 
 @client.command()
 async def pm(ctx, userId: int, msg: str):
-    id = userId #538897701522112514
+    id = userId 
     user = client.get_user(id)
     await ctx.send("Message Sent to " + str(user))
     await user.send(msg)
@@ -52,5 +40,9 @@ async def pm(ctx, userId: int, msg: str):
 @client.command()
 async def add(ctx, a: int, b: int):
     await ctx.send(a + b)
+
+@client.command()
+async def diff(ctx, exp: str, letter: str):
+    await ctx.send(sym.diff(exp, letter))
 
 client.run(os.environ["DISCORD_TOKEN"])
