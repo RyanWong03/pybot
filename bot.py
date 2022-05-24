@@ -43,4 +43,8 @@ async def pm(ctx, msg):
     await ctx.send("Message Sent")
     await user.send(str(msg))
 
+@client.command()
+async def add(ctx, a: int, b: int):
+    await ctx.send(a + b)
+
 client.run(os.environ["DISCORD_TOKEN"])
