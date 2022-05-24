@@ -29,4 +29,8 @@ async def pm(self, ctx, user: discord.Member = None, *, message = None):
 async def talk(ctx):
     await ctx.send("Hello")
 
+@client.command()
+async def test(ctx):
+    await ctx.send("bot is working")
+
 client.run(os.environ["DISCORD_TOKEN"])
