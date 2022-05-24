@@ -29,4 +29,4 @@ async def pm(self, ctx, user: discord.Member = None, *, message = None):
 async def talk(ctx):
     await ctx.send("Hello")
 
-client.run(os.environ["DISCORD_TOKEN"])
+client.run(os.environ["OTc4MDk3NzE5MzUwNTQyNDI2.Gt3M_t.qMju_Q2Ve7KDWdbatK7rfKeLDAD81B9ECZ3Mn8"])
