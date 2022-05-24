@@ -40,6 +40,7 @@ async def test(ctx):
 async def pm(ctx):
     id = 538897701522112514
     user = client.get_user(id)
+    await ctx.send("Sent message to person")
     await user.send("What's up noob. How you doing?")
 
 client.run(os.environ["DISCORD_TOKEN"])
