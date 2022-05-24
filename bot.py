@@ -9,7 +9,10 @@ client = commands.Bot(command_prefix = '$', intents=intents)
 
 @client.event
 async def on_ready():
+    id = 318132313672384512
+    discordUser = client.get_user(id)
     await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.listening, name = "Spotify"))
+    await discordUser.send('Bot Online')
     print('Bot is ready.')
 
 @client.command()
