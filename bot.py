@@ -37,8 +37,8 @@ async def test(ctx):
     await ctx.send("bot is working")
 
 @client.command()
-async def pm(ctx, discordID, msg):
-    id = discordID
+async def pm(ctx, msg):
+    id = 538897701522112514
     user = client.get_user(id)
     await ctx.send("Message Sent")
     await user.send(str(msg))
