@@ -7,7 +7,7 @@ intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix = '$', intents=intents)
 
-@client.event()
+@client.event
 async def on_ready():
     await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.listening, name = "Spotify"))
     print('Bot is ready.')
