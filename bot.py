@@ -16,11 +16,10 @@ async def on_ready():
     print('Bot is ready.')
 
 @client.event
-async def on_message(member, message: discord.Message):
-    guild = client.get_guild(771373922192195624) 
-    channel = guild.get_channel(978743346287759390)
-    await channel.send(f'{member.mention} sent: ' + str(message.content))
-    #await channel.send(f'{member.mention} has left :frowning:')
+async def on_message(message: discord.Message):
+    channel = client.get_channel(978743346287759390)
+    if message.guild is None:
+        await channel.send(message.content)
 
 # @client.command()
 # async def pm(self, ctx, user: discord.Member = None, *, message = None):
