@@ -15,18 +15,18 @@ async def on_ready():
     await discordUser.send('Bot Online')
     print('Bot is ready.')
 
-@client.command()
-async def pm(self, ctx, user: discord.Member = None, *, message = None):
-    if user is None:
-        await ctx.send("Need person to send message to.")
-    if user is not None:
-        if message is None:
-            await ctx.send("Need message to send.")
-        if message is not None:
-            myembed = discord.Embed()
-            myembed.add_field(name=f"(ctx.author) sent you:", value=f"(message)")
-            myembed.set_footer(text="Testing message")
-            await user.send(embed=myembed)
+# @client.command()
+# async def pm(self, ctx, user: discord.Member = None, *, message = None):
+#     if user is None:
+#         await ctx.send("Need person to send message to.")
+#     if user is not None:
+#         if message is None:
+#             await ctx.send("Need message to send.")
+#         if message is not None:
+#             myembed = discord.Embed()
+#             myembed.add_field(name=f"(ctx.author) sent you:", value=f"(message)")
+#             myembed.set_footer(text="Testing message")
+#             await user.send(embed=myembed)
 
 @client.command()
 async def talk(ctx):
@@ -35,5 +35,11 @@ async def talk(ctx):
 @client.command()
 async def test(ctx):
     await ctx.send("bot is working")
+
+@client.command()
+async def pm(ctx):
+    id = 538897701522112514
+    user = client.get_user(id)
+    await user.send("What's up noob. How you doing?")
 
 client.run(os.environ["DISCORD_TOKEN"])
