@@ -40,7 +40,7 @@ async def test(ctx):
 async def pm(ctx, userId: int, msg: str):
     id = userId #538897701522112514
     user = client.get_user(id)
-    await ctx.send("Message Sent")
+    await ctx.send("Message Sent to " + str(user))
     await user.send(msg)
 
 @client.command()
