@@ -18,7 +18,7 @@ async def on_ready():
 @client.event
 async def on_message(message: discord.Message):
     channel = client.get_channel(978743346287759390)
-    if message.guild is None:
+    if message.guild is None and not message.author.bot:
         await channel.send(message.content)
 
 # @client.command()
