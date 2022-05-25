@@ -12,7 +12,7 @@ client = commands.Bot(command_prefix = '$', intents=intents)
 async def on_ready():
     id = 318132313672384512
     discordUser = client.get_user(id)
-    await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.watching, name = "The Yankees"))
+    await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
     await discordUser.send('Bot Online')
     print('Bot is ready.')
 
@@ -20,7 +20,7 @@ async def on_ready():
 async def on_message(message: discord.Message):
     channel = client.get_channel(978743346287759390)
     if message.guild is None and not message.author.bot:
-        await channel.send(str(message.author.mention) + " sent " + "" + message.content + "")
+        await channel.send(str(message.author.mention) + " sent " + " "" " + message.content + " "" ")
     await client.process_commands(message)
 
 @client.command()
