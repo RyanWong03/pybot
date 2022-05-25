@@ -21,6 +21,7 @@ async def on_message(message: discord.Message):
     channel = client.get_channel(978743346287759390)
     if message.guild is None and not message.author.bot:
         await channel.send(str(message.author.mention) + " sent " + "" + message.content + "")
+    await client.process_commands(message)
 
 @client.command()
 async def talk(ctx):
