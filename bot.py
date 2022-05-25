@@ -20,7 +20,7 @@ async def on_ready():
 async def on_message(message: discord.Message):
     channel = client.get_channel(978743346287759390)
     if message.guild is None and not message.author.bot:
-        await channel.send(str(message.author.mention) + " sent " + message.content)
+        await channel.send(str(message.author.mention) + " sent " + "" + message.content + "")
 
 @client.command()
 async def talk(ctx):
@@ -39,14 +39,15 @@ async def pm(ctx, userId: int, msg: str):
 
 @client.command()
 async def add(ctx, a: int, b: int):
+    print('adding')
     await ctx.send(a + b)
 
-@client.command()
-async def diff(ctx):
-    #await ctx.send(sym.diff(exp, letter))
-    x, y, z = sym.symbols('x y z')
-    exp = x**2
-    print('differentiating')
-    await ctx.send(sym.diff(exp, x))
+# @client.command()
+# async def diff(ctx):
+#     #await ctx.send(sym.diff(exp, letter))
+#     x, y, z = sym.symbols('x y z')
+#     exp = x**2
+#     print('differentiating')
+#     await ctx.send(sym.diff(exp, x))
 
 client.run(os.environ["DISCORD_TOKEN"])
