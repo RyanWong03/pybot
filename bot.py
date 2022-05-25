@@ -42,12 +42,12 @@ async def add(ctx, a: int, b: int):
     print('adding')
     await ctx.send(a + b)
 
-# @client.command()
-# async def diff(ctx):
-#     #await ctx.send(sym.diff(exp, letter))
-#     x, y, z = sym.symbols('x y z')
-#     exp = x**2
-#     print('differentiating')
-#     await ctx.send(sym.diff(exp, x))
+@client.command()
+async def diff(ctx):
+    #await ctx.send(sym.diff(exp, letter))
+    x, y, z = sym.symbols('x y z')
+    exp = x**2
+    print('differentiating')
+    await ctx.send(sym.diff(exp, x))
 
 client.run(os.environ["DISCORD_TOKEN"])
