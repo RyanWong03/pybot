@@ -181,7 +181,7 @@ async def gametwo(ctx):
     # await ctx.send(str(team_29))
 
 @client.command()
-async def score(ctx, team: str):
+async def score(ctx, team):
     url = 'https://www.mlb.com/'
     req = requests.get(url)
     soup = BeautifulSoup(req.text, 'html.parser')
