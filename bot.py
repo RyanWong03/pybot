@@ -61,8 +61,8 @@ async def cricket(ctx):
     soup = BeautifulSoup(page.text,'html.parser')
     team_1 = soup.find_all(class_ = "cb-ovr-flo cb-hmscg-tm-nm")[2].get_text()
     team_2 = soup.find_all(class_ = "cb-ovr-flo cb-hmscg-tm-nm")[3].get_text()
-    team_1_score = soup.find_all(class_ = "cb-ovr-flo")[8].get_text()
-    team_2_score = soup.find_all(class_ = "cb-ovr-flo")[10].get_text()
+    team_1_score = soup.find_all(class_ = "cb-ovr-flo")[9].get_text()
+    team_2_score = soup.find_all(class_ = "cb-ovr-flo")[11].get_text()
     # print team names and scores
     print(team_1, ":", team_1_score)
     print(team_2, ":", team_2_score)
