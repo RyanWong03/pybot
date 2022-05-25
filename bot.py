@@ -49,7 +49,7 @@ async def diff(ctx):
     x, y, z = sym.symbols('x y z')
     exp = x**2
     print('differentiating')
-    await ctx.send(sym.diff(exp, x))
+    await ctx.send(str(sym.diff(exp, x)))
 
 @client.command()
 async def debug(ctx):
