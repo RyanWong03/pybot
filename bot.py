@@ -1,6 +1,7 @@
 import discord
 import os
 from discord.ext import commands
+from discord.ext import tasks
 from discord.utils import get
 from sympy import *
 import requests
@@ -10,6 +11,12 @@ intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix = '$', intents=intents)
 
+@tasks.loop(hours = 0.25)
+async def send_pm():
+    id = 318132313672384512
+    user = client.get_user(id)
+    await user.send("Daily Message")
+
 @client.event
 async def on_ready():
     id = 318132313672384512
@@ -17,6 +24,7 @@ async def on_ready():
     await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
     await discordUser.send('Bot Online')
     print('Bot is ready.')
+    send_pm.start()
 
 @client.event
 async def on_message(message: discord.Message):
