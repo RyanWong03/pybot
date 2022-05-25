@@ -69,4 +69,15 @@ async def cricket(ctx):
     await ctx.send(str(team_1) + ":" + str(team_1_score))
     await ctx.send(str(team_2) + ":" + str(team_2_score))
 
+@client.command()
+async def baseball(ctx):
+    url = 'https://www.mlb.com/'
+    req = requests.get(url)
+    soup = BeautifulSoup(req.text, 'html.parser')
+    team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() #TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL  tigers
+    team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
+    await ctx.send(str(team_1))
+    await ctx.send(str(team_2))
+    #TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL  twins
+
 client.run(os.environ["DISCORD_TOKEN"])
