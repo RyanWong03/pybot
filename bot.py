@@ -37,7 +37,7 @@ async def add(ctx, a: int, b: int):
 
 @client.command()
 async def diff(ctx, expression: str, letter: str):
-    init_printing()
+    #init_printing()
     x, y, z = symbols('x y z')
     exp = expression
     print('differentiating')
