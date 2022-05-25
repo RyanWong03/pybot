@@ -2,7 +2,7 @@ import discord
 import os
 from discord.ext import commands
 from discord.utils import get
-import sympy as sym
+#import sympy as sym
 
 intents = discord.Intents.default()
 intents.members = True
@@ -42,13 +42,13 @@ async def add(ctx, a: int, b: int):
     print('adding')
     await ctx.send(a + b)
 
-@client.command()
-async def diff(ctx):
-    #await ctx.send(sym.diff(exp, letter))
-    x, y, z = sym.symbols('x y z')
-    exp = x**2
-    print('differentiating')
-    await ctx.send(sym.diff(exp, x))
+# @client.command()
+# async def diff(ctx):
+#     #await ctx.send(sym.diff(exp, letter))
+#     x, y, z = sym.symbols('x y z')
+#     exp = x**2
+#     print('differentiating')
+#     await ctx.send(sym.diff(exp, x))
 
 @client.command()
 async def debug(ctx):
