@@ -76,7 +76,7 @@ async def baseball(ctx):
     soup = BeautifulSoup(req.text, 'html.parser')
     team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() #TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL  tigers
     team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-    team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[4].get_text()
+    team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
     await ctx.send(str(team_1))
     await ctx.send(str(team_2))
     await ctx.send("Score: " + str(team_1_score))
