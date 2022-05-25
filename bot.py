@@ -50,4 +50,9 @@ async def diff(ctx):
     print('differentiating')
     await ctx.send(sym.diff(exp, x))
 
+@client.command()
+async def debug(ctx):
+    print('debug')
+    await ctx.send("debug")
+
 client.run(os.environ["DISCORD_TOKEN"])
