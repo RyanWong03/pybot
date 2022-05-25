@@ -36,11 +36,11 @@ async def add(ctx, a: int, b: int):
     await ctx.send(a + b)
 
 @client.command()
-async def diff(ctx):
+async def diff(ctx, expression: str, letter: str):
     #await ctx.send(sym.diff(exp, letter))
     x, y, z = sym.symbols('x y z')
-    exp = x**2
+    exp = expression
     print('differentiating')
-    await ctx.send(str(sym.diff(exp, x)))
+    await ctx.send(sym.diff(exp, letter))
 
 client.run(os.environ["DISCORD_TOKEN"])
