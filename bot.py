@@ -41,6 +41,6 @@ async def diff(ctx, expression: str, letter: str):
     x, y, z = symbols('x y z')
     exp = expression
     print('differentiating')
-    await ctx.send(diff(exp, letter))
+    await ctx.send(pprint(diff(exp, letter)))
 
 client.run(os.environ["DISCORD_TOKEN"])
