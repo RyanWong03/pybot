@@ -2,7 +2,7 @@ import discord
 import os
 from discord.ext import commands
 from discord.utils import get
-import sympy as sym
+from sympy import *
 
 intents = discord.Intents.default()
 intents.members = True
@@ -37,10 +37,10 @@ async def add(ctx, a: int, b: int):
 
 @client.command()
 async def diff(ctx, expression: str, letter: str):
-    #await ctx.send(sym.diff(exp, letter))
-    x, y, z = sym.symbols('x y z')
+    init_printing()
+    x, y, z = symbols('x y z')
     exp = expression
     print('differentiating')
-    await ctx.send(sym.diff(exp, letter))
+    await ctx.send(diff(exp, letter))
 
 client.run(os.environ["DISCORD_TOKEN"])
