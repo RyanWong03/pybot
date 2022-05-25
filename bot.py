@@ -66,7 +66,7 @@ async def cricket(ctx):
     # print team names and scores
     print(team_1, ":", team_1_score)
     print(team_2, ":", team_2_score)
-    await ctx.send(team_1, ":", team_1_score)
-    await ctx.send(team_2, ":", team_2_score)
+    await ctx.send(str(team_1) + ":" + str(team_1_score))
+    await ctx.send(str(team_2) + ":" + str(team_2_score))
 
 client.run(os.environ["DISCORD_TOKEN"])
