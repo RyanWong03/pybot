@@ -12,7 +12,7 @@ client = commands.Bot(command_prefix = '$', intents=intents)
 async def on_ready():
     id = 318132313672384512
     discordUser = client.get_user(id)
-    await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.listening, name = "Spotify"))
+    await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.watching, name = "The Yankees"))
     await discordUser.send('Bot Online')
     print('Bot is ready.')
 
@@ -22,14 +22,6 @@ async def on_message(message: discord.Message):
     if message.guild is None and not message.author.bot:
         await channel.send(str(message.author.mention) + " sent " + "" + message.content + "")
     await client.process_commands(message)
-
-@client.command()
-async def talk(ctx):
-    await ctx.send("Hello")
-
-@client.command()
-async def test(ctx):
-    await ctx.send("bot is working")
 
 @client.command()
 async def pm(ctx, userId: int, msg: str):
@@ -50,10 +42,5 @@ async def diff(ctx):
     exp = x**2
     print('differentiating')
     await ctx.send(str(sym.diff(exp, x)))
-
-@client.command()
-async def debug(ctx):
-    print('debug')
-    await ctx.send("debug")
 
 client.run(os.environ["DISCORD_TOKEN"])
