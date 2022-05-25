@@ -3,6 +3,8 @@ import os
 from discord.ext import commands
 from discord.utils import get
 from sympy import *
+import requests
+from bs4 import BeautifulSoup
 
 intents = discord.Intents.default()
 intents.members = True
@@ -43,9 +45,28 @@ async def diff(ctx, expression: str, letter: str):
     print('differentiating')
     await ctx.send(diff(exp, letter))
 
+# @client.command()
+# async def test(ctx, *, exp: str):
+#     #calc = eval(exp)
+#     #await ctx.send('Math: {}\nAnswer: {}'.format(exp, calc))
+#     return None
+
 @client.command()
-async def test(ctx, *, exp: str):
-    calc = eval(exp)
-    await ctx.send('Math: {}\nAnswer: {}'.format(exp, calc))
+async def cricket(ctx):
+    
+    # cricbuzz url to get score
+    url='https://www.cricbuzz.com/'
+    # request data from cricbuzz
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text,'html.parser')
+    team_1 = soup.find_all(class_ = "cb-ovr-flo cb-hmscg-tm-nm")[0].get_text()
+    team_2 = soup.find_all(class_ = "cb-ovr-flo cb-hmscg-tm-nm")[1].get_text()
+    team_1_score = soup.find_all(class_ = "cb-ovr-flo")[8].get_text()
+    team_2_score = soup.find_all(class_ = "cb-ovr-flo")[10].get_text()
+    # print team names and scores
+    print(team_1, ":", team_1_score)
+    print(team_2, ":", team_2_score)
+    await ctx.send(team_1, ":", team_1_score)
+    await ctx.send(team_2, ":", team_2_score)
 
 client.run(os.environ["DISCORD_TOKEN"])
