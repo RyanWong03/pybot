@@ -102,7 +102,7 @@ async def score(ctx, team):
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     #"TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp" scores 
     for i in range(num_teams):
-        if teamtest[i]].get_text() == str(team):
+        if teamtest[i].get_text() == str(team):
             await ctx.send(str(team) + " :" + str(i))    
 
     
