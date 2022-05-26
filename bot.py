@@ -94,179 +94,30 @@ async def baseball(ctx):
     #TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL  twins
 
 @client.command()
-async def games(ctx):
-    url = 'https://www.mlb.com/'
-    req = requests.get(url)
-    soup = BeautifulSoup(req.text, 'html.parser')
-    team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-    team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-    team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-    team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-    team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-    team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-    team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-    team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-    team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-    team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-    team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-    team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-    team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-    team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-    # team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-    # team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-    # team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-    # team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-    # team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-    # team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-    # team_21 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[20].get_text() 
-    # team_22 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[21].get_text()
-    # team_23 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[22].get_text() 
-    # team_24 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[23].get_text()
-    # team_25 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[24].get_text()
-    # team_26 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[25].get_text() 
-    # team_27 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[26].get_text()
-    # team_28 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[27].get_text() 
-    # team_29 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[28].get_text()
-    team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
-    print("games one")
-    await ctx.send(str(team_1))
-    await ctx.send(str(team_2))
-    await ctx.send(str(team_3))
-    await ctx.send(str(team_4))
-    await ctx.send(str(team_5))
-    await ctx.send(str(team_6))
-    await ctx.send(str(team_7))
-    await ctx.send(str(team_8))
-    await ctx.send(str(team_9))
-    await ctx.send(str(team_10))
-    await ctx.send(str(team_11))
-    await ctx.send(str(team_12))
-    await ctx.send(str(team_13))
-    await ctx.send(str(team_14))
-
-@client.command()
-async def gametwo(ctx):
-    url = 'https://www.mlb.com/'
-    req = requests.get(url)
-    soup = BeautifulSoup(req.text, 'html.parser')
-    team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-    team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-    team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-    team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-    team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-    team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-    team_21 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[20].get_text() 
-    team_22 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[21].get_text()
-    team_23 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[22].get_text() 
-    team_24 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[23].get_text()
-    team_25 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[24].get_text()
-    team_26 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[25].get_text() 
-    # team_27 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[26].get_text()
-    # team_28 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[27].get_text() 
-    # team_29 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[28].get_text()
-    print("games two")
-    await ctx.send(str(team_15))
-    await ctx.send(str(team_16))
-    await ctx.send(str(team_17))
-    await ctx.send(str(team_18))
-    await ctx.send(str(team_19))
-    await ctx.send(str(team_20))
-    await ctx.send(str(team_21))
-    await ctx.send(str(team_22))
-    await ctx.send(str(team_23))
-    await ctx.send(str(team_24))
-    await ctx.send(str(team_25))
-    await ctx.send(str(team_26))
-    # await ctx.send(str(team_27))
-    # await ctx.send(str(team_28))  
-    # await ctx.send(str(team_29))
-
-@client.command()
 async def score(ctx, team):
     url = 'https://www.mlb.com/'
     req = requests.get(url)
     soup = BeautifulSoup(req.text, 'html.parser')
-    index = 0
     num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     #"TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp" scores 
-    # for i in range(num_teams):
-    #     if team[index].get_text() == str(team):
-    #         await ctx.send(str(team) + " :" + str(index))    
-    #     index += 1
+    for i in range(num_teams):
+        if teamtest[i]].get_text() == str(team):
+            await ctx.send(str(team) + " :" + str(i))    
+
     
     if num_teams == 30:
         try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-            team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-            team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-            team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-            team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-            team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-            team_21 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[20].get_text() 
-            team_22 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[21].get_text()
-            team_23 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[22].get_text() 
-            team_24 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[23].get_text()
-            team_25 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[24].get_text()
-            team_26 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[25].get_text() 
-            team_27 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[26].get_text()
-            team_28 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[27].get_text() 
-            team_29 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[28].get_text()
-            team_30 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[29].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team) or team_27 == str(team) or team_28 == str(team) or team_29 == str(team) or team_30 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
         except IndexError:
             print('30 team error bypassed.')
     if num_teams == 28:
         try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-            team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-            team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-            team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-            team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-            team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-            team_21 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[20].get_text() 
-            team_22 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[21].get_text()
-            team_23 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[22].get_text() 
-            team_24 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[23].get_text()
-            team_25 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[24].get_text()
-            team_26 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[25].get_text() 
-            team_27 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[26].get_text()
-            team_28 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[27].get_text() 
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team) or team_27 == str(team) or team_28 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
         except IndexError:
             print('28 team error bypassed')
     if num_teams == 26:
@@ -275,7 +126,105 @@ async def score(ctx, team):
             team_2_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
 
             await ctx.send(str(team_1_score))
-            # #team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
+            
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except:
+            print('26 team error bypassed')
+    if num_teams == 24:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except:
+            print('24 team error bypassed')
+    if num_teams == 22:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('22 team error bypassed')
+    if num_teams == 20:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('20 team error bypassed')
+    if num_teams == 18:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('18 team error bypassed')
+    if num_teams == 16:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('16 team error bypassed')
+    if num_teams == 14:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('14 team error bypassed')
+    if num_teams == 12:
+        try:
+           for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('12 team error bypassed')
+    if num_teams == 10:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('10 team error bypassed')
+    if num_teams == 8:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('8 team error bypassed')
+    if num_teams == 6:
+        try:
+           for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('6 team error bypassed')
+    if num_teams == 4:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('4 team error bypassed')
+    if num_teams == 2:
+        try:
+            for tea in range(num_teams):
+                if teamtest[tea].get_text() == str(team):
+                    await ctx.send("team playing" + str(team))
+        except IndexError:
+            print('2 team error bypassed')        
+    if num_teams == 0:
+        await ctx.send("Nobody is playing today.")
+    #await ctx.send(str(team) + " is not playing")
+    #await ctx.send(len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")))
+
+client.run(os.environ["DISCORD_TOKEN"])
+
+
+# #team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
             # #team_2_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
             # # score_1 = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
             # # score_2 = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
@@ -311,308 +260,3 @@ async def score(ctx, team):
             #     #await ctx.send("score2 : " + str(team_2_score))
             # else:
             #     await ctx.send(str(team) + " doesn't exist.")
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except:
-            print('26 team error bypassed')
-    if num_teams == 24:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-            team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-            team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-            team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-            team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-            team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-            team_21 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[20].get_text() 
-            team_22 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[21].get_text()
-            team_23 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[22].get_text() 
-            team_24 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[23].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except:
-            print('24 team error bypassed')
-    if num_teams == 22:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-            team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-            team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-            team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-            team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-            team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-            team_21 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[20].get_text() 
-            team_22 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[21].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('22 team error bypassed')
-    if num_teams == 20:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-            team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-            team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-            team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-            team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-            team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('20 team error bypassed')
-    if num_teams == 18:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-            team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-            team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-            team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('18 team error bypassed')
-    if num_teams == 16:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-            team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('16 team error bypassed')
-    if num_teams == 14:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-            team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('14 team error bypassed')
-    if num_teams == 12:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-            team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('12 team error bypassed')
-    if num_teams == 10:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-            team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team) or team_10 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('10 team error bypassed')
-    if num_teams == 8:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-            team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('8 team error bypassed')
-    if num_teams == 6:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-            team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('6 team error bypassed')
-    if num_teams == 4:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-            team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('4 team error bypassed')
-    if num_teams == 2:
-        try:
-            team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-            team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            if team_1 == str(team) or team_2 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        except IndexError:
-            print('2 team error bypassed')        
-    if num_teams == 0:
-        await ctx.send("Nobody is playing today.")
-    
-    await ctx.send("Number of games today: " + str(num_teams))
-    #await ctx.send(str(team) + " is not playing")
-    #await ctx.send(len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")))
-
-@client.command()
-async def debug(ctx):
-    url = 'https://www.mlb.com/'
-    req = requests.get(url)
-    soup = BeautifulSoup(req.text, 'html.parser')
-    team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
-    team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-    team_3 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[2].get_text() 
-    team_4 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[3].get_text()
-    team_5 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[4].get_text() 
-    team_6 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[5].get_text()
-    team_7 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[6].get_text() 
-    team_8 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[7].get_text()
-    team_9 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[8].get_text() 
-    team_10 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[9].get_text()
-    team_11 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[10].get_text() 
-    team_12 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[11].get_text()
-    team_13 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[12].get_text() 
-    team_14 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[13].get_text()
-    team_15 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[14].get_text()
-    team_16 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[15].get_text() 
-    team_17 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[16].get_text()
-    team_18 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[17].get_text() 
-    team_19 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[18].get_text()
-    team_20 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[19].get_text()
-    team_21 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[20].get_text() 
-    team_22 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[21].get_text()
-    team_23 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[22].get_text() 
-    team_24 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[23].get_text()
-    team_25 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[24].get_text()
-    team_26 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[25].get_text() 
-    team_27 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[26].get_text()
-    team_28 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[27].get_text() 
-    team_29 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[28].get_text()
-    team_30 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[29].get_text()
-
-    if team_1 or team_2 or team_3 or team_4 or team_5 or team_6 or team_7 or team_8 or team_9 or team_10 or team_11 or team_12 or team_13 or team_14 or team_15 or team_16 or team_17 or team_18 or team_19 or team_20 or team_21 or team_22 or team_23 or team_24 or team_25 or team_26 or team_27 or team_28 or team_29 or team_30 == "test":
-        await ctx.send("Nationals are playing")
-    await ctx.send("nobody is playing")
-
-client.run(os.environ["DISCORD_TOKEN"])
