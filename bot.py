@@ -194,6 +194,10 @@ async def score(ctx, team):
     #     if team[index].get_text() == str(team):
     #         await ctx.send(str(team) + " :" + str(index))    
     #     index += 1
+    team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
+    team_2_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
+
+    await ctx.send(str(team_1_score))
     
 
     if num_teams == 30:
