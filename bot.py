@@ -192,9 +192,11 @@ async def score(ctx, team):
     for i in team:
         index += 1
         if team[index].get_text() == 'Yankees':
+            test = str(index)
             await ctx.send('Yankees: ' + str(index))    
     
     print('index: ' + str(index))
+    await ctx.send(test)
 
     if num_teams == 30:
         try:
