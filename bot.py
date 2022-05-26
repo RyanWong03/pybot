@@ -186,12 +186,12 @@ async def score(ctx, team):
     url = 'https://www.mlb.com/'
     req = requests.get(url)
     soup = BeautifulSoup(req.text, 'html.parser')
-    index = -1
+    index = 0
     num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
     team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     for i in team:
         index += 1
-        if team[i].get_text() == 'Yankees':
+        if team[index].get_text() == 'Yankees':
             await ctx.send('Yankees: ' + str(index))    
     
     print('index: ' + str(index))
