@@ -191,8 +191,10 @@ async def score(ctx, team):
     for i in soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"):
         index += 1
         if i == 'Yankees':
-            await ctx.send('Yankees: ' + str(index))
-            
+            await ctx.send('Yankees: ' + str(index))    
+    
+    print('index: ' + str(index))
+
     if num_teams == 30:
         try:
             team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
