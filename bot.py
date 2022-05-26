@@ -1,4 +1,3 @@
-from ast import Index
 import discord
 import os
 from discord.ext import commands
@@ -12,12 +11,6 @@ intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix = '$', intents=intents)
 
-# @tasks.loop(hours = 0.25)
-# async def send_pm():
-#     id = 318132313672384512
-#     user = client.get_user(id)
-#     await user.send("Daily Message")
-
 @client.event
 async def on_ready():
     id = 318132313672384512
@@ -25,7 +18,6 @@ async def on_ready():
     await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
     await discordUser.send('Bot Online')
     print('Bot is ready.')
-    #send_pm.start()
 
 @client.event
 async def on_message(message: discord.Message):
@@ -54,36 +46,12 @@ async def diff(ctx, expression: str, letter: str):
     print('differentiating')
     await ctx.send(diff(exp, letter))
 
-# @client.command()
-# async def test(ctx, *, exp: str):
-#     #calc = eval(exp)
-#     #await ctx.send('Math: {}\nAnswer: {}'.format(exp, calc))
-#     return None
-
-@client.command()
-async def cricket(ctx):
-    
-    # cricbuzz url to get score
-    url='https://www.cricbuzz.com/'
-    # request data from cricbuzz
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text,'html.parser')
-    team_1 = soup.find_all(class_ = "cb-ovr-flo cb-hmscg-tm-nm")[2].get_text()
-    team_2 = soup.find_all(class_ = "cb-ovr-flo cb-hmscg-tm-nm")[3].get_text()
-    team_1_score = soup.find_all(class_ = "cb-ovr-flo")[9].get_text()
-    team_2_score = soup.find_all(class_ = "cb-ovr-flo")[11].get_text()
-    # print team names and scores
-    print(team_1, ":", team_1_score)
-    print(team_2, ":", team_2_score)
-    await ctx.send(str(team_1) + ":" + str(team_1_score))
-    await ctx.send(str(team_2) + ":" + str(team_2_score))
-
 @client.command()
 async def baseball(ctx):
     url = 'https://www.mlb.com/'
     req = requests.get(url)
     soup = BeautifulSoup(req.text, 'html.parser')
-    team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() #TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL  tigers
+    team_1 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text() 
     team_2 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
     team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
     team_2_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
@@ -91,7 +59,6 @@ async def baseball(ctx):
     await ctx.send(str(team_2))
     await ctx.send("Score: " + str(team_1_score))
     await ctx.send("score: " + str(team_2_score))
-    #TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL  twins
 
 @client.command()
 async def score(ctx, team):
@@ -100,9 +67,13 @@ async def score(ctx, team):
     soup = BeautifulSoup(req.text, 'html.parser')
     num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
-    #"TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp" scores 
+    away_team = True
+    score_index = 0
+    team_index = None
+
     for i in range(num_teams):
         if teamtest[i].get_text() == str(team):
+            score_index = i
             await ctx.send(str(team) + " :" + str(i))    
 
     print(num_teams)
@@ -122,14 +93,30 @@ async def score(ctx, team):
             print('28 team error bypassed')
     if num_teams == 26:
         try:
-            team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
-            team_2_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
-
-            await ctx.send(str(team_1_score))
-            
             for tea in range(num_teams):
                 if teamtest[tea].get_text() == str(team):
+                    team_index = tea
                     await ctx.send("team playing" + str(team))
+                    if team_index % 2 == 0:
+                        away_team = True
+                    else:
+                        away_team = False
+
+            if away_team == True:
+                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+                away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+                home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
+            if away_team == False:
+                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
+                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+                away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
+                home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+
+            text = """```Scores: 
+            """ + str(visitors) + """ : """ + str(away_team_score) + """
+            """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
+            await ctx.send(text)
         except:
             print('26 team error bypassed')
     if num_teams == 24:
@@ -218,8 +205,6 @@ async def score(ctx, team):
             print('2 team error bypassed')        
     if num_teams == 0:
         await ctx.send("Nobody is playing today.")
-    #await ctx.send(str(team) + " is not playing")
-    #await ctx.send(len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")))
 
 client.run(os.environ["DISCORD_TOKEN"])
 
