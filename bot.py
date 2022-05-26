@@ -105,7 +105,7 @@ async def score(ctx, team):
         if teamtest[i].get_text() == str(team):
             await ctx.send(str(team) + " :" + str(i))    
 
-    
+    print(num_teams)
     if num_teams == 30:
         try:
             for tea in range(num_teams):
