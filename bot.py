@@ -190,7 +190,7 @@ async def score(ctx, team):
     num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
     team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     #"TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp" scores 
-    for i in num_teams:
+    for i in range(num_teams):
         index += 1
         if team[index].get_text() == 'Yankees':
             await ctx.send('Yankees: ' + str(index))    
