@@ -311,7 +311,7 @@ async def score(ctx, team):
                 #await ctx.send("score: " + str(team_1_score))
                 #await ctx.send("score2 : " + str(team_2_score))
             else:
-                await ctx.send(str(team) + " doesn't exist.")
+                await ctx.send(" doesn't exist.")
         except IndexError:
             print('26 team error bypassed')
     if num_teams == 24:
