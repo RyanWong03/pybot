@@ -1,3 +1,4 @@
+from ast import Index
 import discord
 import os
 from discord.ext import commands
@@ -212,94 +213,101 @@ async def score(ctx, team):
     team_24 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[23].get_text()
     team_25 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[24].get_text()
     team_26 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[25].get_text() 
-    
-    # team_28 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[27].get_text() 
-    # team_29 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[28].get_text()
-    # team_30 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[29].get_text()
-    try:
-        team_27 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[26].get_text()
-        if num_teams == 30:
-            await ctx.send("under 30 teams")
-            # if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team) or team_27 == str(team) or team_28 == str(team) or team_29 == str(team) or team_30 == str(team):
-            #     await ctx.send(str(team) + " is playing")
-            # else:
-            #     await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 28:
-            await ctx.send("under 28")
-            # if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team) or team_27 == str(team) or team_28 == str(team):
-            #     await ctx.send(str(team) + " is playing")
-            # else:
-            #     await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 26:
+    team_27 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[26].get_text()
+    team_28 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[27].get_text() 
+    team_29 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[28].get_text()
+    team_30 = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[29].get_text()
+
+    if num_teams == 30:
+        try:
+            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team) or team_27 == str(team) or team_28 == str(team) or team_29 == str(team) or team_30 == str(team):
+                await ctx.send(str(team) + " is playing")
+            else:
+                await ctx.send(str(team) + " doesn't exist.")
+        except IndexError:
+            print('30 team error bypassed.')
+    if num_teams == 28:
+        try:
+            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team) or team_27 == str(team) or team_28 == str(team):
+                await ctx.send(str(team) + " is playing")
+            else:
+                await ctx.send(str(team) + " doesn't exist.")
+        except IndexError:
+            print('28 team error bypassed')
+    if num_teams == 26:
+        try:
             if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team):
                 await ctx.send(str(team) + " is playing")
             else:
                 await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 24:
+        except:
+            print('26 team error bypassed')
+    if num_teams == 24:
+        try:
             if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team):
                 await ctx.send(str(team) + " is playing")
             else:
                 await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 22:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 20:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 18:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 16:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 14:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 12:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 10:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team) or team_10 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 8:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 6:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 4:
-            if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 2:
-            if team_1 == str(team) or team_2 == str(team):
-                await ctx.send(str(team) + " is playing")
-            else:
-                await ctx.send(str(team) + " doesn't exist.")
-        if num_teams == 0:
-            await ctx.send("Nobody is playing today.")
-    except IndexError:
-        await ctx.send("30 teams not avail")
-
+        except:
+            print('24 team error bypassed')
+    if num_teams == 22:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 20:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 18:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 16:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 14:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 12:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 10:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team) or team_10 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 8:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 6:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 4:
+        if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 2:
+        if team_1 == str(team) or team_2 == str(team):
+            await ctx.send(str(team) + " is playing")
+        else:
+            await ctx.send(str(team) + " doesn't exist.")
+    if num_teams == 0:
+        await ctx.send("Nobody is playing today.")
+    
     # if num_teams == 30:
     #     await ctx.send("under 30 teams")
     #     # if team_1 == str(team) or team_2 == str(team) or team_3 == str(team) or team_4 == str(team) or team_5 == str(team) or team_6 == str(team) or team_7 == str(team) or team_8 == str(team) or team_9 == str(team)  or team_10 == str(team)  or team_11 == str(team)  or team_12 == str(team)  or team_13 == str(team)  or team_14 == str(team)  or team_15 == str(team)  or team_16  == str(team) or team_17 == str(team) or team_18 == str(team) or team_19 == str(team) or team_20 == str(team) or team_21 == str(team) or team_22 == str(team) or team_23 == str(team) or team_24 == str(team) or team_25 == str(team) or team_26 == str(team) or team_27 == str(team) or team_28 == str(team) or team_29 == str(team) or team_30 == str(team):
