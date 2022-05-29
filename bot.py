@@ -6,18 +6,140 @@ from discord.utils import get
 from sympy import *
 import requests
 from bs4 import BeautifulSoup
+from datetime import date
 
 intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix = '$', intents=intents)
 
+#testing for score change
+#set visitors/home team var to the score class.
+#then set another var to the visitors/home team var.
+#then we will make an if statement detecting change in the 2 var.
+#if they're not equal to each other the bot will send a message. 
+#then we need to go to mlb.com gameday and retreive the scoring play.
+#to do that i will get the description class from the scoring plays and send that to discord once it gets updated with some new text.
+#i'll just use index zero (or index 0 + 1) because that will be the most recent scoring play. index 0 might be the first scoring play
+#might need to set another var to detect change so whenever i update bot he doesnt print the first scoring play all the time.
+
 @client.event
 async def on_ready():
     id = 318132313672384512
+    channel = client.get_channel(789273776105193472)
     discordUser = client.get_user(id)
-    await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
-    await discordUser.send('Bot Online')
-    print('Bot is ready.')
+    away_score = 0
+    home_score = 0
+    url = 'https://www.mlb.com/'
+    req = requests.get(url)
+    soup = BeautifulSoup(req.text, 'html.parser')
+    num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
+    teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
+    away_team = None
+    team_index = None
+    scoring_play = soup.find_all(class_ = "description")[0].get_text()
+
+    #lineups
+    today = date.today()
+    lineup_url = "https://www.baseballpress.com/lineups/" + str(today)
+    r = requests.get(lineup_url)
+    soup_lineup = BeautifulSoup(r.text,'lxml')
+    lineup_list = []
+    batting_order = 1
+    pitchers = []
+
+    #example gameday live link  https://www.mlb.com/gameday/orioles-vs-red-sox/2022/05/27/663276#game_state=live,game_tab=,game=663276
+
+    while True: #potential while statement if time is between 5am and 8am or something
+        for tea in range(num_teams):
+            if teamtest[tea].get_text() == 'Yankees':
+                team_index = tea
+                #await ctx.send("team playing" + str(team))
+                if team_index % 2 == 0:
+                    away_team = True
+                else:
+                    away_team = False
+
+        if away_team == True:
+            visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+            home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+            away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+            home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
+            
+            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
+                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                lineup_list.append(player_name)
+            
+            pitchers.append(lineup_list[0])
+            pitchers.append(lineup_list[1])
+
+            await channel.send('Starting Pitchers:\nYankees: ' + pitchers[0] + '\n' + str(home_team) + ': ' + pitchers[1])
+            
+            lineup_list.pop(0)
+            lineup_list.pop(0)
+            n = 9
+            home_list = lineup_list[n:]
+            away_list = lineup_list[:-n]
+
+            await channel.send('Yankees Lineup:\n')
+            for player in away_list:
+                await channel.send(str(batting_order) + ': ' + player)
+                batting_order += 1
+            
+            batting_order = 1
+
+            await channel.send(str(home_team) + ' lineup:\n')
+            for player in home_list:
+                await channel.send(str(batting_order) + ': ' + player)
+                batting_order += 1
+
+            if away_team_score != away_score:
+                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
+                away_score = away_team_score
+                
+            if home_team_score != home_score:
+                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+                home_score = home_team_score
+                
+        if away_team == False:
+            visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
+            home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+            away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
+            home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+
+            pitchers.append(lineup_list[0])
+            pitchers.append(lineup_list[1])
+
+            await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
+
+            lineup_list.pop(0)
+            lineup_list.pop(0)
+            n = 9
+            home_list = lineup_list[n:]
+            away_list = lineup_list[:-n]
+
+            await channel.send(str(home_team) + ' lineup:\n')
+            for player in away_list:
+                await channel.send(str(batting_order) + ': ' + player)
+                batting_order += 1
+            
+            batting_order = 1
+
+            await channel.send('Yankees Lineup:\n')
+            for player in home_list:
+                await channel.send(str(batting_order) + ': ' + player)
+                batting_order += 1
+
+            if away_team_score != away_score:
+                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+                away_score = away_team_score
+                
+            if home_team_score != home_score:
+                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+                home_score = home_team_score
+
+        await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
+        await discordUser.send('Bot Online')
+        print('Bot is ready.')
 
 @client.event
 async def on_message(message: discord.Message):
@@ -68,144 +190,44 @@ async def score(ctx, team):
     num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     away_team = True
-    score_index = 0
     team_index = None
 
-    for i in range(num_teams):
-        if teamtest[i].get_text() == str(team):
-            score_index = i
-            await ctx.send(str(team) + " :" + str(i))    
+    for tea in range(num_teams):
+        if teamtest[tea].get_text() == str(team):
+            team_index = tea
+            await ctx.send("team playing" + str(team))
+            if team_index % 2 == 0:
+                away_team = True
+            else:
+                away_team = False
 
-    print(num_teams)
-    if num_teams == 30:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('30 team error bypassed.')
-    if num_teams == 28:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('28 team error bypassed')
-    if num_teams == 26:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    team_index = tea
-                    await ctx.send("team playing" + str(team))
-                    if team_index % 2 == 0:
-                        away_team = True
-                    else:
-                        away_team = False
+    if away_team == True:
+        visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+        home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+        away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+        home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
 
-            if away_team == True:
-                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-                away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
-                home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
-            if away_team == False:
-                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
-                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-                away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
-                home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
-
-            text = """```Scores: 
-            """ + str(visitors) + """ : """ + str(away_team_score) + """
-            """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
-            await ctx.send(text)
-        except:
-            print('26 team error bypassed')
-    if num_teams == 24:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except:
-            print('24 team error bypassed')
-    if num_teams == 22:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('22 team error bypassed')
-    if num_teams == 20:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('20 team error bypassed')
-    if num_teams == 18:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('18 team error bypassed')
-    if num_teams == 16:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('16 team error bypassed')
-    if num_teams == 14:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('14 team error bypassed')
-    if num_teams == 12:
-        try:
-           for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('12 team error bypassed')
-    if num_teams == 10:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('10 team error bypassed')
-    if num_teams == 8:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('8 team error bypassed')
-    if num_teams == 6:
-        try:
-           for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('6 team error bypassed')
-    if num_teams == 4:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('4 team error bypassed')
-    if num_teams == 2:
-        try:
-            for tea in range(num_teams):
-                if teamtest[tea].get_text() == str(team):
-                    await ctx.send("team playing" + str(team))
-        except IndexError:
-            print('2 team error bypassed')        
-    if num_teams == 0:
-        await ctx.send("Nobody is playing today.")
-
+    if away_team == False:
+        visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
+        home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+        away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
+        home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+        
+    text = """```Scores: 
+    """ + str(visitors) + """ : """ + str(away_team_score) + """
+    """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
+    await ctx.send(text)
+        
+        #testing for score change
+        #set visitors/home team var to the score class.
+        #then set another var to the visitors/home team var.
+        #then we will make an if statement detecting change in the 2 var.
+        #if they're not equal to each other the bot will send a message. 
+        #then we need to go to mlb.com gameday and retreive the scoring play.
+        #to do that i will get the description class from the scoring plays and send that to discord once it gets updated with some new text.
+        #i'll just use index zero (or index 0 + 1) because that will be the most recent scoring play. index 0 might be the first scoring play
+        #might need to set another var to detect change so whenever i update bot he doesnt print the first scoring play all the time.
+    
 client.run(os.environ["DISCORD_TOKEN"])
 
 
