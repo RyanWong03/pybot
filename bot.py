@@ -7,28 +7,17 @@ from sympy import *
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import math
 
 intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix = '$', intents=intents)
 
-#testing for score change
-#set visitors/home team var to the score class.
-#then set another var to the visitors/home team var.
-#then we will make an if statement detecting change in the 2 var.
-#if they're not equal to each other the bot will send a message. 
-#then we need to go to mlb.com gameday and retreive the scoring play.
-#to do that i will get the description class from the scoring plays and send that to discord once it gets updated with some new text.
-#i'll just use index zero (or index 0 + 1) because that will be the most recent scoring play. index 0 might be the first scoring play
-#might need to set another var to detect change so whenever i update bot he doesnt print the first scoring play all the time.
-
 @client.event
 async def on_ready():
     id = 318132313672384512
-    ant_dm = 538897701522112514
-    channel = client.get_channel(789273776105193472)
+    channel = client.get_channel(789273776105193472) 
     discordUser = client.get_user(id)
-    ant = client.get_user(ant_dm)
     away_score = 0
     home_score = 0
     url = 'https://www.mlb.com/'
@@ -57,14 +46,13 @@ async def on_ready():
 
     while True: #potential while statement if time is between 5am and 8am or something
         if today == test_date:
-            await ant.send("Test message. ")
+            await channel.send("Test message. ")
         else:
-            await ant.send("Today is not today. ")
-            
+            await channel.send("Today is not today. ")
+
         for tea in range(num_teams):
             if teamtest[tea].get_text() == 'Yankees':
                 team_index = tea
-                #await ctx.send("team playing" + str(team))
                 if team_index % 2 == 0:
                     away_team = True
                 else:
@@ -160,19 +148,19 @@ async def on_message(message: discord.Message):
     await client.process_commands(message)
 
 @client.command()
-async def pm(ctx, userId: int, msg: str):
+async def pm(ctx, userId, msg):
     id = userId 
     user = client.get_user(id)
     await ctx.send("Message Sent to " + str(user))
     await user.send(msg)
 
 @client.command()
-async def add(ctx, a: int, b: int):
+async def add(ctx, a, b):
     print('adding')
     await ctx.send(a + b)
 
 @client.command()
-async def diff(ctx, expression: str, letter: str):
+async def diff(ctx, expression, letter):
     #init_printing()
     x, y, z = symbols('x y z')
     exp = expression
@@ -200,8 +188,9 @@ async def score(ctx, team):
     soup = BeautifulSoup(req.text, 'html.parser')
     num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
-    away_team = True
+    away_team = None
     team_index = None
+    game_start_time = None
 
     for tea in range(num_teams):
         if teamtest[tea].get_text() == str(team):
@@ -211,33 +200,35 @@ async def score(ctx, team):
                 away_team = True
             else:
                 away_team = False
-
+    
     if away_team == True:
         visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
         home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
         away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
         home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
-
+        
     if away_team == False:
         visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
         home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
         away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
         home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
-        
+
+    if away_team == True:
+        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index:
+            time_index = team_index / 2
+            game_start_time = soup.find_all(class_ = "GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[time_index]
+            await ctx.send(str(team) + " hasn't started yet. They will play at " + str(game_start_time))
+
+    if away_team == False:
+        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index - 1:
+            time_index = math.floor(team_index / 2)
+            game_start_time = soup.find_all(class_ = "GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[time_index]
+            await ctx.send(str(team) + " hasn't started yet. They will play at " + str(game_start_time))
+
     text = """```Scores: 
     """ + str(visitors) + """ : """ + str(away_team_score) + """
     """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
     await ctx.send(text)
-        
-        #testing for score change
-        #set visitors/home team var to the score class.
-        #then set another var to the visitors/home team var.
-        #then we will make an if statement detecting change in the 2 var.
-        #if they're not equal to each other the bot will send a message. 
-        #then we need to go to mlb.com gameday and retreive the scoring play.
-        #to do that i will get the description class from the scoring plays and send that to discord once it gets updated with some new text.
-        #i'll just use index zero (or index 0 + 1) because that will be the most recent scoring play. index 0 might be the first scoring play
-        #might need to set another var to detect change so whenever i update bot he doesnt print the first scoring play all the time.
     
 client.run(os.environ["DISCORD_TOKEN"])
 
