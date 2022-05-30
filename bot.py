@@ -6,7 +6,7 @@ from discord.utils import get
 from sympy import *
 import requests
 from bs4 import BeautifulSoup
-from datetime import date
+import datetime
 
 intents = discord.Intents.default()
 intents.members = True
@@ -25,8 +25,10 @@ client = commands.Bot(command_prefix = '$', intents=intents)
 @client.event
 async def on_ready():
     id = 318132313672384512
+    ant_dm = 538897701522112514
     channel = client.get_channel(789273776105193472)
     discordUser = client.get_user(id)
+    ant = client.get_user(ant_dm)
     away_score = 0
     home_score = 0
     url = 'https://www.mlb.com/'
@@ -36,20 +38,29 @@ async def on_ready():
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     away_team = None
     team_index = None
-    scoring_play = soup.find_all(class_ = "description")[0].get_text()
+    yanks_scoring_url = "https://www.mlb.com/gameday/yankees-vs-rays/2022/05/29/661910#game_state=live,game_tab=,game=661910" #most likely will need to change daily
+    request = requests.get(yanks_scoring_url)
+    soup_score = BeautifulSoup(request.text, 'html.parser')
+    #picking play atbat-result over description. play at bat result is only 1 play so it should print immediately.
+    scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text() 
 
     #lineups
-    today = date.today()
+    today = datetime.date.today()
+    test_date = datetime.datetime(2022, 6, 2)
     lineup_url = "https://www.baseballpress.com/lineups/" + str(today)
     r = requests.get(lineup_url)
     soup_lineup = BeautifulSoup(r.text,'lxml')
     lineup_list = []
     batting_order = 1
     pitchers = []
-
     #example gameday live link  https://www.mlb.com/gameday/orioles-vs-red-sox/2022/05/27/663276#game_state=live,game_tab=,game=663276
 
     while True: #potential while statement if time is between 5am and 8am or something
+        if today == test_date:
+            await ant.send("Test message. ")
+        else:
+            await ant.send("Today is not today. ")
+            
         for tea in range(num_teams):
             if teamtest[tea].get_text() == 'Yankees':
                 team_index = tea
