@@ -116,7 +116,7 @@ async def on_ready():
             home_list = lineup_list[n:]
             away_list = lineup_list[:-n]
 
-            await channel.send(str(home_team) + ' lineup:\n')
+            await channel.send(str(visitors) + ' lineup:\n')
             for player in away_list:
                 await channel.send(str(batting_order) + ': ' + player)
                 batting_order += 1
@@ -191,6 +191,8 @@ async def score(ctx, team):
     away_team = None
     team_index = None
     game_start_time = None
+    DM = 538897701522112514
+    USER = client.get_user(DM)
 
     for tea in range(num_teams):
         if teamtest[tea].get_text() == str(team):
@@ -206,6 +208,16 @@ async def score(ctx, team):
         home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
         away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
         home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
+
+        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index:
+            time_index = team_index / 2
+            game_start_time = soup.find_all(class_ = "GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[time_index]
+            await ctx.send(str(team) + " game hasn't started yet. They will play at " + str(game_start_time))
+        
+        text = """```Scores: 
+        """ + str(visitors) + """ : """ + str(away_team_score) + """
+        """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
+        await ctx.send(text)
         
     if away_team == False:
         visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
@@ -213,25 +225,19 @@ async def score(ctx, team):
         away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
         home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
 
-    if away_team == True:
-        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index:
-            time_index = team_index / 2
-            game_start_time = soup.find_all(class_ = "GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[time_index]
-            await ctx.send(str(team) + " hasn't started yet. They will play at " + str(game_start_time))
-
-    if away_team == False:
         if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index - 1:
             time_index = math.floor(team_index / 2)
             game_start_time = soup.find_all(class_ = "GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[time_index]
-            await ctx.send(str(team) + " hasn't started yet. They will play at " + str(game_start_time))
+            await ctx.send(str(team) + " game hasn't started yet. They will play at " + str(game_start_time))
+        
+        text = """```Scores: 
+        """ + str(visitors) + """ : """ + str(away_team_score) + """
+        """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
+        await ctx.send(text)
+        
+    await USER.send(str(team) + " game hasn't started yet. They will play at 7:15PM EST")
 
-    text = """```Scores: 
-    """ + str(visitors) + """ : """ + str(away_team_score) + """
-    """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
-    await ctx.send(text)
-    
 client.run(os.environ["DISCORD_TOKEN"])
-
 
 # #team_1_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
             # #team_2_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
