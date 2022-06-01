@@ -154,7 +154,7 @@ async def on_ready():
         pitchers.append(lineup_list[0])
         pitchers.append(lineup_list[1])
         
-        await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
+        #await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
 
         lineup_list.pop(0)
         lineup_list.pop(0)
@@ -163,17 +163,17 @@ async def on_ready():
         away_list = lineup_list[:-n]
 
         away_lineup = print_lineup(away_list, str(batting_order))
-        print(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
-        await channel.send(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
+       # print(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
+        #await channel.send(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
 
         # for player in away_list:
         #     await channel.send(str(batting_order) + ': ' + player)
         #     batting_order += 1
         # batting_order = 1
 
-        home_lineup = print_lineup(home_list, str(batting_order))
-        print('Yankees Lineup:\n' + '\n'.join(home_lineup))
-        await channel.send('Yankees Lineup:\n' + '\n'.join(home_lineup))
+        #home_lineup = print_lineup(home_list, str(batting_order))
+        #print('Yankees Lineup:\n' + '\n'.join(home_lineup))
+        #await channel.send('Yankees Lineup:\n' + '\n'.join(home_lineup))
 
         # for player in home_list:
         #     await channel.send(str(batting_order) + ': ' + player)
