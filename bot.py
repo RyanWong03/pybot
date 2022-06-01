@@ -163,7 +163,7 @@ async def on_ready():
         away_list = lineup_list[:-n]
 
         away_lineup = print_lineup(away_list, str(batting_order))
-
+        print(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
         await channel.send(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
 
         # for player in away_list:
