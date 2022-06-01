@@ -7,6 +7,7 @@ from sympy import *
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import lxml
 
 intents = discord.Intents.default()
 intents.members = True
@@ -34,7 +35,7 @@ async def on_ready():
     today = datetime.datetime.now()
     test_date = datetime.datetime(2022, 6, 2)
     hrd_date = datetime.datetime(2022, 7, 18, 7, 55)
-    asg_date = datetime.datetime(2022, 7, 19, )
+    asg_date = datetime.datetime(2022, 7, 19)
     lineup_url = "https://www.baseballpress.com/lineups/" + str(today)
     r = requests.get(lineup_url)
     soup_lineup = BeautifulSoup(r.text, 'lxml') 
