@@ -54,11 +54,11 @@ async def on_ready():
     lineup_list = []
     batting_order = 1
     pitchers = []
-    game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[2].get_text()
+    
     #while True: #potential while statement if time is between 5am and 8am or something
 
     for tea in range(num_teams):
-        if teamtest[tea].get_text() == 'Yankees':
+        if teamtest[tea].get_text() == 'Mets':
             team_index = tea
             if team_index % 2 == 0:
                 print('mets away')
@@ -181,6 +181,7 @@ async def on_ready():
 
         while True:
             if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
+                game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index].get_text()
                 if game_stat == 'Final':
                     await channel.send("Mets game over")
                 away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text())
