@@ -37,7 +37,7 @@ async def on_ready():
     asg_date = datetime.datetime(2022, 7, 19, )
     lineup_url = "https://www.baseballpress.com/lineups/" + str(today)
     r = requests.get(lineup_url)
-    soup_lineup = BeautifulSoup(r.text,'lxml')
+    soup_lineup = BeautifulSoup(r.text, features='xml')
     lineup_list = []
     batting_order = 1
     pitchers = []
