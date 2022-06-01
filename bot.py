@@ -7,7 +7,6 @@ from sympy import *
 import requests
 from bs4 import BeautifulSoup
 import datetime
-import math
 
 intents = discord.Intents.default()
 intents.members = True
@@ -47,10 +46,10 @@ async def on_ready():
     #example gameday live link  https://www.mlb.com/gameday/orioles-vs-red-sox/2022/05/27/663276#game_state=live,game_tab=,game=663276
 
     while True: #potential while statement if time is between 5am and 8am or something
-        if today == test_date:
-            await channel.send("Test message. ")
-        else:
-            await channel.send("Today is not today. ")
+        #if today == test_date:
+        await channel.send("Test message. ")
+        #else:
+            #await channel.send("Today is not today. ")
 
         for tea in range(num_teams):
             if teamtest[tea].get_text() == 'Yankees':
@@ -256,7 +255,7 @@ async def score(ctx, team):
         home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
 
         if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index - 1:
-            time_index = math.floor(team_index / 2)
+            time_index = team_index // 2
             game_start_time = soup.find_all(class_ = "GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[time_index]
             await ctx.send(str(team) + " game hasn't started yet. They will play at " + str(game_start_time))
         
