@@ -164,10 +164,12 @@ async def on_ready():
         # print(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
         # await channel.send(str(visitors) + ' lineup:\n' + '\n'.join(away_lineup))
 
-        for player in away_list:
-            await channel.send(str(batting_order) + ': ' + player)
-            batting_order += 1
-        batting_order = 1
+        # for player in away_list:
+        #     await channel.send(str(batting_order) + ': ' + player)
+        #     batting_order += 1
+        # batting_order = 1
+
+        text = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3:""" + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
 
         # home_lineup = print_lineup(home_list, str(batting_order))
         # print('Yankees Lineup:\n' + '\n'.join(home_lineup))
@@ -190,14 +192,14 @@ async def on_ready():
 
             if away_team_score != away_score:
                 scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text() #play atbat-result
-                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
-                await USER.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
+                await USER.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
                 away_score = away_team_score
                 
             if home_team_score != home_score:
                 scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text()
-                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
-                await USER.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score)))
+                await USER.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
                 home_score = home_team_score
     
 @client.event
