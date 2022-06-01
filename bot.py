@@ -58,41 +58,39 @@ async def on_ready():
     #while True: #potential while statement if time is between 5am and 8am or something
 
     for tea in range(num_teams):
-        if teamtest[tea].get_text() == 'Mets':
+        if teamtest[tea].get_text() == 'Yankees':
             team_index = tea
             if team_index % 2 == 0:
-                print('mets away')
                 away_team = True
             else:
-                print('mets home')
                 away_team = False
 
-    if today == hrd_date:
-        away_team = None
-        await channel.send("Home Run Derby starts in 5 minutes.")
+    # if today == hrd_date:
+    #     away_team = None
+    #     await channel.send("Home Run Derby starts in 5 minutes.")
 
-    if today == asg_date:
-        visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text()
-        home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-        away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
-        home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
+    # if today == asg_date:
+    #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text()
+    #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
+    #     away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
+    #     home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
 
-        for item in soup_lineup.select("[data-league='NL]:-soup-contains('NL All Stars') .player > a.player-link"):
-            player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-            lineup_list.append(player_name)
+    #     for item in soup_lineup.select("[data-league='NL]:-soup-contains('NL All Stars') .player > a.player-link"):
+    #         player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+    #         lineup_list.append(player_name)
 
-        pitchers.append(lineup_list[0])
-        pitchers.append(lineup_list[1])
+    #     pitchers.append(lineup_list[0])
+    #     pitchers.append(lineup_list[1])
 
-        await channel.send('Starting pitchers:\nAL All Stars: ' + pitchers[0] + '\nNL All Stars: ' + pitchers[1])
+    #     await channel.send('Starting pitchers:\nAL All Stars: ' + pitchers[0] + '\nNL All Stars: ' + pitchers[1])
 
-        lineup_list.pop(0)
-        lineup_list.pop(0)
-        n = 9
-        home_list = lineup_list[n:]
-        away_list = lineup_list[:-n]
+    #     lineup_list.pop(0)
+    #     lineup_list.pop(0)
+    #     n = 9
+    #     home_list = lineup_list[n:]
+    #     away_list = lineup_list[:-n]
 
-        await channel.send('')
+    #     await channel.send('')
 
     if away_team == True:
         visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-zsc-uqs6qh-0 iNsMPL")[team_index].get_text()
@@ -179,11 +177,7 @@ async def on_ready():
         #     await channel.send(str(batting_order) + ': ' + player)
         #     batting_order += 1
 
-        text = """```1: 
-        """ + home_list[0] + """\n2: """ + home_list[1] + """\n3:
-        """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n
-        6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n
-        8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+        text = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3:""" + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
         await channel.send(text)
 
         while True:
