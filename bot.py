@@ -40,7 +40,7 @@ async def on_ready():
     test_date = datetime.datetime(2022, 6, 2)
     hrd_date = datetime.datetime(2022, 7, 18, 7, 55)
     asg_date = datetime.datetime(2022, 7, 19)
-    lineup_url = "https://www.baseballpress.com/lineups/" 
+    lineup_url = "https://www.baseballpress.com/lineups/2022-05-31" 
     r = requests.get(lineup_url)
     soup_lineup = BeautifulSoup(r.text, 'lxml') 
     lineup_list = []
