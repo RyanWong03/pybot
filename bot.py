@@ -48,144 +48,144 @@ async def on_ready():
     pitchers = []
     #example gameday live link  https://www.mlb.com/gameday/orioles-vs-red-sox/2022/05/27/663276#game_state=live,game_tab=,game=663276
 
-    while True: #potential while statement if time is between 5am and 8am or something
-        #if today == test_date:
-        await channel.send("Test message. ")
-        #else:
-            #await channel.send("Today is not today. ")
+    #while True: #potential while statement if time is between 5am and 8am or something
+    #if today == test_date:
+    await channel.send("Test message. ")
+    #else:
+        #await channel.send("Today is not today. ")
 
-        for tea in range(num_teams):
-            if teamtest[tea].get_text() == 'Yankees':
-                team_index = tea
-                if team_index % 2 == 0:
-                    away_team = True
-                else:
-                    away_team = False
+    for tea in range(num_teams):
+        if teamtest[tea].get_text() == 'Yankees':
+            team_index = tea
+            if team_index % 2 == 0:
+                away_team = True
+            else:
+                away_team = False
 
 #sc-hTRkXV jnJnQf
 #GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY
-        if today == hrd_date:
-            away_team = None
-            await channel.send("Home Run Derby starts in 5 minutes.")
+    if today == hrd_date:
+        away_team = None
+        await channel.send("Home Run Derby starts in 5 minutes.")
 
-        if today == asg_date:
-            visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text()
-            home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
-            away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
-            home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
+    if today == asg_date:
+        visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text()
+        home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
+        away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
+        home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
 
-            for item in soup_lineup.select("[data-league='NL]:-soup-contains('NL All Stars') .player > a.player-link"):
-                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+        for item in soup_lineup.select("[data-league='NL]:-soup-contains('NL All Stars') .player > a.player-link"):
+            player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+            lineup_list.append(player_name)
+
+        pitchers.append(lineup_list[0])
+        pitchers.append(lineup_list[1])
+
+        await channel.send('Starting pitchers:\nAL All Stars: ' + pitchers[0] + '\nNL All Stars: ' + pitchers[1])
+
+        lineup_list.pop(0)
+        lineup_list.pop(0)
+        n = 9
+        home_list = lineup_list[n:]
+        away_list = lineup_list[:-n]
+
+        await channel.send('')
+    if away_team == True:
+        visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+        home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+        away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+        home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
+        
+        for item in soup_lineup.select("[data-league='AL']:-soup-contains('Guardians') .player > a.player-link"):
+            player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+            lineup_list.append(player_name)
+        
+        pitchers.append(lineup_list[0])
+        pitchers.append(lineup_list[1])
+
+        await channel.send('Starting Pitchers:\nYankees: ' + pitchers[0] + '\n' + str(home_team) + ': ' + pitchers[1])
+        
+        lineup_list.pop(0)
+        lineup_list.pop(0)
+        n = 9
+        home_list = lineup_list[n:]
+        away_list = lineup_list[:-n]
+
+        await channel.send('Yankees Lineup:\n')
+        for player in away_list:
+            await USER.send(str(batting_order) + ': ' + player)
+            await channel.send(str(batting_order) + ': ' + player)
+            batting_order += 1
+        
+        batting_order = 1
+
+        await channel.send(str(home_team) + ' lineup:\n')
+        for player in home_list:
+            await USER.send(str(batting_order) + ': ' + player)
+            await channel.send(str(batting_order) + ': ' + player)
+            batting_order += 1
+
+        if away_team_score != away_score:
+            scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
+            await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
+            away_score = away_team_score
+            
+        if home_team_score != home_score:
+            scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
+            await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+            home_score = home_team_score
+            
+    if away_team == False:
+        visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
+        home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
+            
+            away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
+            home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
+
+        try:
+            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
+                player_name = item.get('data-razz')#.split("/")[-2].replace("+"," ")
                 lineup_list.append(player_name)
+        except:
+            print('soup error')
 
-            pitchers.append(lineup_list[0])
-            pitchers.append(lineup_list[1])
+        pitchers.append(lineup_list[0])
+        pitchers.append(lineup_list[1])
+        
+        await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
 
-            await channel.send('Starting pitchers:\nAL All Stars: ' + pitchers[0] + '\nNL All Stars: ' + pitchers[1])
+        lineup_list.pop(0)
+        lineup_list.pop(0)
+        n = 9
+        home_list = lineup_list[n:]
+        away_list = lineup_list[:-n]
 
-            lineup_list.pop(0)
-            lineup_list.pop(0)
-            n = 9
-            home_list = lineup_list[n:]
-            away_list = lineup_list[:-n]
+        await channel.send(str(visitors) + ' lineup:\n')
+        for player in away_list:
+            await channel.send(str(batting_order) + ': ' + player)
+            batting_order += 1
+        
+        batting_order = 1
 
-            await channel.send('')
-        if away_team == True:
-            visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-            home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-            away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
-            home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
+        await channel.send('Yankees Lineup:\n')
+        for player in home_list:
+            await channel.send(str(batting_order) + ': ' + player)
+            batting_order += 1
+
+        if away_team_score != away_score:
+            scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
+            await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+            away_score = away_team_score
             
-            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Guardians') .player > a.player-link"):
-                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                lineup_list.append(player_name)
-            
-            pitchers.append(lineup_list[0])
-            pitchers.append(lineup_list[1])
+        if home_team_score != home_score:
+            scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
+            await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
+            home_score = home_team_score
 
-            await channel.send('Starting Pitchers:\nYankees: ' + pitchers[0] + '\n' + str(home_team) + ': ' + pitchers[1])
-            
-            lineup_list.pop(0)
-            lineup_list.pop(0)
-            n = 9
-            home_list = lineup_list[n:]
-            away_list = lineup_list[:-n]
-
-            await channel.send('Yankees Lineup:\n')
-            for player in away_list:
-                await USER.send(str(batting_order) + ': ' + player)
-                await channel.send(str(batting_order) + ': ' + player)
-                batting_order += 1
-            
-            batting_order = 1
-
-            await channel.send(str(home_team) + ' lineup:\n')
-            for player in home_list:
-                await USER.send(str(batting_order) + ': ' + player)
-                await channel.send(str(batting_order) + ': ' + player)
-                batting_order += 1
-
-            if away_team_score != away_score:
-                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
-                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
-                away_score = away_team_score
-                
-            if home_team_score != home_score:
-                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
-                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
-                home_score = home_team_score
-                
-        if away_team == False:
-            visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index - 1].get_text()
-            home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-            if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
-                
-                away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
-                home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
-
-            try:
-                for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
-                    player_name = item.get('data-razz')#.split("/")[-2].replace("+"," ")
-                    lineup_list.append(player_name)
-            except:
-                print('soup error')
-
-            pitchers.append(lineup_list[0])
-            pitchers.append(lineup_list[1])
-           
-            await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
-
-            lineup_list.pop(0)
-            lineup_list.pop(0)
-            n = 9
-            home_list = lineup_list[n:]
-            away_list = lineup_list[:-n]
-
-            await channel.send(str(visitors) + ' lineup:\n')
-            for player in away_list:
-                await channel.send(str(batting_order) + ': ' + player)
-                batting_order += 1
-            
-            batting_order = 1
-
-            await channel.send('Yankees Lineup:\n')
-            for player in home_list:
-                await channel.send(str(batting_order) + ': ' + player)
-                batting_order += 1
-
-            if away_team_score != away_score:
-                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
-                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
-                away_score = away_team_score
-                
-            if home_team_score != home_score:
-                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
-                await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
-                home_score = home_team_score
-
-        await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
-        await discordUser.send('Bot Online')
-        print('Bot is ready.')
+    await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
+    await discordUser.send('Bot Online')
+    print('Bot is ready.')
 
 @client.event
 async def on_message(message: discord.Message):
