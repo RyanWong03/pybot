@@ -30,7 +30,7 @@ async def on_ready():
     request = requests.get(yanks_scoring_url)
     soup_score = BeautifulSoup(request.text, 'html.parser')
     #picking play atbat-result over description. play at bat result is only 1 play so it should print immediately.
-    scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text() 
+     
 
     #lineups
     today = datetime.datetime.now()
@@ -121,10 +121,12 @@ async def on_ready():
                 batting_order += 1
 
             if away_team_score != away_score:
+                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
                 await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
                 away_score = away_team_score
                 
             if home_team_score != home_score:
+                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
                 await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
                 home_score = home_team_score
                 
@@ -158,10 +160,12 @@ async def on_ready():
                 batting_order += 1
 
             if away_team_score != away_score:
+                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
                 await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
                 away_score = away_team_score
                 
             if home_team_score != home_score:
+                scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text()
                 await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
                 home_score = home_team_score
 
