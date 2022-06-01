@@ -15,6 +15,8 @@ client = commands.Bot(command_prefix = '$', intents=intents)
 
 @client.event
 async def on_ready():
+    DM = 538897701522112514
+    USER = client.get_user(DM)
     id = 318132313672384512
     channel = client.get_channel(789273776105193472) 
     discordUser = client.get_user(id)
@@ -36,7 +38,7 @@ async def on_ready():
     test_date = datetime.datetime(2022, 6, 2)
     hrd_date = datetime.datetime(2022, 7, 18, 7, 55)
     asg_date = datetime.datetime(2022, 7, 19)
-    lineup_url = "https://www.baseballpress.com/lineups/" + str(today)
+    lineup_url = "https://www.baseballpress.com/lineups/" 
     r = requests.get(lineup_url)
     soup_lineup = BeautifulSoup(r.text, 'lxml') 
     lineup_list = []
@@ -92,7 +94,7 @@ async def on_ready():
             away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
             home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text()
             
-            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
+            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Guardians') .player > a.player-link"):
                 player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
                 lineup_list.append(player_name)
             
@@ -109,6 +111,7 @@ async def on_ready():
 
             await channel.send('Yankees Lineup:\n')
             for player in away_list:
+                await USER.send(str(batting_order) + ': ' + player)
                 await channel.send(str(batting_order) + ': ' + player)
                 batting_order += 1
             
@@ -116,6 +119,7 @@ async def on_ready():
 
             await channel.send(str(home_team) + ' lineup:\n')
             for player in home_list:
+                await USER.send(str(batting_order) + ': ' + player)
                 await channel.send(str(batting_order) + ': ' + player)
                 batting_order += 1
 
@@ -137,16 +141,14 @@ async def on_ready():
 
             try:
                 for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
-                    player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                    player_name = item.get('data-razz')#.split("/")[-2].replace("+"," ")
                     lineup_list.append(player_name)
             except:
                 print('soup error')
 
-            
             pitchers.append(lineup_list[0])
             pitchers.append(lineup_list[1])
            
-
             await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
 
             lineup_list.pop(0)
