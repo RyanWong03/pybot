@@ -29,9 +29,7 @@ async def on_ready():
     yanks_scoring_url = "https://www.mlb.com/gameday/astros-vs-athletics/2022/05/31/662367#game_state=live,game_tab=,game=662367" #most likely will need to change daily
     request = requests.get(yanks_scoring_url)
     soup_score = BeautifulSoup(request.text, 'html.parser')
-    #picking play atbat-result over description. play at bat result is only 1 play so it should print immediately.
-     
-
+ 
     #lineups
     today = datetime.datetime.now()
     test_date = datetime.datetime(2022, 6, 2)
