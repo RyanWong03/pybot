@@ -145,12 +145,13 @@ async def on_ready():
 
         try:
             for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
-                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                lineup_list.append(player_name)
+                if item.get('data-razz') == '':
+                    player_name = 'Unknown Player'
+                    lineup_list.append(player_name)
+                else:
+                    player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                    lineup_list.append(player_name)
         except:
-            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
-                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                lineup_list.append(player_name)
             print('soup error')
 
         pitchers.append(lineup_list[0])
