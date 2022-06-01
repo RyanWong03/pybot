@@ -58,8 +58,10 @@ async def on_ready():
         if teamtest[tea].get_text() == 'Mets':
             team_index = tea
             if team_index % 2 == 0:
+                print('mets away')
                 away_team = True
             else:
+                print('mets home')
                 away_team = False
 
 #sc-hTRkXV jnJnQf
