@@ -21,7 +21,9 @@ async def on_ready():
     channel = client.get_channel(789273776105193472) 
     discordUser = client.get_user(id)
     away_score = 0
+    away_team_score = 0
     home_score = 0
+    home_team_score = 0
     url = 'https://www.mlb.com/'
     req = requests.get(url)
     soup = BeautifulSoup(req.text, 'html.parser')
