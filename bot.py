@@ -57,6 +57,7 @@ async def on_ready():
     for tea in range(num_teams):
         if teamtest[tea].get_text() == 'Mets':
             team_index = tea
+            print(str(team_index))
             if team_index % 2 == 0:
                 print('mets away')
                 away_team = True
