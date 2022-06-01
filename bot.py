@@ -31,7 +31,7 @@ async def on_ready():
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     away_team = None
     team_index = None
-    yanks_scoring_url = "https://www.mlb.com/gameday/nationals-vs-mets/2022/06/01/662457#game_state=live,game_tab=,game=662457" #most likely will need to change daily
+    yanks_scoring_url = "https://www.espn.com/mlb/playbyplay/_/gameId/401354995" #most likely will need to change daily
     request = requests.get(yanks_scoring_url)
     soup_score = BeautifulSoup(request.text, 'html.parser')
  
@@ -184,12 +184,12 @@ async def on_ready():
             batting_order += 1
         while True:
             if away_team_score != away_score:
-                scoring_play = soup_score.find_all(class_ = "description")[0].get_text() #play atbat-result
+                scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text() #play atbat-result
                 await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
                 away_score = away_team_score
                 
             if home_team_score != home_score:
-                scoring_play = soup_score.find_all(class_ = "description")[0].get_text()
+                scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text()
                 await channel.send(str(scoring_play) + str(away_team_score + " - " + str(home_team_score)))
                 home_score = home_team_score
 
