@@ -26,7 +26,7 @@ async def on_ready():
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     away_team = None
     team_index = None
-    yanks_scoring_url = "https://www.mlb.com/gameday/yankees-vs-rays/2022/05/29/661910#game_state=live,game_tab=,game=661910" #most likely will need to change daily
+    yanks_scoring_url = "https://www.mlb.com/gameday/astros-vs-athletics/2022/05/31/662367#game_state=live,game_tab=,game=662367" #most likely will need to change daily
     request = requests.get(yanks_scoring_url)
     soup_score = BeautifulSoup(request.text, 'html.parser')
     #picking play atbat-result over description. play at bat result is only 1 play so it should print immediately.
