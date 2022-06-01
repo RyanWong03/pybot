@@ -135,15 +135,17 @@ async def on_ready():
             away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text()
             home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text()
 
-            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
-                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                lineup_list.append(player_name)
-                
             try:
-                pitchers.append(lineup_list[0])
-                pitchers.append(lineup_list[1])
+                for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
+                    player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                    lineup_list.append(player_name)
             except:
-                print('index error pitchers ')
+                print('soup error')
+
+            
+            pitchers.append(lineup_list[0])
+            pitchers.append(lineup_list[1])
+           
 
             await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
 
