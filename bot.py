@@ -198,7 +198,7 @@ async def on_ready():
                 
             if home_team_score != home_score:
                 scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text()
-                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score)))
+                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
                 await USER.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
                 home_score = home_team_score
     
