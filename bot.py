@@ -154,7 +154,7 @@ async def on_ready():
         pitchers.append(lineup_list[0])
         pitchers.append(lineup_list[1])
         
-        #await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
+        await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
 
         lineup_list.pop(0)
         lineup_list.pop(0)
@@ -175,9 +175,17 @@ async def on_ready():
         # print('Yankees Lineup:\n' + '\n'.join(home_lineup))
         # await channel.send('Yankees Lineup:\n' + '\n'.join(home_lineup))
 
-        for player in home_list:
-            await channel.send(str(batting_order) + ': ' + player)
-            batting_order += 1
+        # for player in home_list:
+        #     await channel.send(str(batting_order) + ': ' + player)
+        #     batting_order += 1
+
+        text = """```1: 
+        """ + home_list[0] + """\n2: """ + home_list[1] + """\n3:
+        """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """
+        + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ 
+        + home_list[6] + """\n8: """ + home_list[7] + """\n9: """
+        + home_list[8]
+        await channel.send(text)
 
         while True:
             if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
