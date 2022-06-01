@@ -34,8 +34,10 @@ async def on_ready():
     scoring_play = soup_score.find_all(class_ = "play atbat-result")[0].get_text() 
 
     #lineups
-    today = datetime.date.today()
+    today = datetime.datetime.now()
     test_date = datetime.datetime(2022, 6, 2)
+    hrd_date = datetime.datetime(2022, 7, 18, 7, 55)
+    asg_date = datetime.datetime(2022, 7, 19, )
     lineup_url = "https://www.baseballpress.com/lineups/" + str(today)
     r = requests.get(lineup_url)
     soup_lineup = BeautifulSoup(r.text,'lxml')
@@ -58,6 +60,34 @@ async def on_ready():
                 else:
                     away_team = False
 
+#sc-hTRkXV jnJnQf
+#GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY
+        if today == hrd_date:
+            away_team = None
+            await channel.send("Home Run Derby starts in 5 minutes.")
+
+        if today == asg_date:
+            visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[0].get_text()
+            home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[1].get_text()
+            away_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[0].get_text()
+            home_team_score = soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[1].get_text()
+
+            for item in soup_lineup.select("[data-league='NL]:-soup-contains('NL All Stars') .player > a.player-link"):
+                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                lineup_list.append(player_name)
+
+            pitchers.append(lineup_list[0])
+            pitchers.append(lineup_list[1])
+
+            await channel.send('Starting pitchers:\nAL All Stars: ' + pitchers[0] + '\nNL All Stars: ' + pitchers[1])
+
+            lineup_list.pop(0)
+            lineup_list.pop(0)
+            n = 9
+            home_list = lineup_list[n:]
+            away_list = lineup_list[:-n]
+
+            await channel.send('')
         if away_team == True:
             visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
             home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
