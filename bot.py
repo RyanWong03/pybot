@@ -181,10 +181,9 @@ async def on_ready():
 
         text = """```1: 
         """ + home_list[0] + """\n2: """ + home_list[1] + """\n3:
-        """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """
-        + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ 
-        + home_list[6] + """\n8: """ + home_list[7] + """\n9: """
-        + home_list[8]
+        """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n
+        6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n
+        8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
         await channel.send(text)
 
         while True:
