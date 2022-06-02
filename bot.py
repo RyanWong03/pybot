@@ -61,7 +61,7 @@ async def on_ready():
     while True:
         now = datetime.datetime.now().strftime("%H:%M:%S")
         time.sleep(1)
-        await channel.send('now')
+        #await channel.send('now')
         if away_team == True:
             game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index / 2].get_text()
         elif away_team == False:
@@ -270,6 +270,8 @@ async def on_ready():
                     await channel.send(home_lineup)
         elif game_stat == 'TOP 1':
             await channel.send("Yankees game has started.")
+        elif game_stat == 'BOT 5':
+            await channel.send('bottom 5 inning')
         if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
             
             away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text())
