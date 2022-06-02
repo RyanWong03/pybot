@@ -51,6 +51,7 @@ async def on_ready():
     pitchers = []
     print("number of teams playing: " + str(num_teams))
     for tea in range(num_teams):
+        print(tea)
         print(teamtest[tea].get_text())
         if teamtest[tea].get_text() == 'Yankees':
             team_index = tea
