@@ -52,9 +52,6 @@ async def on_ready():
 
     #print("number of teams playing: " + str(num_teams))
     for tea in range(num_teams):
-        print('testing')
-        print(tea)
-        print(teamtest[tea].get_text())
         if teamtest[tea].get_text() == 'Yankees':
             team_index = tea
             print('first team index' + str(team_index))
@@ -66,7 +63,6 @@ async def on_ready():
     while True:
         now = datetime.datetime.now().strftime("%H:%M:%S")
         time.sleep(1)
-        print('second team index' + str(team_index))
         game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index].get_text()
         if game_stat == 'Final':
             await channel.send("Yankees game over")
