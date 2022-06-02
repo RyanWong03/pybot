@@ -371,7 +371,7 @@ async def score(ctx, team):
             """ + str(home_team) + """ : """ + str(home_team_score) + """```"""
             await ctx.send(text)
 
-        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index - 1:
+        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index: #team index - 1
             time_index = team_index // 2
             print('yankees team index: ' + str(team_index))
             print('yankees time index: ' + str(time_index))
