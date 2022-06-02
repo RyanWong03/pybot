@@ -65,7 +65,7 @@ async def on_ready():
         time.sleep(1)
         #await channel.send("Message every second")
         await channel.send(now)
-        if now == '19:30:00':
+        if now == '23:33:00':
             await channel.send('time up')
             print('time up')
 
