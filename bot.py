@@ -6,7 +6,7 @@ from discord.utils import get
 from sympy import *
 import requests
 from bs4 import BeautifulSoup
-import datetime
+from datetime import datetime
 import lxml
 
 intents = discord.Intents.default()
@@ -39,15 +39,11 @@ async def on_ready():
     teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
     away_team = None
     team_index = None
-    yanks_scoring_url = "https://www.espn.com/mlb/playbyplay/_/gameId/401354995" #most likely will need to change daily
+    yanks_scoring_url = "https://www.espn.com/mlb/playbyplay/_/gameId/401443623" #most likely will need to change daily
     request = requests.get(yanks_scoring_url)
     soup_score = BeautifulSoup(request.text, 'html.parser')
  
     #lineups
-    today = datetime.datetime.now()
-    test_date = datetime.datetime(2022, 6, 2)
-    hrd_date = datetime.datetime(2022, 7, 18, 7, 55)
-    asg_date = datetime.datetime(2022, 7, 19)
     lineup_url = "https://www.baseballpress.com/lineups/" 
     r = requests.get(lineup_url)
     soup_lineup = BeautifulSoup(r.text, 'lxml') 
@@ -55,6 +51,9 @@ async def on_ready():
     batting_order = 1
     pitchers = []
     
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    loop_time = now.replace(hour = 10, minute = 0).strftime("%H:%M:%S")
     #while True: #potential while statement if time is between 5am and 8am or something
 
     for tea in range(num_teams):
@@ -182,25 +181,27 @@ async def on_ready():
         home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3:""" + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
         await channel.send(home_lineup)
 
-        #while True:
-        if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
-            #game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index].get_text()
-            # if game_stat == 'Final':
-            #     await channel.send("Mets game over")
-            away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text())
-            home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
+        while True:
+            if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
+                game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index].get_text()
+                if game_stat == 'Final':
+                    await channel.send("Yankees game over")
+                elif game_stat == 'WARMUP' or game_stat == 'Warmup':
+                    await channel.send("Yankees game starting soon.")
+                away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text())
+                home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
 
-        if away_team_score != away_score:
-            scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text() #play atbat-result
-            await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
-            #await USER.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
-            away_score = away_team_score
-            
-        if home_team_score != home_score:
-            scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text()
-            await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
-            #await USER.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
-            home_score = home_team_score
+            if away_team_score != away_score:
+                scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text() #play atbat-result
+                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
+                #await USER.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
+                away_score = away_team_score
+                
+            if home_team_score != home_score:
+                scoring_play = soup_score.find_all(class_ = "headline scoring")[0].get_text()
+                await channel.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
+                #await USER.send(str(scoring_play) + str(away_team_score) + " - " + str(home_team_score))
+                home_score = home_team_score
 
 @client.event
 async def on_message(message: discord.Message):
