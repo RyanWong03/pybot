@@ -292,7 +292,7 @@ async def on_message(message: discord.Message):
     await client.process_commands(message)
 
 @client.command()
-async def pm(ctx, userId, msg):
+async def pm(ctx, userId: int, msg: str):
     id = userId 
     user = client.get_user(id)
     await ctx.send("Message Sent to " + str(user))
