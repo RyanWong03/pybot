@@ -65,7 +65,7 @@ async def on_ready():
         time.sleep(1)
         #await channel.send("Message every second")
         await channel.send(now)
-
+        
         if away_team == True:
             #print('before game stat')
             game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index // 2].get_text()
