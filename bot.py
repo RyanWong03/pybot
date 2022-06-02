@@ -21,6 +21,7 @@ def print_lineup(list, str):
 
 @client.event
 async def on_ready():
+    general = client.get_channel(771373922192195627)
     DM = 538897701522112514
     USER = client.get_user(DM)
     id = 318132313672384512
@@ -29,6 +30,7 @@ async def on_ready():
     await client.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
     await discordUser.send('Bot Online')
     print('Bot is ready.')
+    await general.send('L')
     away_score = 0
     away_team_score = 0
     home_score = 0
