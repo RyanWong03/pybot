@@ -337,6 +337,7 @@ async def score(ctx, team):
     for tea in range(num_teams):
         if teamtest[tea].get_text() == str(team):
             team_index = tea
+            print('yankees team index :' + str(team_index))
             if team_index % 2 == 0:
                 away_team = True
             else:
