@@ -61,11 +61,11 @@ async def on_ready():
                 away_team = False
 
     while True:
-        now = datetime.datetime.now().strftime("%H:%M:%S")
+        now = datetime.datetime.now().strftime("%H:%M:%S") #24 hour clock, discord time always 4 hours ahead of NA EAST
         time.sleep(1)
         #await channel.send("Message every second")
         await channel.send(now)
-        if now == '23:33:00':
+        if now == '23:36:00':
             await channel.send('time up')
             print('time up')
 
@@ -285,7 +285,7 @@ async def on_ready():
         # elif game_stat == 'BOT 5':
         #     await channel.send('bottom 5 inning')
         
-        await channel.send('lol')
+        #await channel.send('lol')
         if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
             
             away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text())
