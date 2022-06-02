@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 import lxml
+import time
 
 intents = discord.Intents.default()
 intents.members = True
@@ -151,7 +152,7 @@ async def on_ready():
         pitchers.append(lineup_list[0])
         pitchers.append(lineup_list[1])
         
-        await channel.send('Starting Pitchers:\n' + str(home_team) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
+        await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[1] + '\nYankees: ' + pitchers[0])
 
         lineup_list.pop(0)
         lineup_list.pop(0)
@@ -168,7 +169,7 @@ async def on_ready():
         #     batting_order += 1
         # batting_order = 1
 
-        away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3:""" + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+        away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
         await channel.send(away_lineup)
         # home_lineup = print_lineup(home_list, str(batting_order))
         # print('Yankees Lineup:\n' + '\n'.join(home_lineup))
@@ -178,10 +179,12 @@ async def on_ready():
         #     await channel.send(str(batting_order) + ': ' + player)
         #     batting_order += 1
 
-        home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3:""" + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+        home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
         await channel.send(home_lineup)
 
         while True:
+            await channel.send("Hello")
+            time.sleep(10)
             if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
                 game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index].get_text()
                 if game_stat == 'Final':
