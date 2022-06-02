@@ -369,6 +369,8 @@ async def score(ctx, team):
 
         if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) < team_index - 1:
             time_index = team_index // 2
+            print('yankees team index: ' + str(team_index))
+            print('yankees time index: ' + str(time_index))
             game_start_time = soup.find_all(class_ = "GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[time_index].get_text()
             await ctx.send(str(team) + " game hasn't started yet. They will play at " + str(game_start_time))
         
