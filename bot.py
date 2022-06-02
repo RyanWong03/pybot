@@ -61,7 +61,6 @@ async def on_ready():
     while True:
         now = datetime.datetime.now().strftime("%H:%M:%S")
         time.sleep(1)
-        #await channel.send('now')
         if away_team == True:
             game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index / 2].get_text()
         elif away_team == False:
