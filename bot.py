@@ -65,10 +65,12 @@ async def on_ready():
         time.sleep(1)
         #await channel.send("Message every second")
         await channel.send(now)
-        if now == '23:36:00':
-            await channel.send('time up')
-            print('time up')
-
+        # if now == '23:36:00':
+        #     await channel.send('time up')
+        #     print('time up')
+        for i in range(10):
+            if i == 6:
+                await channel.send('six')
 
         # if away_team == True:
         #     #print('before game stat')
