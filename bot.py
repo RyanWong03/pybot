@@ -49,8 +49,10 @@ async def on_ready():
     soup_lineup = BeautifulSoup(r.text, 'lxml') 
     lineup_list = []
     pitchers = []
-    print("number of teams playing: " + str(num_teams))
+    
+    #print("number of teams playing: " + str(num_teams))
     for tea in range(num_teams):
+        print('testing')
         print(tea)
         print(teamtest[tea].get_text())
         if teamtest[tea].get_text() == 'Yankees':
