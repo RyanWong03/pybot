@@ -63,8 +63,9 @@ async def on_ready():
     while True:
         now = datetime.datetime.now().strftime("%H:%M:%S")
         time.sleep(1)
-        await channel.send("Message every second")
-        if now == '19:27:00':
+        #await channel.send("Message every second")
+        await channel.send(now)
+        if now == '19:30:00':
             await channel.send('time up')
             print('time up')
 
