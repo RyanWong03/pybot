@@ -50,11 +50,9 @@ async def on_ready():
     lineup_list = []
     pitchers = []
 
-    #print("number of teams playing: " + str(num_teams))
     for tea in range(num_teams):
         if teamtest[tea].get_text() == 'Yankees':
             team_index = tea
-            print('first team index' + str(team_index))
             if team_index % 2 == 0:
                 away_team = True
             else:
