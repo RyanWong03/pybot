@@ -61,6 +61,7 @@ async def on_ready():
     while True:
         now = datetime.datetime.now().strftime("%H:%M:%S")
         time.sleep(1)
+        await channel.send('now')
         game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index].get_text()
         if game_stat == 'Final':
             await channel.send("Yankees game over")
@@ -68,6 +69,7 @@ async def on_ready():
             await channel.send("Yankees game starting soon.")
         elif game_stat == '1:05 PM ET' or game_stat == '1:07 PM ET':
             if now == '12:30:00':
+                await channel.send(' 12 30')
                 if away_team == True:
                     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-zsc-uqs6qh-0 iNsMPL")[team_index].get_text()
                     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapperz-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
@@ -118,6 +120,7 @@ async def on_ready():
                     await channel.send(home_lineup)
         elif game_stat == '4:05 PM ET' or game_stat == '4:10 PM ET':
             if now == '15:30:00':
+                await channel.send('3 30')
                 if away_team == True:
                     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-zsc-uqs6qh-0 iNsMPL")[team_index].get_text()
                     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapperz-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
@@ -168,6 +171,7 @@ async def on_ready():
                     await channel.send(home_lineup)
         elif game_stat == '7:05 PM ET' or game_stat == '7:07 PM ET' or game_stat == '7:10 PM ET':
             if now == '18:30:00':
+                await channel.send('6 30')
                 if away_team == True:
                     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-zsc-uqs6qh-0 iNsMPL")[team_index].get_text()
                     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapperz-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
@@ -218,6 +222,7 @@ async def on_ready():
                     await channel.send(home_lineup)
         elif game_stat == '10:05 PM ET' or game_stat == '10:10 PM ET':
             if now == '21:30:00':
+                await channel.send('9 30')
                 if away_team == True:
                     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-zsc-uqs6qh-0 iNsMPL")[team_index].get_text()
                     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapperz-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
