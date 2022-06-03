@@ -4,9 +4,9 @@ from discord.ext import commands
 from discord.ext import tasks
 from discord.utils import get
 import requests
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import datetime
-import lxml
+#import lxml
 import time
 import statsapi
 import testfunctions
