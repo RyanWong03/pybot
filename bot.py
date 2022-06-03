@@ -80,10 +80,10 @@ class TestFunctions:
 class Bot(discord.Client):
     testFunctions = TestFunctions()
     async def on_ready(self):
-        id = 318132313672384512
-        discordUser = self.get_user(id)
+        # id = 318132313672384512
+        # discordUser = self.get_user(id)
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
-        await discordUser.send('Bot Online')
+        #await discordUser.send('Bot Online')
         print('Bot is ready.')
 
     async def on_message(self, message):
