@@ -4,4 +4,3 @@ bs4
 requests
 datetime
 lxml
-sys
