@@ -4,7 +4,6 @@ import datetime
 from datetime import timedelta
 import time
 import statsapi
-import dateutil.parser
 import requests
 
 class TestFunctions:
