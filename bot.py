@@ -64,8 +64,8 @@ async def on_ready():
         now = datetime.datetime.now().strftime("%H:%M:%S") #24 hour clock, discord time always 4 hours ahead of NA EAST
         time.sleep(1)
         #await channel.send("Message every second")
-        await channel.send(now)
-        
+        #await channel.send(now)
+
         if away_team == True:
             #print('before game stat')
             game_stat = soup.find_all(class_="GameDataLayerstyle__GameStateBaseLabelWrapper-sc-1vhdg11-5 jxEhSY")[team_index // 2].get_text()
@@ -281,7 +281,7 @@ async def on_ready():
         elif game_stat == 'BOT 5':
             await channel.send('bottom 5 inning')
         
-        await channel.send('lol')
+       
         if len(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")) >= team_index:
             
             away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index - 1].get_text())
