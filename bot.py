@@ -21,7 +21,7 @@ import sys
 def print_lineup(list, str):
     str += "{0}"
     list = [str.format(i) for i in list]
-    return list
+    return 
 
 # @client.event
 # async def on_ready():
