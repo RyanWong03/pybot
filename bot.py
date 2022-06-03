@@ -95,7 +95,7 @@ class Bot(discord.Client):
                 if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     if 'PLAYER' in message_array[1].upper():
                         try:
-                            now = datetime.now()
+                            now = datetime.datetime.now()
                             stat_year = now.year
 
                             if len(message_array) < 2:
