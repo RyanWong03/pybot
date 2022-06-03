@@ -63,9 +63,6 @@ async def on_ready():
         now = datetime.datetime.now().strftime("%H:%M:%S") #24 hour clock, discord time always 4 hours ahead of NA EAST
         time.sleep(1)
 
-        for i in range(300):
-            if i == 265:
-                await channel.send('number reached')
         #await channel.send("Message every second")
         #await channel.send(now)
 
