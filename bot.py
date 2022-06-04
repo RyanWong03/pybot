@@ -3,7 +3,6 @@ import os
 from discord.ext import commands
 from discord.ext import tasks
 from discord.utils import get
-from numpy import append
 import requests
 #from bs4 import BeautifulSoup
 import datetime
