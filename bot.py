@@ -3,7 +3,6 @@ import os
 from discord.ext import commands
 from discord.ext import tasks
 from discord.utils import get
-from jmespath import search
 from numpy import append
 import requests
 #from bs4 import BeautifulSoup
@@ -153,7 +152,7 @@ class Bot(discord.Client):
         print('Bot is ready.')
         while True:
             now = datetime.datetime.now()
-            if now.minute == 15 or now.minute == '15':
+            if now.minute == 17 or now.minute == '17':
                 print('minute reached')
 
     async def on_message(self, message):
