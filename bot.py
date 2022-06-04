@@ -154,8 +154,9 @@ class Bot(discord.Client):
             #await channel.send('hello')
             now = datetime.datetime.now()
             await channel.send(now.minute)
-            if now.minute == '24' or now.minute == 24:
+            if now.minute == '27' or now.minute == 27:
                 await channel.send('minute reached')
+                break
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
