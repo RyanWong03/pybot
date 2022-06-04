@@ -3,6 +3,8 @@ import os
 from discord.ext import commands
 from discord.ext import tasks
 from discord.utils import get
+from jmespath import search
+from numpy import append
 import requests
 #from bs4 import BeautifulSoup
 import datetime
@@ -24,6 +26,63 @@ def print_lineup(list, str):
     return 
 
 class TestFunctions:
+    async def prompt_team(self, message, search_term, teams):
+        if len(teams) > 1:
+            discord_formatted_string = '>>> I found ' + str(len(teams)) + ' matches for \'' + search_term + '\' Enter the number for the team you want \n'
+
+            for index in range(len(teams)):
+                if index < len(teams):
+                    append_string = ' ' + str(index + 1) + ': ' + teams[index]['name'] + '\n'
+                else:
+                    append_string = ' ' + str(index + 1) + ': ' + teams[index]['name']
+                
+                discord_formatted_string = discord_formatted_string + append_string
+            await message.channel.send(discord_formatted_string)
+
+            message_time = datetime.datetime.utcnow()
+            time.sleep(2)
+            team_selected_index = 0
+
+            for wait in range(1,10):
+                if team_selected_index != 0:
+                    break;
+                
+                time.sleep(1)
+                message_list = await message.channel.history(limit=2).flatten()
+
+                if team_selected_index == 0:
+                    for history in range(0, len(message_list)):
+                        if message_list[history].author == message.author:
+                            if message_list[history].created_at > message_time:
+                                if message_list[history].content.isdigit():
+                                    if int(message_list[history].content) <= len(teams) and int(message_list[history].content) != 0:
+                                        team_selected_index = int(message_list[history].content)
+                                        team_selected = teams[team_selected_index - 1]
+                                        break
+                                    else:
+                                        await message.channel.send('%s is not a valid number start over' % str(message_list[history].content))
+                                        return
+                                else:
+                                    await message.channel.send('%s is not a number start over' % message_list[history].content)
+                                    return
+            
+            if team_selected_index == 0:
+                await message.channel.send('start over when ready blah')
+                return
+            else:
+                return team_selected
+
+    async def get_team(self, search_name, message):
+        teams_returned = statsapi.lookup_team(search_name)
+        if len(teams_returned) > 1:
+            team_selected = await self.prompt_team(message, search_name, teams_returned)
+        elif len(teams_returned) == 1:
+            team_selected = teams_returned[0]
+        elif len(teams_returned) == 0:
+            await message.channel.send('i cant find teams using\'' + search_name + '\'')
+            return
+        return team_selected
+
     async def wait_for_number(self, message, limit, waitTime):
         response_num = -1
         message_time = datetime.datetime.utcnow()
@@ -65,7 +124,14 @@ class TestFunctions:
         response = requests.get(url, requests_headers)
         return response
 
+# class EmbedFunctions:
+#     testFunctions = TestFunctions()
 
+#     async def scheduled_game_embed(self, game, message):
+#         if type(game) == list:
+#             game = game[0]
+
+#         #game_time_local
 # @client.event
 # async def on_ready():
 #     DM = 538897701522112514
@@ -85,6 +151,10 @@ class Bot(discord.Client):
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         #await discordUser.send('Bot Online')
         print('Bot is ready.')
+        while True:
+            now = datetime.datetime.now()
+            if now.minute == 15 or now.minute == '15':
+                print('minute reached')
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
@@ -92,7 +162,7 @@ class Bot(discord.Client):
         else:
             message_array = message.content.split()
             if len(message_array) > 0:
-                if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
+                if ('$' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     if 'PLAYER' in message_array[1].upper():
                         try:
                             now = datetime.datetime.now()
@@ -275,6 +345,57 @@ class Bot(discord.Client):
                             print('DEBUG: Exception in PLAYER. Input was %s' % message.content)
                             print('DEBUG: Exception is %s' % e)
                             await message.channel.send("Sorry, I've encountered an error :(")
+                    # elif 'SCORE' in message_array[1].upper():
+                    #     try:
+                    #         if len(message_array) < 3:
+                    #             await message.channel.send("I need a team to check the score for")
+                    #             return
+                            
+                    #         team_selected = None
+                    #         team_to_search = ''
+                    #         team_to_search = message_array[2]
+                    #         if len(message_array) > 3:
+                    #             for message_data in range(3, len(message_array)):
+                    #                 team_to_search = team_to_search + ' ' + message_array[message_data]
+                            
+                    #         team_selected = await self.testFunctions.get_team(team_to_search, message)
+                    #         target_date_time = datetime.datetime.now()
+
+                    #         if team_selected is None:
+                    #             await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % team_to_search)
+                    #             print('DEBUG: Failed to get the team in time in SCORE function')
+                    #             print('DEBUG: Input was: ' + team_to_search)
+                    #             print('DEBUG: Message content was: ' + message.content)
+                    #             return
+                            
+                    #         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
+                    #         past_day = datetime.datetime.today() - timedelta(1)
+                    #         past_week = datetime.datetime.today() - timedelta(7)
+                    #         past_games = statsapi.schedule(start_date = past_week.strftime('%m/%d/%Y'), end_date = past_day.strftime('%m/%d/%Y'), team=team_selected['id'])
+
+                    #         next_day = datetime.datetime.today() + timedelta(1)
+                    #         next_week = datetime.datetime.today() + timedelta(7)
+                    #         next_games = statsapi.schedule(start_date = next_day.strftime('%m/%d/%Y'), end_date = next_week.strftime('%m/%d/%Y'), team = team_selected['id'])
+
+                    #         if len(past_games) > 0:
+                    #             previous_game = past_games[len(past_games) - 1]
+                    #         else:
+                    #             previous_game = None
+                            
+                    #         if type(queried_schedule) is list:
+                    #             final_status_list = ["Final", "Game Over", "Completed Early"]
+                    #             scheduled_status_list = ["Scheduled", "Pre-Game"]
+                    #             live_status_list = ["In Progress", "Delayed"]
+                    #             other_status_list = ["Postponed"]
+
+                    #             if previous_game is not None:
+                    #                 if previous_game['status'] == 'In Progress' and queried_schedule[0]['status'] == 'Scheduled':
+                    #                     queried_schedule[0] = previous_game
+                                
+                    #             if len(queried_schedule) > 2:
+                    #                 for game in queried_schedule:
+                    #                     if any(game_status in game['status'] for game_status in final_status_list):
+                    #                         await self. #line 635
             else:
                 return
 
