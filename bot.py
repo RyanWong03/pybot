@@ -146,13 +146,12 @@ class Bot(discord.Client):
     async def on_ready(self):
         # id = 318132313672384512
         # discordUser = self.get_user(id)
+        channel = client.get_channel(789273776105193472) 
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         #await discordUser.send('Bot Online')
         print('Bot is ready.')
         while True:
-            now = datetime.datetime.now()
-            if now.minute == 17 or now.minute == '17':
-                print('minute reached')
+            await channel.send('hello')
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
@@ -160,7 +159,7 @@ class Bot(discord.Client):
         else:
             message_array = message.content.split()
             if len(message_array) > 0:
-                if ('$' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
+                if ('bot' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     if 'PLAYER' in message_array[1].upper():
                         try:
                             now = datetime.datetime.now()
