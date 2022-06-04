@@ -151,7 +151,11 @@ class Bot(discord.Client):
         #await discordUser.send('Bot Online')
         print('Bot is ready.')
         while True:
-            await channel.send('hello')
+            #await channel.send('hello')
+            now = datetime.datetime.now()
+            await channel.send(now.minute)
+            if now.minute == '24' or now.minute == 24:
+                await channel.send('minute reached')
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
