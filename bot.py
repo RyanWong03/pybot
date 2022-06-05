@@ -295,7 +295,7 @@ class EmbedFunctions:
             await message.channel.send(embed=scoreEmbed, tts=False)
 
             if len(scoringPlays) > 1:
-                if await self.commonFunctions.wait_for_response(message, 'more', 30):
+                if await self.testFunctions.wait_for_response(message, 'more', 30):
                     allPlaysEmbed = discord.Embed()
                     allPlaysEmbed.type = 'rich'
                     allPlaysEmbed.color = discord.Color.dark_blue()
@@ -319,7 +319,7 @@ class EmbedFunctions:
             game = game[0]
 
         # Get the UTC datetime string
-        gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
+        gameTimeLocal = self.testFunctions.get_Local_Time(game['game_datetime'])
 
         # Create the final game embed object
         genricGameEmbed = discord.Embed()
@@ -405,7 +405,7 @@ class EmbedFunctions:
                                            inline=False)
                 elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':
 
-                    gameLocalTime = self.commonFunctions.get_Local_Time(games['gameDate'])
+                    gameLocalTime = self.testFunctions.get_Local_Time(games['gameDate'])
 
                     valueString = awayTeamShort + ' vs ' + homeTeamShort + '\n'
                     valueString = valueString + calendar.day_name[gameLocalTime.weekday()] + '\n' + gameLocalTime.strftime(
