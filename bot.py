@@ -507,7 +507,7 @@ class Bot(discord.Client):
         else:
             message_array = message.content.split()
             if len(message_array) > 0:
-                if ('bot' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
+                if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     await message.channel.send('len greater than 1')
                     print('len greater than 1')
                     if 'PLAYER' in message_array[1].upper():
