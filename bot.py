@@ -522,7 +522,7 @@ class Bot(discord.Client):
         pitchers = []
         while var < 1:
             now = datetime.datetime.now()
-            if now.minute == '40' or now.minute == 40:
+            if now.minute == '20' or now.minute == 20:
                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
