@@ -513,7 +513,8 @@ class Bot(discord.Client):
         channel = client.get_channel(789273776105193472) 
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         print('Bot is ready.')
-        await dm.send('I will be sending you the Mets lineup in a few minutes.')
+        #await dm.send('I will be sending you the Mets lineup in a few minutes.')
+        print(type(dm))
         var = 0
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
