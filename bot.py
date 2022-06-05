@@ -2,11 +2,9 @@ import discord
 import os
 from discord.ext import commands
 from discord.ext import tasks
-#from discord.utils import get
 import requests
 import datetime
 from datetime import timedelta
-#import lxml
 import time
 import statsapi
 import json
@@ -19,12 +17,33 @@ import calendar
 # intents.members = True
 # client = commands.Bot(command_prefix = '$', intents=intents)
 
-def print_lineup(list, str):
-    str += "{0}"
-    list = [str.format(i) for i in list]
-    return 
-
 class TestFunctions:
+    async def wait_for_response(self, message, user_response, wait_time):
+        response_found = False
+        message_time = datetime.datetime.utcnow()
+        message_time = message_time - timedelta(seconds = 2)
+
+        for wait in range(1, wait_time):
+            if response_found:
+                break;
+            
+            time.sleep(1)
+            raw_msg_list = await message.channel.history(limit = 5).flatten()
+            msg_list = []
+            for msgs in raw_msg_list:
+                if msgs.author.bot == False and msgs != message:
+                    msg_list.append(msgs)
+            
+            if not response_found:
+                for history in range(0, len(msg_list)):
+                    if msg_list[history].author == message.author:
+                        if msg_list[history].created_at > message_time:
+                            if user_response.upper() in msg_list[history].content.upper():
+                                response_found = True
+                                return True
+        
+        return False
+
     async def prompt_team(self, message, search_term, teams):
         if len(teams) > 1:
             discord_formatted_string = '>>> I found ' + str(len(teams)) + ' matches for \'' + search_term + '\' Enter the number for the team you want \n'
