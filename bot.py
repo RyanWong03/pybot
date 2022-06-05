@@ -12,7 +12,7 @@ import players
 import sys
 import dateutil.parser
 import calendar
-
+ #add click more button for pitching line fix local time
 # intents = discord.Intents.default()
 # intents.members = True
 # client = commands.Bot(command_prefix = '$', intents=intents)
@@ -145,7 +145,7 @@ class TestFunctions:
     def get_local_time(self, date_time_string):
         game_time_utc = dateutil.parser.parse(date_time_string)
         game_time_utc = game_time_utc.replace(tzinfo=dateutil.tz.tzutc())
-        return game_time_utc.astimezone(dateutil.tz.tzlocal() - timedelta(hours=4))
+        return game_time_utc.astimezone(dateutil.tz.tzlocal()) 
 
 class EmbedFunctions:
     testFunctions = TestFunctions()
