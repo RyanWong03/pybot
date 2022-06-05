@@ -509,7 +509,7 @@ class Bot(discord.Client):
     testFunctions = TestFunctions()
     async def on_ready(self):
         user_id = 538897701522112514
-        dm = client.get_user(538897701522112514)
+        dm = client.get_user(int(538897701522112514))
         channel = client.get_channel(789273776105193472) 
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         print('Bot is ready.')
