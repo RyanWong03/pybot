@@ -806,7 +806,8 @@ class Bot(discord.Client):
                             print('DEBUG: Exception in SCORE. Input was %s' % message.content)
                             print('DEBUG: Exception was %s' % e)
                             await message.channel.send('Sorry, something went wrong :( %s', e)                     
-                elif message_array[0].upper() == 'BOT' and len(message_array == 1):
+                elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
+                    #if ('bot' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     await message.channel.send('test')
                     print('test')
                     return
