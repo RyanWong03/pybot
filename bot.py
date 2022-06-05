@@ -808,6 +808,8 @@ class Bot(discord.Client):
                             await message.channel.send('Sorry, something went wrong :( %s', e)                     
             else:
                 return
+        await client.process.commands(message)
+    
 
                                     
                         
