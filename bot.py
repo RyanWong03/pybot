@@ -182,6 +182,7 @@ class EmbedFunctions:
         scheduled_embed.add_field(name = 'Game Status:', value = game['status'], inline = False)
         scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET'), inline = False)
         #print(game_time_local.strftime('%-I:%M%p' + ' ET'))
+        print(game_time_local)
         if not home_prob:
             home_prob = 'Unannounced'
         
