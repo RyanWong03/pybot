@@ -193,6 +193,7 @@ class EmbedFunctions:
         scheduled_embed.add_field(name = away_team_short + ' Probable:', value = away_prob, inline = True)
 
         await message.channel.send(content = 'Scheduled Game on ' + game_time_local.strftime('%m/%d/%Y') + ':', embed = scheduled_embed)
+        print(game_time_local)
 
     async def final_game_embed(self, game, message):
         if type(game) == list:
@@ -522,7 +523,7 @@ class Bot(discord.Client):
         pitchers = []
         while var < 1:
             now = datetime.datetime.now()
-            if now.minute == '20' or now.minute == 20:
+            if now.minute == '535353' or now.minute == 534545:
                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
