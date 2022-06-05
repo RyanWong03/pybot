@@ -2,4 +2,4 @@ discord
 requests
 datetime
 MLB-StatsAPI
-dateutil
+dateutil.parser
