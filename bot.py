@@ -181,7 +181,7 @@ class EmbedFunctions:
         scheduled_embed.color = discord.Color.dark_blue()
         scheduled_embed.add_field(name = 'Game Status:', value = game['status'], inline = False)
         scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET'), inline = False)
-
+        print(game_time_local.strftime('%-I:%M%p' + ' ET'))
         if not home_prob:
             home_prob = 'Unannounced'
         
@@ -514,7 +514,6 @@ class Bot(discord.Client):
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         print('Bot is ready.')
         #await dm.send('I will be sending you the Mets lineup in a few minutes.')
-        print(type(dm))
         var = 0
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
