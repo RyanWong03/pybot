@@ -3,3 +3,4 @@ requests
 datetime
 MLB-StatsAPI
 python-dateutil
+lxml

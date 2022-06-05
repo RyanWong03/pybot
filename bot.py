@@ -12,6 +12,8 @@ import players
 import sys
 import dateutil.parser
 import calendar
+from bs4 import BeautifulSoup
+import lxml
  #add click more button for pitching line fix local time
 # intents = discord.Intents.default()
 # intents.members = True
@@ -506,21 +508,36 @@ class Bot(discord.Client):
     embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
     async def on_ready(self):
-        # id = 318132313672384512
-        # discordUser = self.get_user(id)
         channel = client.get_channel(789273776105193472) 
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
-        #await discordUser.send('Bot Online')
         print('Bot is ready.')
         var = 0
-        # while var < 1:
-        #     #await channel.send('hello')
-        #     now = datetime.datetime.now()
-        #     await channel.send(now.minute)
-        #     if now.minute == '27' or now.minute == 27:
-        #         await channel.send('minute reached')
-        #         var = 1
-        #         var = 0
+        lineup_url = "https://www.baseballpress.com/lineups/" 
+        r = requests.get(lineup_url)
+        soup_lineup = BeautifulSoup(r.text, 'lxml') 
+        lineup_list = []
+        pitchers = []
+
+        for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
+            player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+            lineup_list.append(player_name)
+        
+            pitchers.append(lineup_list[0])
+            pitchers.append(lineup_list[1])
+
+            await channel.send('Starting Pitchers:\nYankees: ' + pitchers[0] + '\n' + 'away team' + ': ' + pitchers[1])
+            
+            lineup_list.pop(0)
+            lineup_list.pop(0)
+            n = 9
+            home_list = lineup_list[n:]
+            away_list = lineup_list[:-n]
+
+            away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+            await channel.send(away_lineup)
+
+            home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+            await channel.send(home_lineup)
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
