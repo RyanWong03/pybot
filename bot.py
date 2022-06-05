@@ -512,13 +512,14 @@ class Bot(discord.Client):
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         #await discordUser.send('Bot Online')
         print('Bot is ready.')
-        # while True:
-        #     #await channel.send('hello')
-        #     now = datetime.datetime.now()
-        #     await channel.send(now.minute)
-        #     if now.minute == '27' or now.minute == 27:
-        #         await channel.send('minute reached')
-        #         break
+        var = 0
+        while var < 1:
+            #await channel.send('hello')
+            now = datetime.datetime.now()
+            await channel.send(now.minute)
+            if now.minute == '17' or now.minute == 17:
+                await channel.send('minute reached')
+                var = 1
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
