@@ -505,12 +505,11 @@ class EmbedFunctions:
 #     print('Bot is ready.')
 
 class Bot(discord.Client):
-    
     embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
     async def on_ready(self):
         user_id = 538897701522112514
-        dm = self.get_user(user_id)
+        dm = discord.Client.get_user(user_id)
         channel = client.get_channel(789273776105193472) 
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         print('Bot is ready.')
@@ -523,7 +522,7 @@ class Bot(discord.Client):
         pitchers = []
         while var < 1:
             now = datetime.datetime.now()
-            if now.minute == '50' or now.minute == 50:
+            if now.minute == '59' or now.minute == 59:
                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
