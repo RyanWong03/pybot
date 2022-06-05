@@ -193,7 +193,6 @@ class EmbedFunctions:
         scheduled_embed.add_field(name = away_team_short + ' Probable:', value = away_prob, inline = True)
 
         await message.channel.send(content = 'Scheduled Game on ' + game_time_local.strftime('%m/%d/%Y') + ':', embed = scheduled_embed)
-        print(game_time_local)
 
     async def final_game_embed(self, game, message):
         if type(game) == list:
