@@ -217,7 +217,7 @@ class EmbedFunctions:
         
         context_params = {'gamePk': game['game_id']}
         game_context_metrics = statsapi.get(endpoint = 'game_contextMetrics', params=context_params)
-        game_type = game_context_metrics['game']['game_type']
+        game_type = game_context_metrics['game']['gameType']
 
         scoreEmbed = discord.Embed()
 
