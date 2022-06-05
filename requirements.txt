@@ -4,3 +4,4 @@ datetime
 MLB-StatsAPI
 python-dateutil
 lxml
+bs4
