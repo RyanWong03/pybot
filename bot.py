@@ -516,10 +516,11 @@ class Bot(discord.Client):
         while var < 1:
             #await channel.send('hello')
             now = datetime.datetime.now()
-            #await channel.send(now.minute)
-            if now.minute == '19' or now.minute == 19:
+            await channel.send(now.minute)
+            if now.minute == '27' or now.minute == 27:
                 await channel.send('minute reached')
                 var = 1
+                var = 0
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
