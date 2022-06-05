@@ -516,8 +516,8 @@ class Bot(discord.Client):
         while var < 1:
             #await channel.send('hello')
             now = datetime.datetime.now()
-            await channel.send(now.minute)
-            if now.minute == '17' or now.minute == 17:
+            #await channel.send(now.minute)
+            if now.minute == '19' or now.minute == 19:
                 await channel.send('minute reached')
                 var = 1
 
