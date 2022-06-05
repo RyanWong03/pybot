@@ -145,7 +145,7 @@ class TestFunctions:
     def get_local_time(self, date_time_string):
         game_time_utc = dateutil.parser.parse(date_time_string)
         game_time_utc = game_time_utc.replace(tzinfo=dateutil.tz.tzutc())
-        return game_time_utc.astimezone(dateutil.tz.tzlocal())
+        return game_time_utc.astimezone(dateutil.tz.tzlocal() - timedelta(hours=4))
 
 class EmbedFunctions:
     testFunctions = TestFunctions()
