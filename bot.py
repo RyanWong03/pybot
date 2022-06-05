@@ -4,7 +4,6 @@ from discord.ext import commands
 from discord.ext import tasks
 from discord.utils import get
 import requests
-
 import datetime
 from datetime import timedelta
 #import lxml
