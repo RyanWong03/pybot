@@ -154,7 +154,7 @@ class EmbedFunctions:
             away_team_short = 'N/A'
             away_prob = 'N/A'
         
-        scheduled_embed = discord.embed()
+        scheduled_embed = discord.Embed()
         scheduled_embed = '**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
         scheduled_embed.type = 'rich'
         scheduled_embed.color = discord.Color.dark_blue()
@@ -508,12 +508,8 @@ class Bot(discord.Client):
             message_array = message.content.split()
             if len(message_array) > 0:
                 if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
-                    await message.channel.send('len greater than 1')
-                    print('len greater than 1')
                     if 'PLAYER' in message_array[1].upper():
                         try:
-                            await message.channel.send("player sent")
-                            print('player sent')
                             now = datetime.datetime.now()
                             stat_year = now.year
 
@@ -809,16 +805,13 @@ class Bot(discord.Client):
                         except Exception as e:
                             print('DEBUG: Exception in SCORE. Input was %s' % message.content)
                             print('DEBUG: Exception was %s' % e)
-                            await message.channel.send('Sorry, something went wrong :( %s', e)                     
+                            await message.channel.send('Sorry, something went wrong :( %s' % e)                     
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
-                    #if ('bot' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     await message.channel.send('test')
                     print('test')
                     return
             else:
-                print('hello')
                 return
-        #await client.process_commands(message)
     
 
                                     
