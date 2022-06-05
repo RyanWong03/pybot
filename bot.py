@@ -807,6 +807,7 @@ class Bot(discord.Client):
                             print('DEBUG: Exception was %s' % e)
                             await message.channel.send('Sorry, something went wrong :( %s', e)                     
             else:
+                print('hello')
                 return
         #await client.process_commands(message)
     
