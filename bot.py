@@ -103,6 +103,11 @@ class TestFunctions:
             return
         return team_selected
 
+    async def get_team_no_msg(self, team_name):
+        teams_returned = statsapi.lookup_team(team_name)
+        team_selected = teams_returned[0]
+        return team_selected
+
     async def wait_for_number(self, message, limit, waitTime):
         response_num = -1
         message_time = datetime.datetime.utcnow()
@@ -151,6 +156,33 @@ class TestFunctions:
 
 class EmbedFunctions:
     testFunctions = TestFunctions()
+    async def scoring_plays_embed(self, game, channel):
+        if type(game) == list:
+            game = game[0]
+        
+        game_time_local = self.testFunctions.get_local_time(game['game_datetime'])
+        home_team = statsapi.lookup_team(game['home_name'])
+        away_team = statsapi.lookup_team(game['away_name'])
+        game_type = game['game_type']
+
+        scoring_embed = discord.Embed()
+        scoring_embed.title = '**Somebody Scored**'
+        scoring_embed.type = 'rich'
+        scoring_embed.color = discord.Color.dark_blue()
+        #scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'], inline=False)
+
+        if game_type != 'S':
+            scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
+            scoringPlays = scoringPlaysList['plays']
+
+            if len(scoringPlays) > 0:
+                scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
+                                     inline=False)
+            await channel.send(embed=scoring_embed, tts=False)
+            return
+        else:
+            await channel.send(embed=scoring_embed, tts=False)
+            return
 
     async def scheduled_game_embed(self, game, message):
         if type(game) == list:
@@ -459,41 +491,6 @@ class EmbedFunctions:
         except ConnectionError as ce:
             print('DEBUG: Request failed in playoff_Series_Embed | {}'.format(ce))
 
-    async def helpEmbed(self, message):
-        helpEmbed = discord.Embed()
-        helpEmbed.title = 'BaseBot Help'
-        helpEmbed.type = 'rich'
-        helpEmbed.color = discord.Color.dark_blue()
-
-        helpEmbed.add_field(name='1. basebot player `playername` `year`', value='Lookup a players stats (Defaults to current year)', inline=False)
-        helpEmbed.add_field(name='2. basebot score `teamname`', value='Lookup the latest game', inline=False)
-        helpEmbed.add_field(name='3. basebot highlights `teamname`', value='Lookup the latest highlights', inline=False)
-        helpEmbed.add_field(name='4. basebot roster `teamname`', value='Display the team\'s current roster',
-                            inline=False)
-        helpEmbed.add_field(name='5. basebot standings', value='Show the current league standings', inline=False)
-        helpEmbed.add_field(name='6. basebot schedule `teamname`',
-                            value='Show the team\'s scheduled games for the next week', inline=False)
-        helpEmbed.add_field(name='7. basebot schedule',
-                            value='Show today\'s scheduled games',
-                            inline=False)
-        helpEmbed.add_field(name='8. basebot playoffs',
-                            value='Get an overview of the playoffs',
-                            inline=False)
-        helpEmbed.add_field(name='9. basebot hockey',
-                            value='Show the current days hockey games. NOTE: This will move to a new bot soon',
-                            inline=False)
-        helpEmbed.add_field(name='10. basebot listen `channelname`',
-                            value='Listen to commands on the given text channel. Use `all` to listen to all available channels',
-                            inline=False)
-        helpEmbed.add_field(name='11. basebot ignore `channelname`',
-                            value='Ignore commands on the given text channel',
-                            inline=False)
-        helpEmbed.add_field(name='12. basebot listchannels',
-                            value='Get a list of all channels currently being listened to',
-                            inline=False)
-
-        await message.channel.send(embed=helpEmbed)
-
 # @client.event
 # async def on_ready():
 #     DM = 538897701522112514
@@ -532,15 +529,19 @@ class Bot(discord.Client):
         pitchers = []
 
         for tea in range(num_teams):
-            if teamtest[tea].get_text() == 'Mets':
+            if teamtest[tea].get_text() == 'Cardinals':
                 team_index = tea
                 if team_index % 2 == 0:
                     away_team = True
                 else:
                     away_team = False
 
+        target_date_time = datetime.datetime.now()
+        team_selected = await self.testFunctions.get_team_no_msg('cardinals')
+        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
+    
         while var < 1:
-            now = datetime.datetime.now()
+            #now = datetime.datetime.now()
             if away_team == True:
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
@@ -548,11 +549,12 @@ class Bot(discord.Client):
                 home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
                 if away_score != away_team_score:
                     print('away score diff')
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     away_score = away_team_score
                 if home_score != home_team_score:
                     print('home score diff')
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
-                break
             #if now.minute == '535353' or now.minute == 534545:
                 # for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                 #     if item.get('data-razz') == '':
