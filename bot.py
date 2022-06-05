@@ -510,6 +510,8 @@ class Bot(discord.Client):
                 if ('bot' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     if 'PLAYER' in message_array[1].upper():
                         try:
+                            await message.channel.send("player sent")
+                            print('player sent')
                             now = datetime.datetime.now()
                             stat_year = now.year
 
