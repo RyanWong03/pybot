@@ -4,7 +4,7 @@ from discord.ext import commands
 from discord.ext import tasks
 from discord.utils import get
 import requests
-#from bs4 import BeautifulSoup
+
 import datetime
 from datetime import timedelta
 #import lxml
