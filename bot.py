@@ -1,3 +1,4 @@
+from typing import final
 import discord
 import os
 from discord.ext import commands
@@ -13,6 +14,8 @@ import statsapi
 import json
 import players
 import sys
+import dateutil.parser
+import calendar
 
 # intents = discord.Intents.default()
 # intents.members = True
@@ -121,15 +124,356 @@ class TestFunctions:
         requests_headers = {'Content-Type': 'application/json'}
         response = requests.get(url, requests_headers)
         return response
+    
+    def get_local_time(self, date_time_string):
+        game_time_utc = dateutil.parser.parse(date_time_string)
+        game_time_utc = game_time_utc.replace(tzinfo=dateutil.tz.tzutc())
+        return game_time_utc.astimezone(dateutil.tz.tzlocal())
 
-# class EmbedFunctions:
-#     testFunctions = TestFunctions()
+class EmbedFunctions:
+    testFunctions = TestFunctions()
 
-#     async def scheduled_game_embed(self, game, message):
-#         if type(game) == list:
-#             game = game[0]
+    async def scheduled_game_embed(self, game, message):
+        if type(game) == list:
+            game = game[0]
 
-#         #game_time_local
+        game_time_local = self.testFunctions.get_local_time(game['game_datetime'])
+        home_team = statsapi.lookup_team(game['home_name'])
+        away_team = statsapi.lookup_team(game['away_name'])
+        game_type = game['game_type']
+
+        if len(home_team) > 0:
+            home_team_short = home_team[0]['fileCode'].upper()
+            home_prob = game['home_probable_pitcher']
+        else:
+            home_team_short = 'N/A'
+            home_prob = 'N/A'
+        
+        if len(away_team) > 0:
+            away_team_short = away_team[0]['fileCode'].upper()
+            away_prob = game['away_probable_pitcher']
+        else:
+            away_team_short = 'N/A'
+            away_prob = 'N/A'
+        
+        scheduled_embed = discord.embed()
+        scheduled_embed = '**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
+        scheduled_embed.type = 'rich'
+        scheduled_embed.color = discord.Color.dark_blue()
+        scheduled_embed.add_field(name = 'Game Status:', value = game['status'], inline = False)
+        scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET'), inline = False)
+
+        if not home_prob:
+            home_prob = 'Unannounced'
+        
+        scheduled_embed.add_field(name = home_team_short + ' Probable:', value = home_prob, inline = True)
+        
+        if not away_prob:
+            away_prob = 'Unannounced'
+        
+        scheduled_embed.add_field(name = away_team_short + ' Probable:', value = away_prob, inline = True)
+
+        await message.channel.send(content = 'Scheduled Game on ' + game_time_local.strftime('%m/%d/%Y') + ':', embed = scheduled_embed)
+
+    async def final_game_embed(self, game, message):
+        if type(game) == list:
+            game = game[0]
+
+        game_time_local = self.testFunctions.get_local_time(game['game_datetime'])
+        final_status_list = ["Final", "Game Over", "Completed Early"]
+
+        if any(game_status in game['status'] for game_status in final_status_list):
+            finalGameEmbed = discord.Embed()
+            finalGameEmbed.type = 'rich'
+            finalGameEmbed.color = discord.Color.dark_blue()
+
+            # Add the fields with game info
+            finalGameEmbed.add_field(name='**' + game['away_name'] + '** vs **' + game['home_name'] + '**\n',
+                                        value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
+            # Check for a valid key and value
+            if 'winning_pitcher' in game and game['winning_pitcher'] != None:
+                finalGameEmbed.add_field(name='Winning Pitcher:', value=game['winning_pitcher'], inline=True)
+            if 'losing_pitcher' in game and game['losing_pitcher'] != None:
+                finalGameEmbed.add_field(name='Losing Pitcher:', value=game['losing_pitcher'], inline=True)
+            if 'save_pitcher' in game and game['save_pitcher'] != None:
+                finalGameEmbed.add_field(name='Save:', value=game['save_pitcher'], inline=False)
+
+            await message.channel.send(content='Final score from ' + game_time_local.strftime('%m/%d/%Y'),
+                                        embed=finalGameEmbed, tts=False)
+        else:
+            finalScoreString = '**' + game['home_name'] + '** vs **' + game['away_name'] + '**\n'
+
+            finalScoreString = finalScoreString + 'Game on ' + game_time_local.strftime('%m/%d/%Y') + ' **' + game[
+                'status'] + '**'
+
+            await message.channel.send(content=finalScoreString, tts=False)
+
+    async def live_game_embed(self, game, message):
+        if type(game) == list:game = game[0]
+
+        homeTeam = statsapi.lookup_team(game['home_name'])
+        awayTeam = statsapi.lookup_team(game['away_name'])
+
+        homeTeamShort = homeTeam[0]['fileCode'].upper()
+        awayTeamShort = awayTeam[0]['fileCode'].upper()
+        
+        context_params = {'gamePk': game['game_id']}
+        game_context_metrics = statsapi.get(endpoint = 'game_contextMetrics', params=context_params)
+        game_type = game_context_metrics['game']['game_type']
+
+        scoreEmbed = discord.Embed()
+
+        # Regular Season
+        if game_type == 'R':
+            scoreEmbed.title = '**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
+        # Wildcard
+        elif game_type == 'F':
+            # Check if the game is a tiebreaker
+            if game_context_metrics['game']['tiebreaker'] == 'N':
+                scoreEmbed.title = '**Wildcard Game**\n\n**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
+            else:
+                scoreEmbed.title = '**Wildcard Tiebreaker Game**\n\n**' + game['away_name'] + '** vs **' + game[
+                    'home_name'] + '**'
+        # Division Series
+        elif game_type == 'D':
+            homeRecordString = str(game_context_metrics['game']['teams']['home']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['home']['leagueRecord']['losses'])
+            awayRecordString = str(game_context_metrics['game']['teams']['away']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['away']['leagueRecord']['losses'])
+            scoreEmbed.title = '**Division Series Game ' + str(
+                game_context_metrics['game']['seriesGameNumber']) + '**\n\n**' + game[
+                                   'away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game[
+                                   'home_name'] + '**(' + homeRecordString + ')'
+        # League Championship Series
+        elif game_type == 'L':
+            homeRecordString = str(game_context_metrics['game']['teams']['home']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['home']['leagueRecord']['losses'])
+            awayRecordString = str(game_context_metrics['game']['teams']['away']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['away']['leagueRecord']['losses'])
+            scoreEmbed.title = '**League Championship Series Game ' + str(
+                game_context_metrics['game']['seriesGameNumber']) + '**\n\n**' + game[
+                                   'away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game[
+                                   'home_name'] + '**(' + homeRecordString + ')'
+        # World Series
+        elif game_type == 'W':
+            homeRecordString = str(game_context_metrics['game']['teams']['home']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['home']['leagueRecord']['losses'])
+            awayRecordString = str(game_context_metrics['game']['teams']['away']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['away']['leagueRecord']['losses'])
+            scoreEmbed.title = '**World Series Game ' + str(
+                game_context_metrics['game']['seriesGameNumber']) + '**\n\n**' + game[
+                                   'away_name'] + '**(' + awayRecordString + ') vs ' + '**' + game[
+                                   'home_name'] + '**(' + homeRecordString + ')'
+        # Spring Training
+        elif game_type == 'S':
+            homeRecordString = str(game_context_metrics['game']['teams']['home']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['home']['leagueRecord']['losses'])
+            awayRecordString = str(game_context_metrics['game']['teams']['away']['leagueRecord']['wins']) + '-' + str(
+                game_context_metrics['game']['teams']['away']['leagueRecord']['losses'])
+            scoreEmbed.title = '**Spring Training**\n\n**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
+        else:
+            scoreEmbed.title = '**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
+
+        scoreEmbed.type = 'rich'
+        scoreEmbed.color = discord.Color.dark_blue()
+
+        scoreEmbed.add_field(name='**' + game['inning_state'] + ' ' + str(game['current_inning']) + '**',
+                             value='```js\n' + statsapi.linescore(game['game_id']) + '```', inline=False)
+        homeWinProb = '{:.1f}'.format(game_context_metrics['homeWinProbability'])
+        awayWinProb = '{:.1f}'.format(game_context_metrics['awayWinProbability'])
+        scoreEmbed.add_field(name='**Win Probability**',
+                             value=awayTeamShort + ' ' + awayWinProb + ' - ' + homeTeamShort + ' ' + homeWinProb + '%')
+        
+        if game_type != 'S':
+
+            scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
+            scoringPlays = scoringPlaysList['plays']
+
+            if len(scoringPlays) > 0:
+                scoreEmbed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
+                                     inline=False)
+                if len(scoringPlays) > 1:
+                    scoreEmbed.set_footer(text='Reply with \'more\' in 30 seconds to see all scoring plays')
+            await message.channel.send(embed=scoreEmbed, tts=False)
+
+            if len(scoringPlays) > 1:
+                if await self.commonFunctions.wait_for_response(message, 'more', 30):
+                    allPlaysEmbed = discord.Embed()
+                    allPlaysEmbed.type = 'rich'
+                    allPlaysEmbed.color = discord.Color.dark_blue()
+                    scoring_plays_string = ""
+                    for index, plays in enumerate(scoringPlays):
+                        scoring_plays_string = scoring_plays_string + str(index + 1) + '. ' + plays['result']['description'] + '\n\n'
+                    allPlaysEmbed.add_field(name='**All scoring plays**',
+                                            value=scoring_plays_string, inline=False)
+                    await message.channel.send(embed=allPlaysEmbed, tts=False)
+                    return
+                else:
+                    return
+            return
+        else:
+            await message.channel.send(embed=scoreEmbed, tts=False)
+            return
+    
+    async def generic_Game_Embed(self, game, message):
+        # If for some reason we get a list, take the first object
+        if type(game) == list:
+            game = game[0]
+
+        # Get the UTC datetime string
+        gameTimeLocal = self.commonFunctions.get_Local_Time(game['game_datetime'])
+
+        # Create the final game embed object
+        genricGameEmbed = discord.Embed()
+        genricGameEmbed.type = 'rich'
+        genricGameEmbed.color = discord.Color.dark_blue()
+
+        # Add the fields with game info
+        genricGameEmbed.add_field(name='**' + game['away_name'] + '** vs **' + game['home_name'] + '**\n',
+                                 value='Game on ' + gameTimeLocal.strftime('%m/%d/%Y') + ' Status: ' + game['status'], inline=False)
+
+        await message.channel.send(embed=genricGameEmbed)
+
+    async def playoff_Series_Embed(self, series, message):
+        try:
+            # Create a list of the games in the series
+            seriesGames = series['games']
+
+            # Get the game ID of the last game in the series
+            #lastGameId = seriesGames[len(seriesGames) - 1]['gamePk']
+
+
+            #contextParams = {'gamePk': lastGameId}
+            #game_contextMetrics = statsapi.get(endpoint='game_contextMetrics', params=contextParams)
+
+            homeRecordString = '(' + str(
+                seriesGames[0]['teams']['home']['leagueRecord']['wins']) + '-' + str(
+                    seriesGames[0]['teams']['home']['leagueRecord']['losses']) + ')'
+
+            awayRecordString = '(' + str(
+                seriesGames[0]['teams']['away']['leagueRecord']['wins']) + '-' + str(
+                    seriesGames[0]['teams']['away']['leagueRecord']['losses']) + ')'
+
+            #homeRecordString = '(' + str(game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']) + '-' + str(
+            #	game_contextMetrics['game']['teams']['home']['leagueRecord']['losses']) + ')'
+
+            #awayRecordString = '(' + str(game_contextMetrics['game']['teams']['away']['leagueRecord']['wins']) + '-' + str(
+            #	game_contextMetrics['game']['teams']['away']['leagueRecord']['losses']) + ')'
+
+            titleString = seriesGames[0]['seriesDescription'] + '\n**' + \
+                          seriesGames[0]['teams']['home']['team']['name'] + homeRecordString + '** vs **' \
+                          + seriesGames[0]['teams']['away']['team']['name'] + awayRecordString + '**'
+
+            # game_contextMetrics['game']['teams']['home']['leagueRecord']['wins']
+
+            playoffEmbed = discord.Embed()
+            playoffEmbed.title = titleString
+            playoffEmbed.type = 'rich'
+            playoffEmbed.color = discord.Color.dark_blue()
+
+            for games in seriesGames:
+
+                # Get the team names from the game
+                homeTeam = statsapi.lookup_team(games['teams']['home']['team']['name'])
+                awayTeam = statsapi.lookup_team(games['teams']['away']['team']['name'])
+                # Get the short team names
+                # If the team isn't decided yet then pull it from the response
+                if homeTeam:
+                    homeTeamShort = homeTeam[0]['fileCode'].upper()
+                else:
+                    homeTeamShort = games['teams']['home']['team']['name']
+
+                if awayTeam:
+                    awayTeamShort = awayTeam[0]['fileCode'].upper()
+                else:
+                    awayTeamShort = games['teams']['away']['team']['name']
+
+                if games['status']['detailedState'] == 'Final' or games['status']['detailedState'] == 'Game Over':
+                    homeScore = games['teams']['home']['score']
+                    homeScoreString = str(homeScore)
+                    awayScore = games['teams']['away']['score']
+                    awayScoreString = str(awayScore)
+
+                    if homeScore > awayScore:
+                        homeScoreString = '**' + homeScoreString + '**'
+                    elif awayScore > homeScore:
+                        awayScoreString = '**' + awayScoreString + '**'
+
+                    finalGameString = homeTeamShort + ' ' + homeScoreString + ' - ' + awayTeamShort + ' ' + awayScoreString + ' **F**'  # \n' + \
+                    # homeTeamShort + '(' + str(games['teams']['home']['leagueRecord']['wins']) + '-' + str(games['teams']['home']['leagueRecord']['losses']) + ') - ' + \
+                    # awayTeamShort + '(' + str(games['teams']['away']['leagueRecord']['wins']) + '-' + str(games['teams']['away']['leagueRecord']['losses']) + ')'
+
+                    playoffEmbed.add_field(name='Game ' + str(games['seriesGameNumber']), value=finalGameString,
+                                           inline=False)
+                elif games['status']['detailedState'] == 'Scheduled' or games['status']['detailedState'] == 'Pre-Game':
+
+                    gameLocalTime = self.commonFunctions.get_Local_Time(games['gameDate'])
+
+                    valueString = awayTeamShort + ' vs ' + homeTeamShort + '\n'
+                    valueString = valueString + calendar.day_name[gameLocalTime.weekday()] + '\n' + gameLocalTime.strftime(
+                        '%m/%d/%Y') + ' at ' + gameLocalTime.strftime('%-I:%M%p') + ' EST'
+
+                    if games['ifNecessary'] == 'N':
+                        playoffEmbed.add_field(name='Game ' + str(games['seriesGameNumber']), value=valueString,
+                                               inline=False)
+                    else:
+                        playoffEmbed.add_field(name=games['description'] + ' (If Necessary)', value=valueString,
+                                               inline=False)
+                elif games['status']['detailedState'] == 'In Progress' or games['status']['detailedState'] == 'Live':
+                    homeScore = games['teams']['home']['score']
+                    homeScoreString = str(homeScore)
+                    awayScore = games['teams']['away']['score']
+                    awayScoreString = str(awayScore)
+
+                    if homeScore > awayScore:
+                        homeScoreString = '**' + homeScoreString + '**'
+                    elif awayScore > homeScore:
+                        awayScoreString = '**' + awayScoreString + '**'
+
+                    liveGameString = awayTeamShort + ' ' + awayScoreString + ' - ' + homeTeamShort + ' ' + homeScoreString + '\n' + \
+                                     games['status']['detailedState']
+                    playoffEmbed.add_field(name='Game ' + str(games['seriesGameNumber']) + '\nLive Game',
+                                           value=liveGameString, inline=False)
+
+            await message.channel.send(embed=playoffEmbed)
+        except ConnectionError as ce:
+            print('DEBUG: Request failed in playoff_Series_Embed | {}'.format(ce))
+
+    async def helpEmbed(self, message):
+        helpEmbed = discord.Embed()
+        helpEmbed.title = 'BaseBot Help'
+        helpEmbed.type = 'rich'
+        helpEmbed.color = discord.Color.dark_blue()
+
+        helpEmbed.add_field(name='1. basebot player `playername` `year`', value='Lookup a players stats (Defaults to current year)', inline=False)
+        helpEmbed.add_field(name='2. basebot score `teamname`', value='Lookup the latest game', inline=False)
+        helpEmbed.add_field(name='3. basebot highlights `teamname`', value='Lookup the latest highlights', inline=False)
+        helpEmbed.add_field(name='4. basebot roster `teamname`', value='Display the team\'s current roster',
+                            inline=False)
+        helpEmbed.add_field(name='5. basebot standings', value='Show the current league standings', inline=False)
+        helpEmbed.add_field(name='6. basebot schedule `teamname`',
+                            value='Show the team\'s scheduled games for the next week', inline=False)
+        helpEmbed.add_field(name='7. basebot schedule',
+                            value='Show today\'s scheduled games',
+                            inline=False)
+        helpEmbed.add_field(name='8. basebot playoffs',
+                            value='Get an overview of the playoffs',
+                            inline=False)
+        helpEmbed.add_field(name='9. basebot hockey',
+                            value='Show the current days hockey games. NOTE: This will move to a new bot soon',
+                            inline=False)
+        helpEmbed.add_field(name='10. basebot listen `channelname`',
+                            value='Listen to commands on the given text channel. Use `all` to listen to all available channels',
+                            inline=False)
+        helpEmbed.add_field(name='11. basebot ignore `channelname`',
+                            value='Ignore commands on the given text channel',
+                            inline=False)
+        helpEmbed.add_field(name='12. basebot listchannels',
+                            value='Get a list of all channels currently being listened to',
+                            inline=False)
+
+        await message.channel.send(embed=helpEmbed)
+
 # @client.event
 # async def on_ready():
 #     DM = 538897701522112514
@@ -142,6 +486,7 @@ class TestFunctions:
 #     print('Bot is ready.')
 
 class Bot(discord.Client):
+    embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
     async def on_ready(self):
         # id = 318132313672384512
@@ -347,57 +692,122 @@ class Bot(discord.Client):
                             print('DEBUG: Exception in PLAYER. Input was %s' % message.content)
                             print('DEBUG: Exception is %s' % e)
                             await message.channel.send("Sorry, I've encountered an error :(")
-                    # elif 'SCORE' in message_array[1].upper():
-                    #     try:
-                    #         if len(message_array) < 3:
-                    #             await message.channel.send("I need a team to check the score for")
-                    #             return
+                    elif 'SCORE' in message_array[1].upper():
+                        try:
+                            if len(message_array) < 3:
+                                await message.channel.send("I need a team to check the score for")
+                                return
                             
-                    #         team_selected = None
-                    #         team_to_search = ''
-                    #         team_to_search = message_array[2]
-                    #         if len(message_array) > 3:
-                    #             for message_data in range(3, len(message_array)):
-                    #                 team_to_search = team_to_search + ' ' + message_array[message_data]
+                            team_selected = None
+                            team_to_search = ''
+                            team_to_search = message_array[2]
+                            if len(message_array) > 3:
+                                for message_data in range(3, len(message_array)):
+                                    team_to_search = team_to_search + ' ' + message_array[message_data]
                             
-                    #         team_selected = await self.testFunctions.get_team(team_to_search, message)
-                    #         target_date_time = datetime.datetime.now()
+                            team_selected = await self.testFunctions.get_team(team_to_search, message)
+                            target_date_time = datetime.datetime.now()
 
-                    #         if team_selected is None:
-                    #             await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % team_to_search)
-                    #             print('DEBUG: Failed to get the team in time in SCORE function')
-                    #             print('DEBUG: Input was: ' + team_to_search)
-                    #             print('DEBUG: Message content was: ' + message.content)
-                    #             return
+                            if team_selected is None:
+                                await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % team_to_search)
+                                print('DEBUG: Failed to get the team in time in SCORE function')
+                                print('DEBUG: Input was: ' + team_to_search)
+                                print('DEBUG: Message content was: ' + message.content)
+                                return
                             
-                    #         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
-                    #         past_day = datetime.datetime.today() - timedelta(1)
-                    #         past_week = datetime.datetime.today() - timedelta(7)
-                    #         past_games = statsapi.schedule(start_date = past_week.strftime('%m/%d/%Y'), end_date = past_day.strftime('%m/%d/%Y'), team=team_selected['id'])
+                            queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
+                            past_day = datetime.datetime.today() - timedelta(1)
+                            past_week = datetime.datetime.today() - timedelta(7)
+                            past_games = statsapi.schedule(start_date = past_week.strftime('%m/%d/%Y'), end_date = past_day.strftime('%m/%d/%Y'), team=team_selected['id'])
 
-                    #         next_day = datetime.datetime.today() + timedelta(1)
-                    #         next_week = datetime.datetime.today() + timedelta(7)
-                    #         next_games = statsapi.schedule(start_date = next_day.strftime('%m/%d/%Y'), end_date = next_week.strftime('%m/%d/%Y'), team = team_selected['id'])
+                            next_day = datetime.datetime.today() + timedelta(1)
+                            next_week = datetime.datetime.today() + timedelta(7)
+                            next_games = statsapi.schedule(start_date = next_day.strftime('%m/%d/%Y'), end_date = next_week.strftime('%m/%d/%Y'), team = team_selected['id'])
 
-                    #         if len(past_games) > 0:
-                    #             previous_game = past_games[len(past_games) - 1]
-                    #         else:
-                    #             previous_game = None
+                            if len(past_games) > 0:
+                                previous_game = past_games[len(past_games) - 1]
+                            else:
+                                previous_game = None
                             
-                    #         if type(queried_schedule) is list:
-                    #             final_status_list = ["Final", "Game Over", "Completed Early"]
-                    #             scheduled_status_list = ["Scheduled", "Pre-Game"]
-                    #             live_status_list = ["In Progress", "Delayed"]
-                    #             other_status_list = ["Postponed"]
+                            if type(queried_schedule) is list:
+                                final_status_list = ["Final", "Game Over", "Completed Early"]
+                                scheduled_status_list = ["Scheduled", "Pre-Game"]
+                                live_status_list = ["In Progress", "Delayed"]
+                                other_status_list = ["Postponed"]
 
-                    #             if previous_game is not None:
-                    #                 if previous_game['status'] == 'In Progress' and queried_schedule[0]['status'] == 'Scheduled':
-                    #                     queried_schedule[0] = previous_game
+                                if previous_game is not None:
+                                    if previous_game['status'] == 'In Progress' and queried_schedule[0]['status'] == 'Scheduled':
+                                        queried_schedule[0] = previous_game
                                 
-                    #             if len(queried_schedule) > 2:
-                    #                 for game in queried_schedule:
-                    #                     if any(game_status in game['status'] for game_status in final_status_list):
-                    #                         await self. #line 635
+                                if len(queried_schedule) > 2:
+                                    for game in queried_schedule:
+                                        if any(game_status in game['status'] for game_status in final_status_list):
+                                            await self.embedFunctions.final_game_embed(game, message)
+                                        elif any(game_status in game['status'] for game_status in scheduled_status_list):
+                                            await self.embedFunctions.scheduled_game_embed(game, message)
+                                        elif any(game_status in game['status'] for game_status in live_status_list):
+                                            await self.embedFunctions.live_game_embed(game, message)
+                                        elif any(game_status in game['status'] for game_status in other_status_list):
+                                            await self.embedFunctions.generic_Game_Embed(game, message)
+                                
+                                elif len(queried_schedule) == 2:
+                                    #game 1
+                                    if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list): await self.embedFunctions.final_game_embed(queried_schedule[0], message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
+                                        await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
+                                        if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
+                                        await self.embedFunctions.live_game_embed(queried_schedule[0], message)
+                                        return
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                                    #game 2
+                                    if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
+                                        await self.embedFunctions.final_game_embed(queried_schedule[1], message)
+                                        if len(next_games) > 0:
+                                            await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                                    elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
+                                        await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
+                                        if previous_game is not None:
+                                            await self.embedFunctions.final_game_embed(previous_game, message)
+                                    elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
+                                        await self.embedFunctions.live_game_embed(queried_schedule[1], message)
+                                        return
+                                    elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                                    if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                                
+                                elif len(queried_schedule) == 1:
+                                    if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list):
+                                        await self.embedFunctions.final_game_embed(queried_schedule[0], message)
+                                        if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
+                                        await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
+                                        if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
+                                        await self.embedFunctions.live_game_embed(queried_schedule[0], message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in  other_status_list):
+                                        await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                                        if len(next_games) > 0:
+                                            await self.embedFunctions.scheduled_Game_Embed(next_games[0],  message)
+                                elif len(queried_schedule) <= 0:
+                                    if len(past_games) > 0:
+                                        previous_game = past_games[len(past_games) - 1]
+                                    else:
+                                        await message.channel.send('no recent games')
+                                        return
+                                    
+                                    if previous_game['status'] == 'In Progress':
+                                        print('prev game still in progress')
+                                        await self.embedFunctions.live_game_embed(previous_game, message)
+                                    
+                                    final_status_list = ["Final", "Game Over", "Completed Early"]
+                                    if any(game_status in previous_game['status'] for game_status in final_status_list):
+                                        await self.embedFunctions.final_game_embed(previous_game, message)
+                                        if len(next_games) > 0:
+                                            await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                        except Exception as e:
+                            print('DEBUG: Exception in SCORE. Input was %s' % message.content)
+                            print('DEBUG: Exception was %s' % e)
+                            await message.channel.send('Sorry, something went wrong :( %s', e)                     
             else:
                 return
 
