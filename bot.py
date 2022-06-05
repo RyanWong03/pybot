@@ -155,7 +155,7 @@ class EmbedFunctions:
             away_prob = 'N/A'
         
         scheduled_embed = discord.Embed()
-        scheduled_embed = '**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
+        scheduled_embed.title = '**' + game['away_name'] + '** vs **' + game['home_name'] + '**'
         scheduled_embed.type = 'rich'
         scheduled_embed.color = discord.Color.dark_blue()
         scheduled_embed.add_field(name = 'Game Status:', value = game['status'], inline = False)
