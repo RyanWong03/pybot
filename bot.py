@@ -521,23 +521,24 @@ class Bot(discord.Client):
         for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
             player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
             lineup_list.append(player_name)
+            print(lineup_list)
         
-            pitchers.append(lineup_list[0])
-            pitchers.append(lineup_list[1])
+            # pitchers.append(lineup_list[0])
+            # pitchers.append(lineup_list[1])
 
-            await channel.send('Starting Pitchers:\nYankees: ' + pitchers[0] + '\n' + 'away team' + ': ' + pitchers[1])
+            # await channel.send('Starting Pitchers:\nYankees: ' + pitchers[0] + '\n' + 'away team' + ': ' + pitchers[1])
             
-            lineup_list.pop(0)
-            lineup_list.pop(0)
-            n = 9
-            home_list = lineup_list[n:]
-            away_list = lineup_list[:-n]
+            # lineup_list.pop(0)
+            # lineup_list.pop(0)
+            # n = 9
+            # home_list = lineup_list[n:]
+            # away_list = lineup_list[:-n]
 
-            away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
-            await channel.send(away_lineup)
+            # away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+            # await channel.send(away_lineup)
 
-            home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-            await channel.send(home_lineup)
+            # home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+            # await channel.send(home_lineup)
 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
