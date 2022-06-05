@@ -181,8 +181,7 @@ class EmbedFunctions:
         scheduled_embed.color = discord.Color.dark_blue()
         scheduled_embed.add_field(name = 'Game Status:', value = game['status'], inline = False)
         scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET'), inline = False)
-        #print(game_time_local.strftime('%-I:%M%p' + ' ET'))
-        print(game_time_local)
+        
         if not home_prob:
             home_prob = 'Unannounced'
         
@@ -194,6 +193,7 @@ class EmbedFunctions:
         scheduled_embed.add_field(name = away_team_short + ' Probable:', value = away_prob, inline = True)
 
         await message.channel.send(content = 'Scheduled Game on ' + game_time_local.strftime('%m/%d/%Y') + ':', embed = scheduled_embed)
+        print('hello')
 
     async def final_game_embed(self, game, message):
         if type(game) == list:
