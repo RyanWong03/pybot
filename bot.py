@@ -569,7 +569,7 @@ class Bot(discord.Client):
                 pitchers.append(lineup_list[0])
                 pitchers.append(lineup_list[1])
                 
-                await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[1] + '\n' + str(home_team) + ': ' + pitchers[0])
+                #await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[1] + '\n' + str(home_team) + ': ' + pitchers[0])
 
                 lineup_list.pop(0)
                 lineup_list.pop(0)
