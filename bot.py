@@ -521,7 +521,7 @@ class Bot(discord.Client):
         away_team = None
         team_index = None
         away_score = 2
-        home_score = 0
+        home_score = 2
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
         soup_lineup = BeautifulSoup(r.text, 'lxml') 
@@ -556,10 +556,10 @@ class Bot(discord.Client):
                     away_score = away_team_score
                     break
                     
-                # if home_score != home_team_score:
-                #     print('home score diff')
-                #     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-                #     home_score = home_team_score
+                if home_score != home_team_score:
+                    print('home score diff')
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    home_score = home_team_score
                     
             #if now.minute == '535353' or now.minute == 534545:
                 # for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
