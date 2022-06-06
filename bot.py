@@ -543,9 +543,9 @@ class Bot(discord.Client):
         while var < 1:
 
             now = datetime.datetime.now()
-            if now.hour == 9 or now.hour == '9':
+            if now.minute == 22 or now.minute == '22':
                 await channel.send('9PM')
-                break
+                var = 1
             # if away_team == True:
             #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
             #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
