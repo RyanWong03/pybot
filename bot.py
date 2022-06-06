@@ -513,36 +513,36 @@ class Bot(discord.Client):
         print('Bot is ready.')
         #await dm.send('I will be sending you the Mets lineup in a few minutes.')
         var = 0
-        # mlb_url = 'https://www.mlb.com/'
-        # req = requests.get(mlb_url)
-        # soup = BeautifulSoup(req.text, 'html.parser')
-        # num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
-        # teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
-        # away_team = None
-        # team_index = None
-        # away_score = 0
-        # home_score = 0
-        # lineup_url = "https://www.baseballpress.com/lineups/" 
-        # r = requests.get(lineup_url)
-        # soup_lineup = BeautifulSoup(r.text, 'lxml') 
-        # lineup_list = []
-        # pitchers = []
+        mlb_url = 'https://www.mlb.com/'
+        req = requests.get(mlb_url)
+        soup = BeautifulSoup(req.text, 'html.parser')
+        num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
+        teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
+        away_team = None
+        team_index = None
+        away_score = 0
+        home_score = 0
+        lineup_url = "https://www.baseballpress.com/lineups/" 
+        r = requests.get(lineup_url)
+        soup_lineup = BeautifulSoup(r.text, 'lxml') 
+        lineup_list = []
+        pitchers = []
 
-        # for tea in range(num_teams):
-        #     if teamtest[tea].get_text() == 'Cardinals':
-        #         team_index = tea
-        #         if team_index % 2 == 0:
-        #             away_team = True
-        #         else:
-        #             away_team = False
+        for tea in range(num_teams):
+            if teamtest[tea].get_text() == 'Cardinals':
+                team_index = tea
+                if team_index % 2 == 0:
+                    away_team = True
+                else:
+                    away_team = False
 
-        # target_date_time = datetime.datetime.now()
-        # team_selected = await self.testFunctions.get_team_no_msg('cardinals')
-        # queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
+        target_date_time = datetime.datetime.now()
+        team_selected = await self.testFunctions.get_team_no_msg('cardinals')
+        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
     
         while var < 1:
             now = datetime.datetime.now()
-            if now.minute == 22 or now.minute == '22':
+            if now.minute == 28 or now.minute == '28':
                 await channel.send('9PM')
                 var = 1
         # if away_team == True:
