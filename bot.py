@@ -536,7 +536,7 @@ class Bot(discord.Client):
                     away_team = False
 
         target_date_time = datetime.datetime.now()
-        team_selected = await self.testFunctions.get_team_no_msg('Cardinals')
+        team_selected = await self.testFunctions.get_team_no_msg('kldsjfkldsfj')
         te = await self.testFunctions.get_team_no_msg('cubs')
         q = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
