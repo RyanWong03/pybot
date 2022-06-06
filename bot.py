@@ -542,7 +542,7 @@ class Bot(discord.Client):
         while var < 1:
             now = datetime.datetime.now()
             await channel.send('nube')
-            if now.minute == 20 or now.minute == '20':
+            if now.minute == 17 or now.minute == '17':
                 await channel.send('Time reached')
                 var = 1
             # if away_team == True:
