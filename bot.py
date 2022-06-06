@@ -508,7 +508,7 @@ class Bot(discord.Client):
     async def on_ready(self):
         user_id = 538897701522112514
         dm = client.get_user(int(538897701522112514))
-        channel = client.get_channel(789273776105193472) 
+        channel = client.get_channel(983204319564288151) 
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         print('Bot is ready.')
         #await dm.send('I will be sending you the Mets lineup in a few minutes.')
@@ -541,8 +541,8 @@ class Bot(discord.Client):
     
         while var < 1:
             now = datetime.datetime.now()
-            if now.minute == 59 or now.minute == '59':
-                await channel.send('9PM')
+            if now.minute == 20 or now.minute == '20':
+                await channel.send('Time reached')
                 var = 1
             # if away_team == True:
             #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
