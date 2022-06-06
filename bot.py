@@ -520,7 +520,7 @@ class Bot(discord.Client):
         teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
         away_team = None
         team_index = None
-        away_score = 2
+        away_score = 0
         home_score = 2
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
@@ -551,7 +551,8 @@ class Bot(discord.Client):
                 home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
                 if away_score != away_team_score:
                     print('away score diff')
-                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    print(queried_schedule)
+                    #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     away_score = away_team_score
                     break
                     
