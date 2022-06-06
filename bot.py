@@ -530,7 +530,7 @@ class Bot(discord.Client):
         lineup_list = []
         pitchers = []
         for tea in range(num_teams):
-            if teamtest[tea].get_text() == 'D-backs':
+            if teamtest[tea].get_text() == 'Mets':
                 team_index = tea
                 if team_index % 2 == 0:
                     away_team = True
@@ -538,13 +538,13 @@ class Bot(discord.Client):
                     away_team = False
 
         target_date_time = datetime.datetime.now()
-        team_selected = await self.testFunctions.get_team_no_msg('d-backs')
+        team_selected = await self.testFunctions.get_team_no_msg('mets')
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
     
         while var < 1:
             now = datetime.datetime.now()
             #hour is 4 hours ahead of EST
-            if away_team == True and now.hour >= 22 <= 24:
+            if away_team == True and now.hour >= 2 <= 6:
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
@@ -557,8 +557,8 @@ class Bot(discord.Client):
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
                     
-            if now.hour == 22 and hr < 1:
-                for item in soup_lineup.select("[data-league='NL']:-soup-contains('Reds') .player > a.player-link"):
+            if now.hour == 1 and hr < 1:
+                for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
                         lineup_list.append(player_name)
@@ -583,8 +583,6 @@ class Bot(discord.Client):
                 await channel.send(home_lineup)
                 hr = 1
                 
-
-
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
             return
