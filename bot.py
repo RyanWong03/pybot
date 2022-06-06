@@ -540,9 +540,9 @@ class Bot(discord.Client):
         team_selected = await self.testFunctions.get_team_no_msg('d-backs')
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
     
-        while var < 1:
-            now = datetime.datetime.now()
-            await dump.send(now.hour)
+        # while var < 1:
+        #     now = datetime.datetime.now()
+        #     await dump.send(now.hour)
             # if now.minute == 17 or now.minute == '17':
             #     await channel.send('Time reached')
             #     var = 1
