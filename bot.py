@@ -528,7 +528,7 @@ class Bot(discord.Client):
         lineup_list = []
         pitchers = []
         for tea in range(num_teams):
-            if teamtest[tea].get_text() == 'Cardinals':
+            if teamtest[tea].get_text() == 'D-backs':
                 team_index = tea
                 if team_index % 2 == 0:
                     away_team = True
@@ -536,36 +536,32 @@ class Bot(discord.Client):
                     away_team = False
 
         target_date_time = datetime.datetime.now()
-        team_selected = await self.testFunctions.get_team_no_msg('cardinals')
-        te = await self.testFunctions.get_team_no_msg('cubs')
-        q = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
+        team_selected = await self.testFunctions.get_team_no_msg('d-backs')
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
-        print(len(queried_schedule))
-        print(len(q))
     
-        # while var < 1:
-        #     # now = datetime.datetime.now()
-        #     # if now.minute == 28 or now.minute == '28':
-        #     #     await channel.send('9PM')
-        #     #     var = 1
-        #     if away_team == True:
-        #         visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-        #         home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-        #         away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
-        #         home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
-        #         if away_score != away_team_score:
-        #             print('away score diff')
-        #             print(queried_schedule)
-        #             #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-        #             away_score = away_team_score
-        #             break
+        while var < 1:
+            now = datetime.datetime.now()
+            if now.minute == 59 or now.minute == '59':
+                await channel.send('9PM')
+                var = 1
+            # if away_team == True:
+            #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+            #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+            #     away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
+            #     home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
+            #     if away_score != away_team_score:
+            #         print('away score diff')
+            #         print(queried_schedule)
+            #         #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+            #         away_score = away_team_score
+            #         break
                     
-        #         if home_score != home_team_score:
-        #             print('home score diff')
-        #             print(queried_schedule)
-        #             #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-        #             home_score = home_team_score
-        #             break
+            #     if home_score != home_team_score:
+            #         print('home score diff')
+            #         print(queried_schedule)
+            #         #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+            #         home_score = home_team_score
+            #         break
                     
             #if now.minute == '535353' or now.minute == 534545:
                 # for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
