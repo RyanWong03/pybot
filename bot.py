@@ -509,6 +509,7 @@ class Bot(discord.Client):
         user_id = 538897701522112514
         dm = client.get_user(int(538897701522112514))
         channel = client.get_channel(983204319564288151) 
+        dump = client.get_channel(983209443770642462)
         await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
         print('Bot is ready.')
         #await dm.send('I will be sending you the Mets lineup in a few minutes.')
@@ -541,28 +542,22 @@ class Bot(discord.Client):
     
         while var < 1:
             now = datetime.datetime.now()
-            await channel.send('nube')
-            if now.minute == 17 or now.minute == '17':
-                await channel.send('Time reached')
-                var = 1
-            # if away_team == True:
-            #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-            #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-            #     away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
-            #     home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
-            #     if away_score != away_team_score:
-            #         print('away score diff')
-            #         print(queried_schedule)
-            #         #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-            #         away_score = away_team_score
-            #         break
+            await dump.send('message')
+            # if now.minute == 17 or now.minute == '17':
+            #     await channel.send('Time reached')
+            #     var = 1
+            if away_team == True:
+                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+                away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
+                home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
+                if away_score != away_team_score:
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    away_score = away_team_score
                     
-            #     if home_score != home_team_score:
-            #         print('home score diff')
-            #         print(queried_schedule)
-            #         #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-            #         home_score = home_team_score
-            #         break
+                if home_score != home_team_score:
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    home_score = home_team_score
                     
             #if now.minute == '535353' or now.minute == 534545:
                 # for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
