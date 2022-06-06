@@ -557,7 +557,8 @@ class Bot(discord.Client):
                     
                 if home_score != home_team_score:
                     print('home score diff')
-                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    print(queried_schedule)
+                    #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
                     break
                     
