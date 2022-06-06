@@ -527,7 +527,6 @@ class Bot(discord.Client):
         soup_lineup = BeautifulSoup(r.text, 'lxml') 
         lineup_list = []
         pitchers = []
-        #fdfsd
         for tea in range(num_teams):
             if teamtest[tea].get_text() == 'Cardinals':
                 team_index = tea
