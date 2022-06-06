@@ -539,11 +539,12 @@ class Bot(discord.Client):
         team_selected = await self.testFunctions.get_team_no_msg('d-backs')
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
     
-        # while var < 1:
-        #     now = datetime.datetime.now()
-        #     if now.minute == 20 or now.minute == '20':
-        #         await channel.send('Time reached')
-        #         var = 1
+        while var < 1:
+            now = datetime.datetime.now()
+            await channel.send('nube')
+            if now.minute == 20 or now.minute == '20':
+                await channel.send('Time reached')
+                var = 1
             # if away_team == True:
             #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
             #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
