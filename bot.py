@@ -560,6 +560,7 @@ class Bot(discord.Client):
                     print('home score diff')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
+                    break
                     
             #if now.minute == '535353' or now.minute == 534545:
                 # for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
