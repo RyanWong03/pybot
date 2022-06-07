@@ -543,7 +543,7 @@ class Bot(discord.Client):
         while var < 1:
             await dump.send('msg')
             now = datetime.datetime.now()
-            if now.minute == 45:
+            if now.minute == 58 and away_score != 0:
                 await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                 break
             # if away_team == True and 2 <= now.hour <= 8:
