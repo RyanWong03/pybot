@@ -528,16 +528,13 @@ class Bot(discord.Client):
         soup_lineup = BeautifulSoup(r.text, 'lxml') 
         lineup_list = []
         pitchers = []
-        y = 0
         for tea in range(num_teams):
             if teamtest[tea].get_text() == 'Mets':
                 team_index = tea
-                y += 1
                 if team_index % 2 == 0:
                     away_team = True
                 else:
                     away_team = False
-            await channel.send(y)
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('mets')
