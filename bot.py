@@ -532,12 +532,13 @@ class Bot(discord.Client):
         for tea in range(num_teams):
             if teamtest[tea].get_text() == 'Rangers':
                 team_index = tea
+                c += 1
                 await channel.send('rangers index' + str(team_index))
                 if team_index % 2 == 0:
                     away_team = True
                 else:
                     away_team = False
-                break
+            await channel.send(c)
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('rangers')
