@@ -544,7 +544,7 @@ class Bot(discord.Client):
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
             if away_team == True and 19 <= now.hour <= 23:
-                #
+                
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
