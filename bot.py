@@ -554,6 +554,7 @@ class Bot(discord.Client):
                     
                 if home_score != home_team_score:
                     await channel.send('home scored')
+                    print('score')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
                     
