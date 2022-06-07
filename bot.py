@@ -558,6 +558,8 @@ class Bot(discord.Client):
                     home_score = home_team_score
                     
             if now.hour == 1 and hr < 1:
+                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
