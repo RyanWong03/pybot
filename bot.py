@@ -174,8 +174,6 @@ class EmbedFunctions:
         if game_type != 'S':
             scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
             scoringPlays = scoringPlaysList['plays']
-            await channel.send(scoringPlays)
-            print(len(scoringPlays))
             if len(scoringPlays) > 0:
                 scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
                                      inline=False)
@@ -542,8 +540,6 @@ class Bot(discord.Client):
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('mets')
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
-        away_team_core = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[6].get_text())
-        home_team_core = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
         while var < 1:
             now = datetime.datetime.now()
             #hour is 4 hours ahead of EST
