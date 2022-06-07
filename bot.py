@@ -175,8 +175,9 @@ class EmbedFunctions:
             scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
             scoringPlays = scoringPlaysList['plays']
 
-            # if len(scoringPlays) > 0:
-            scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
+            print(len(scoringPlays))
+            if len(scoringPlays) > 0:
+                scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
                                      inline=False)
             await channel.send(embed=scoring_embed, tts=False)
             return
