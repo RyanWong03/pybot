@@ -532,6 +532,7 @@ class Bot(discord.Client):
         for tea in range(num_teams):
             if teamtest[tea].get_text() == 'Mets':
                 team_index = tea
+                await channel.send(team_index)
                 if team_index % 2 == 0:
                     away_team = True
                 else:
