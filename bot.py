@@ -523,6 +523,7 @@ class Bot(discord.Client):
         team_index = None
         away_score = 3
         home_score = 0
+        c = 0
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
         soup_lineup = BeautifulSoup(r.text, 'lxml') 
@@ -548,6 +549,10 @@ class Bot(discord.Client):
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[6].get_text())
                 home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
+                if now.minute == 35 and c < 1:
+                    await channel.send('hi')
+                    c = 1
+
                 if away_score != away_team_score:
                     print('mets score1')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
