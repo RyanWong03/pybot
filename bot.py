@@ -521,7 +521,7 @@ class Bot(discord.Client):
         teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
         away_team = None
         team_index = None
-        away_score = 0
+        away_score = 3
         home_score = 0
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
@@ -540,6 +540,7 @@ class Bot(discord.Client):
         team_selected = await self.testFunctions.get_team_no_msg('mets')
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
         while var < 1:
+            await dump.send('msg')
             now = datetime.datetime.now()
             #hour is 4 hours ahead of EST
             if away_team == True and 2 <= now.hour <= 8:
@@ -548,12 +549,11 @@ class Bot(discord.Client):
                 away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[6].get_text())
                 home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
                 if away_score != away_team_score:
-                    await channel.send('away scored')
+                    print('mets score')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     away_score = away_team_score
                     
                 if home_score != home_team_score:
-                    await channel.send('home scored')
                     print('score')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
