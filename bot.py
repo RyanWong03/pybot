@@ -539,13 +539,12 @@ class Bot(discord.Client):
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('mets')
-        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
+        queried_schedule = statsapi.schedule(date = target_date_time.strftime('2022-06-06'), team = int(team_selected['id'])) #'%Y-%m-%d
         while var < 1:
             await dump.send('msg')
             now = datetime.datetime.now()
-            if now.minute == 30:
-                await channel.send('time reached')
-                break
+            if now.minute == 45:
+                await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
             # if away_team == True and 2 <= now.hour <= 8:
             #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
             #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
