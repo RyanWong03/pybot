@@ -538,7 +538,8 @@ class Bot(discord.Client):
                     away_team = True
                 else:
                     away_team = False
-            await channel.send(c)
+        
+        await channel.send(num_teams)
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('rangers')
