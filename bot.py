@@ -522,7 +522,7 @@ class Bot(discord.Client):
         away_team = None
         team_index = None
         away_score = 0
-        home_score = 2
+        home_score = 0
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
         soup_lineup = BeautifulSoup(r.text, 'lxml') 
@@ -549,7 +549,7 @@ class Bot(discord.Client):
                 home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
                 if away_score != away_team_score:
                     await channel.send('away scored')
-                    #await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     away_score = away_team_score
                     
                 if home_score != home_team_score:
