@@ -346,7 +346,6 @@ class EmbedFunctions:
                 if len(scoringPlays) > 1:
                     scoreEmbed.set_footer(text='Reply with \'more\' in 30 seconds to see all scoring plays')
             await message.channel.send(embed=scoreEmbed, tts=False)
-            await message.channel.send(statsapi.linescore(game['game_id']))
 
             if len(scoringPlays) > 1:
                 if await self.testFunctions.wait_for_response(message, 'more', 30):
@@ -546,11 +545,12 @@ class Bot(discord.Client):
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
             if away_team == True and 19 <= now.hour <= 23:
-                
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-                away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
-                home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
+                # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
+                # home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
+                away_team_score = queried_schedule[0]['away_score']
+                home_team_score = queried_schedule[0]['home_score']
                 if away_score != away_team_score:
                     print('mets score1')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
