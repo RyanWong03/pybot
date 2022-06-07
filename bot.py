@@ -346,6 +346,7 @@ class EmbedFunctions:
                 if len(scoringPlays) > 1:
                     scoreEmbed.set_footer(text='Reply with \'more\' in 30 seconds to see all scoring plays')
             await message.channel.send(embed=scoreEmbed, tts=False)
+            await message.channel.send(statsapi.linescore(game['game_id']))
 
             if len(scoringPlays) > 1:
                 if await self.testFunctions.wait_for_response(message, 'more', 30):
