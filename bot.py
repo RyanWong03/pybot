@@ -541,9 +541,8 @@ class Bot(discord.Client):
 
         target_date_time = datetime.datetime.now()
         team_selected = await self.testFunctions.get_team_no_msg('mets')
-        await channel.send(team_selected)
-        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
-        
+        queried_schedule = statsapi.schedule(date = target_date_time.strftime('2022-06-06'), team = int(team_selected['id']))
+        await channel.send(queried_schedule)
         away_team_core = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[6].get_text())
         home_team_core = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
         print('mets' + str(away_team_core))
@@ -551,18 +550,18 @@ class Bot(discord.Client):
         while var < 1:
             now = datetime.datetime.now()
             #hour is 4 hours ahead of EST
-            # if away_team == True and 2 <= now.hour <= 8:
-            #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-            #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-            #     away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[6].get_text())
-            #     home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
-            #     if away_score != away_team_score:
-            #         await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-            #         away_score = away_team_score
+            if away_team == True and 2 <= now.hour <= 8:
+                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+                away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[6].get_text())
+                home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
+                if away_score != away_team_score:
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    away_score = away_team_score
                     
-            #     if home_score != home_team_score:
-            #         await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-            #         home_score = home_team_score
+                if home_score != home_team_score:
+                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                    home_score = home_team_score
                     
             if now.hour == 1 and hr < 1:
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
