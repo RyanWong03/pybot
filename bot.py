@@ -539,9 +539,9 @@ class Bot(discord.Client):
                 else:
                     away_team = False
 
-        target_date_time = datetime.datetime.now()
+        target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('mets')
-        queried_schedule = statsapi.schedule(date = target_date_time.strftime(queried_schedule[0]['game_date']), team = int(team_selected['id']))
+        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
         away_team_core = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[6].get_text())
         home_team_core = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
         while var < 1:
