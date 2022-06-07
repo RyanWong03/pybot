@@ -542,7 +542,7 @@ class Bot(discord.Client):
         while var < 1:
             await dump.send('msg')
             now = datetime.datetime.now()
-            #hour is 4 hours ahead of EST
+            #hour is 4 hours ahead of ES
             if away_team == True and 2 <= now.hour <= 8:
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
