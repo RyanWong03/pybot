@@ -545,6 +545,7 @@ class Bot(discord.Client):
             now = datetime.datetime.now()
             if now.minute == 45:
                 await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+                break
             # if away_team == True and 2 <= now.hour <= 8:
             #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
             #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
