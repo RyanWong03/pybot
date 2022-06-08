@@ -657,8 +657,8 @@ class Bot(discord.Client):
             mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
             yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
             mets_new_hour = mets_game_time_local - timedelta(hours=4)
-            yankees_new_minute = yankees_game_time_local - timedelta(minutes=10)
-            mets_new_minute = mets_game_time_local - timedelta(minutes=10)
+            yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
+            mets_new_minute = mets_game_time_local - timedelta(minutes=5)
             yankees_visitors = yankees_schedule[0]['away_name']
             yankees_home_team = yankees_schedule[0]['home_name']
             mets_visitors = mets_schedule[0]['away_name']
@@ -730,11 +730,11 @@ class Bot(discord.Client):
                 if now.hour != (mets_new_hour.hour - 1):
                     hour_var = 0
             
-            if ((now.minute == (yankees_new_minute)) and (now.hour == (yankees_new_hour)) and t < 1):
+            if (((now.minute == (yankees_new_minute)) and (now.hour == (yankees_new_hour))) and t < 1):
                 await channel.send('**' + str(yankees_visitors) + '** vs ** ' + str(yankees_home_team) + '** starts soon.**')
                 t = 1
                 
-            if ((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))) and t < 1:
+            if (((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))) and t < 1):
                 await channel.send('**' + str(mets_visitors) + '** vs **' + str(mets_home_team) + '** starts soon.**')
                 t = 1
             if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:
