@@ -565,9 +565,11 @@ class Bot(discord.Client):
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
             game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
-            print(game_time_local)
-            print(game_time_local.strftime('%-I:%M%p'))
-            print(game_time_local.hour)
+            new_hour = game_time_local - timedelta(hours=4)
+            print(new_hour)
+            # print(game_time_local)
+            # print(game_time_local.strftime('%-I:%M%p'))
+            # print(game_time_local.hour)
             break
             if away_team == True and (game_time_local.hour <= now.hour <= (game_time_local.hour + 4)):
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
