@@ -567,6 +567,7 @@ class Bot(discord.Client):
             game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
             print(game_time_local)
             print(game_time_local.strftime('%-I:%M%p'))
+            print(game_time_local.hour)
             break
             if away_team == True and 19 <= now.hour <= 24:
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
