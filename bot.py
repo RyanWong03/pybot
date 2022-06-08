@@ -530,7 +530,7 @@ class Bot(discord.Client):
         lineup_list = []
         pitchers = []
         for tea in range(num_teams):
-            if teamtest[tea].get_text() == 'D-backs':
+            if teamtest[tea].get_text() == 'Yankees':
                 team_index = tea
                 await channel.send(team_index)
                 # if team_index % 2 == 0:
@@ -539,7 +539,7 @@ class Bot(discord.Client):
                 #     away_team = False
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
-        team_selected = await self.testFunctions.get_team_no_msg('diamondbacks')
+        team_selected = await self.testFunctions.get_team_no_msg('yankees')
         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
         while var < 1:
             await dump.send('msg')
