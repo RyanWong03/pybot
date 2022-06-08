@@ -195,7 +195,7 @@ class EmbedFunctions:
         box_score_embed.type = 'rich'
         box_score_embed.color = discord.Color.dark_blue()
 
-        for pitcher in range(len(away_box - 1)):
+        for pitcher in range(len(away_box) - 1):
             box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['ip'], inline=True)
             #box_score_embed.add_field(name = away_box[pitcher]['ip'], inline = True)
 
