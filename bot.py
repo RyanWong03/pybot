@@ -530,7 +530,7 @@ class Bot(discord.Client):
         lineup_list = []
         pitchers = []
         for tea in range(num_teams):
-            if teamtest[tea].get_text() == 'Yankees':
+            if teamtest[tea].get_text() == 'Mets':
                 team_index = tea
                 await channel.send(team_index)
                 # if team_index % 2 == 0:
@@ -539,20 +539,18 @@ class Bot(discord.Client):
                 #     away_team = False
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
-        team_selected = await self.testFunctions.get_team_no_msg('yankees')
-        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
+        team_selected = await self.testFunctions.get_team_no_msg('mets')
         while var < 1:
+            queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
-            if away_team == True and 19 <= now.hour <= 23:
+            if away_team == True and 19 <= now.hour <= 24:
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
                 # home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
                 away_team_score = int(queried_schedule[0]['away_score'])
                 home_team_score = int(queried_schedule[0]['home_score'])
-                await dump.send('away score' + str(away_team_score))
-                await dump.send('home score' + str(home_team_score))
                 if away_score != away_team_score:
                     print('mets score1')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
