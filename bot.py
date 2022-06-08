@@ -510,6 +510,15 @@ class EmbedFunctions:
             await message.channel.send(embed=playoffEmbed)
         except ConnectionError as ce:
             print('DEBUG: Request failed in playoff_Series_Embed | {}'.format(ce))
+    
+    # async def team_notifications(team, channel_id, message):
+    #     testFunctions = TestFunctions()
+    #     channel = client.get_channel(int(channel_id))
+    #     lineup_url = "https://www.baseballpress.com/lineups/" 
+    #     r = requests.get(lineup_url)
+    #     soup_lineup = BeautifulSoup(r.text, 'lxml') 
+    #     lineup_list = []
+    #     pitchers = []
 
 # @client.event
 # async def on_ready():
@@ -522,10 +531,6 @@ class EmbedFunctions:
 #     await discordUser.send('Bot Online')
 #     print('Bot is ready.')
 
-# async def live_scores(game, channel_id):
-#     embedFunctions = EmbedFunctions()
-#     testFunctions = TestFunctions()
-#     channel = client.get_channel(int(channel_id))
 class Bot(discord.Client):
     embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
@@ -561,10 +566,10 @@ class Bot(discord.Client):
         #         #     away_team = True
         #         # else:
         #         #     away_team = False
-
-        target_date_time = datetime.datetime.now() - timedelta(hours=4)
-        team_selected = await self.testFunctions.get_team_no_msg('yankees')
+        
         while var < 1:
+            target_date_time = datetime.datetime.now() - timedelta(hours=4)
+            team_selected = await self.testFunctions.get_team_no_msg('yankees')
             queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
