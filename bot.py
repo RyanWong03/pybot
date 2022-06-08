@@ -199,7 +199,8 @@ class EmbedFunctions:
             box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['ip'], inline=True)
             #box_score_embed.add_field(name = away_box[pitcher]['ip'], inline = True)
 
-        await channel.send(content = 'Box Scores ', embed = box_score_embed)
+        #await channel.send(content = 'Box Scores ', embed = box_score_embed)
+        await channel.send(away_team)
 
     async def scheduled_game_embed(self, game, message):
         if type(game) == list:
