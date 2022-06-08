@@ -551,7 +551,7 @@ class Bot(discord.Client):
         lineup_list = []
         pitchers = []
         for tea in range(num_teams):
-            if teamtest[tea].get_text() == 'Mets':
+            if teamtest[tea].get_text() == 'Tigers':
                 team_index = tea
                 # if team_index % 2 == 0:
                 #     away_team = True
@@ -559,17 +559,17 @@ class Bot(discord.Client):
                 #     away_team = False
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
-        team_selected = await self.testFunctions.get_team_no_msg('yankees')
+        team_selected = await self.testFunctions.get_team_no_msg('pirates')
         while var < 1:
             queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
             game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
-            print(game_time_local)
-            print(game_time_local.strftime('%-I:%M%p'))
-            print(game_time_local.hour)
-            break
-            if away_team == True and 19 <= now.hour <= 24:
+            # print(game_time_local)
+            # print(game_time_local.strftime('%-I:%M%p'))
+            # print(game_time_local.hour)
+            # break
+            if away_team == True and (game_time_local.hour <= now.hour <= (game_time_local.hour + 4)):
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
@@ -585,39 +585,11 @@ class Bot(discord.Client):
                     print('score')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
-                    
-            if now.hour == 18 and hr < 1:
+
+            if now.hour == (game_time_local.hour - 1):
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-                for item in soup_lineup.select("[data-league='NL']:-soup-contains('Reds') .player > a.player-link"):
-                    if item.get('data-razz') == '':
-                        player_name = 'Unknown Player'
-                        lineup_list.append(player_name)
-                    else:
-                        player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                        lineup_list.append(player_name)
-                pitchers.append(lineup_list[0])
-                pitchers.append(lineup_list[1])
-                
-                await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[1] + '\n' + str(home_team) + ': ' + pitchers[0])
-
-                lineup_list.pop(0)
-                lineup_list.pop(0)
-                n = 9
-                home_list = lineup_list[n:]
-                away_list = lineup_list[:-n]
-
-                away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
-                await channel.send(away_lineup)
-
-                home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-                await channel.send(home_lineup)
-                hr = 1
-            
-            if now.hour == 19 and hr < 5:
-                visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-                home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-                for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
+                for item in soup_lineup.select("[data-league='NL']:-soup-contains('Pirates') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
                         lineup_list.append(player_name)
@@ -640,7 +612,7 @@ class Bot(discord.Client):
 
                 home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                 await channel.send(home_lineup)
-                hr = 5
+                time.sleep(3600)
                 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
