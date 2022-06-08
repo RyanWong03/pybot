@@ -729,9 +729,9 @@ class Bot(discord.Client):
                 if now.hour != (mets_new_hour.hour - 1):
                     hour_var = 0
             
-            if (now.minute == (yankees_new_minute)):
+            if ((now.minute == (yankees_new_minute)) and (now.hour == (yankees_new_hour))):
                 await channel.send('**' + str(yankees_visitors) + '** vs ** ' + str(yankees_home_team) + '** starts soon.**')
-            if (now.minute == (mets_new_minute)):
+            if ((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))):
                 await channel.send('**' + str(mets_visitors) + '** vs **' + str(mets_home_team) + '** starts soon.**')
             if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
