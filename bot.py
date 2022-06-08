@@ -565,6 +565,7 @@ class Bot(discord.Client):
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
             game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
+            print(game_time_local)
             print(game_time_local.strftime('%-I:%M%p'))
             break
             if away_team == True and 19 <= now.hour <= 24:
