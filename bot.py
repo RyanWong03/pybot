@@ -637,6 +637,7 @@ class Bot(discord.Client):
         pitchers = []
         hour_var = 0
         t = 0
+        y = 0
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
@@ -733,10 +734,16 @@ class Bot(discord.Client):
             if (((now.minute == (yankees_new_minute)) and (now.hour == (yankees_new_hour))) and t < 1):
                 await channel.send('**' + str(yankees_visitors) + '** vs ** ' + str(yankees_home_team) + '** starts soon.**')
                 t = 1
+
+                if now.hour != yankees_new_hour:
+                    t = 0
                 
-            if (((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))) and t < 1):
+            if (((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))) and y < 1):
                 await channel.send('**' + str(mets_visitors) + '** vs **' + str(mets_home_team) + '** starts soon.**')
-                t = 1
+                y = 1
+
+                if now.hour != mets_new_hour:
+                    y = 0
             if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
