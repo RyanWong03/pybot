@@ -556,11 +556,11 @@ class Bot(discord.Client):
 
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('yankees')
-        while var < 1:
-            queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
-            await dump.send('msg')
-            now = datetime.datetime.now() - timedelta(hours=4)
-            await self.embedFunctions.box_score(queried_schedule[0], channel)
+        # while var < 1:
+        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
+        #     await dump.send('msg')
+        now = datetime.datetime.now() - timedelta(hours=4)
+        await self.embedFunctions.box_score(queried_schedule[0], channel)
             # if away_team == True and 19 <= now.hour <= 24:
             #     visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
             #     home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
