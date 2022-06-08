@@ -683,7 +683,7 @@ class Bot(discord.Client):
                 if yankees_home_score != yankees_home_team_score:
                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
                     yankees_home_score = yankees_home_team_score
-                    
+
             if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 4)):
                 mets_away_team_score = int(mets_schedule[0]['away_score'])
                 mets_home_team_score = int(mets_schedule[0]['home_score'])
@@ -727,7 +727,7 @@ class Bot(discord.Client):
                 if now.hour != (mets_new_hour.hour - 1):
                     hour_var = 0
             
-            if (now.hour == (mets_new_hour.hour - 2)) and hour_var < 1:
+            if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 
