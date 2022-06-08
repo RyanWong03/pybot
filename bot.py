@@ -200,7 +200,7 @@ class EmbedFunctions:
             box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['ip'], inline=True)
             #box_score_embed.add_field(name = away_box[pitcher]['ip'], inline = True)
 
-        #await channel.send(content = 'Box Scores ', embed = box_score_embed)
+        await channel.send(content = 'Box Scores ', embed = box_score_embed)
         print(away_team_code)
         print(home_team_code)
 
