@@ -566,12 +566,11 @@ class Bot(discord.Client):
             now = datetime.datetime.now() - timedelta(hours=4)
             game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
             new_hour = game_time_local - timedelta(hours=4)
-            print(new_hour)
+            #print(new_hour)
             # print(game_time_local)
             # print(game_time_local.strftime('%-I:%M%p'))
             # print(game_time_local.hour)
-            break
-            if away_team == True and (game_time_local.hour <= now.hour <= (game_time_local.hour + 4)):
+            if away_team == True and (new_hour.hour <= now.hour <= (new_hour.hour + 4)):
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
@@ -588,7 +587,7 @@ class Bot(discord.Client):
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
 
-            if now.hour == (game_time_local.hour - 1):
+            if now.hour == (new_hour.hour - 1):
                 visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Pirates') .player > a.player-link"):
