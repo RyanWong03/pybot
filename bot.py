@@ -195,13 +195,13 @@ class EmbedFunctions:
         box_score_embed.title = '**' + str(away_team_code) + '** box score **' + '**'
         box_score_embed.type = 'rich'
         box_score_embed.color = discord.Color.dark_blue()
-
+        var = 1
         for pitcher in range(len(away_box)):
-            box_score_embed.add_field(name = 'Pitchers - ' + str(away_team_code), value = away_box[pitcher]['namefield'], inline=True)
-            box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['ip'], inline=True)
+            box_score_embed.add_field(name = away_box[0]['namefield'], value = away_box[0]['era'], inline=True)
+            #box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['ip'], inline=True)
             #box_score_embed.add_field(name = away_box[pitcher]['ip'], inline = True)
 
-        #await channel.send(content = 'Box Scores ', embed = box_score_embed)
+        await channel.send(content = 'Box Scores ', embed = box_score_embed)
         print(away_box)
     async def scheduled_game_embed(self, game, message):
         if type(game) == list:
