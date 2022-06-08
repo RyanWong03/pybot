@@ -184,8 +184,8 @@ class EmbedFunctions:
         if type(game) == list:
             game = game[0]
         
-        home_team = statsapi.lookup_team(game['home_name']['name'])
-        away_team = statsapi.lookup_team(game['away_name']['name'])
+        home_team = statsapi.lookup_team(game['home_name'][0]['name'])
+        away_team = statsapi.lookup_team(game['away_name'][0]['name'])
         game_id = game['game_id']
         away_box = statsapi.boxscore_data(int(game_id))['awayPitchers']
         home_box = statsapi.boxscore_data(int(game_id))['homePitchers']
