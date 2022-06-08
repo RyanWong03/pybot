@@ -511,14 +511,90 @@ class EmbedFunctions:
         except ConnectionError as ce:
             print('DEBUG: Request failed in playoff_Series_Embed | {}'.format(ce))
     
-    # async def team_notifications(team, channel_id, message):
-    #     testFunctions = TestFunctions()
+    # def get_temperature(self, city):
+    #     city = city.replace(" ", "+")
+    #     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+    #     res = requests.get(
+    #     f'https://www.google.com/search?q={city}&oq={city}&aqs=chrome.0.35i39l2j0l4j46j69i60.6128j1j7&sourceid=chrome&ie=UTF-8', headers=headers)
+    #     print("Searching...\n")
+    #     soup = BeautifulSoup(res.text, 'html.parser')
+    #     location = soup.select('#wob_loc')[0].getText().strip()
+    #     time = soup.select('#wob_dts')[0].getText().strip()
+    #     info = soup.select('#wob_dc')[0].getText().strip()
+    #     weather = soup.select('#wob_tm')[0].getText().strip()
+    #     print(location)
+    #     print(time)
+    #     print(info)
+    #     print(weather+"°C")
+    
+    # def print_temperature(self, city):
+    #     city = city + " weather"
+    #     return self.get_temperature(city)
+
+    # async def team_notifications(self, team, channel_id, message):
     #     channel = client.get_channel(int(channel_id))
     #     lineup_url = "https://www.baseballpress.com/lineups/" 
     #     r = requests.get(lineup_url)
     #     soup_lineup = BeautifulSoup(r.text, 'lxml') 
     #     lineup_list = []
     #     pitchers = []
+    #     hour_var = 0
+    #     away_team = None
+    #     while True:
+    #         target_date_time = datetime.datetime.now() - timedelta(hours=4)
+    #         team_selected = await self.testFunctions.get_team_no_msg(str(team))
+    #         queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
+    #         now = datetime.datetime.now() - timedelta(hours=4)
+    #         game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
+    #         new_hour = game_time_local - timedelta(hours=4)
+    #         visitors = queried_schedule[0]['away_name']
+    #         home_team = queried_schedule[0]['home_name']
+    #         if visitors == 'New York Yankees':
+    #             away_team = True
+    #         elif home_team == 'New York Yankees':
+    #             away_team = False
+    #         if away_team == True:
+    #             if (now.hour == (new_hour.hour - 1)) and (hour_var < 1):
+    #                 for item in soup_lineup.select("[data-league='%s']:-soup-contains('%s') .player > a.player-link" % ()):
+    #                     if item.get('data-razz') == '':
+    #                         player_name = 'Unknown Player'
+    #                         lineup_list.append(player_name)
+    #                     else:
+    #                         player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+    #                         lineup_list.append(player_name)
+    #                 pitchers.append(lineup_list[0])
+    #                 pitchers.append(lineup_list[1])
+                    
+    #                 await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[0] + '\n' + str(home_team) + ': ' + pitchers[1])
+
+    #                 lineup_list.pop(0)
+    #                 lineup_list.pop(0)
+    #                 n = 9
+    #                 home_list = lineup_list[n:]
+    #                 away_list = lineup_list[:-n]
+
+    #                 away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+    #                 await channel.send(away_lineup)
+
+    #                 home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+    #                 await channel.send(home_lineup)
+    #                 hour_var = 1
+
+    #                 if now.hour != (new_hour.hour - 1):
+    #                     hour_var = 0
+    #         elif away_team == False:
+    #             pass
+            
+    #         if (new_hour.hour <= now.hour <= (new_hour.hour + 4)):
+    #             away_team_score = int(queried_schedule[0]['away_score'])
+    #             home_team_score = int(queried_schedule[0]['home_score'])
+    #             if away_score != away_team_score:
+    #                 await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+    #                 away_score = away_team_score
+                    
+    #             if home_score != home_team_score:
+    #                 await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
+    #                 home_score = home_team_score
 
 # @client.event
 # async def on_ready():
@@ -539,7 +615,7 @@ class Bot(discord.Client):
         dm = client.get_user(int(538897701522112514))
         channel = client.get_channel(983204319564288151) 
         dump = client.get_channel(983209443770642462)
-        await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.playing, name = "$help"))
+        await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.watching, name = "you cry"))
         print('Bot is ready.')
         #await dm.send('I will be sending you the Mets lineup in a few minutes.')
         var = 0
@@ -575,6 +651,13 @@ class Bot(discord.Client):
             now = datetime.datetime.now() - timedelta(hours=4)
             game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
             new_hour = game_time_local - timedelta(hours=4)
+            visitors = queried_schedule[0]['away_name']
+            home_team = queried_schedule[0]['home_name']
+
+            if visitors == 'New York Yankees':
+                away_team = True
+            elif home_team == 'New York Yankees':
+                away_team = False
             #print(new_hour)
             # print(game_time_local)
             # print(game_time_local.strftime('%-I:%M%p'))
@@ -596,12 +679,11 @@ class Bot(discord.Client):
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
 
-            if now.hour == (new_hour.hour - 1):
+            if now.hour == (new_hour.hour - 2):
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-                visitors = queried_schedule[0]['away_name']
-                home_team = queried_schedule[0]['home_name']
-                for item in soup_lineup.select("[data-league='NL']:-soup-contains('Pirates') .player > a.player-link"):
+                
+                for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
                         lineup_list.append(player_name)
