@@ -192,13 +192,13 @@ class EmbedFunctions:
         away_box = statsapi.boxscore_data(int(game_id))['awayPitchers']
         home_box = statsapi.boxscore_data(int(game_id))['homePitchers']
         box_score_embed = discord.Embed()
-        box_score_embed.title = '**' + str(away_team_code) + '** box score **' + '**'
+        box_score_embed.title = '**' + str(away_team_code) + ' box score ' + '**'
         box_score_embed.type = 'rich'
         box_score_embed.color = discord.Color.dark_blue()
         var = 1
-        box_score_embed.add_field(name = away_box[0]['namefield'], value = None, inline=True)
+        #box_score_embed.add_field(name = away_box[0]['namefield'], value = None, inline=False)
         for pitcher in range(len(away_box)):
-            box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['era'], inline=True)
+            box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['era'], inline=False)
             #box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['ip'], inline=True)
             #box_score_embed.add_field(name = away_box[pitcher]['ip'], inline = True)
 
