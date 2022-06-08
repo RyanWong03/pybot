@@ -626,15 +626,16 @@ class Bot(discord.Client):
         num_teams = len(soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL"))
         teamtest = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")
         away_team = True
-        team_index = None
-        away_score = 0
-        home_score = 0
-        c = 0
+        yankees_away_score = 0
+        yankees_home_score = 0
+        mets_away_score = 0
+        mets_home_score = 0
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
         soup_lineup = BeautifulSoup(r.text, 'lxml') 
         lineup_list = []
         pitchers = []
+        hour_var = 0
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
@@ -645,41 +646,56 @@ class Bot(discord.Client):
         
         while var < 1:
             target_date_time = datetime.datetime.now() - timedelta(hours=4)
-            team_selected = await self.testFunctions.get_team_no_msg('yankees')
-            queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
+            yankees = await self.testFunctions.get_team_no_msg('yankees')
+            mets = await self.testFunctions.get_team_no_msg('mets')
+            mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
+            yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
-            game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
-            new_hour = game_time_local - timedelta(hours=4)
-            visitors = queried_schedule[0]['away_name']
-            home_team = queried_schedule[0]['home_name']
-
-            if visitors == 'New York Yankees':
+            yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
+            mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
+            yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
+            mets_new_hour = mets_game_time_local - timedelta(hours=4)
+            yankees_visitors = yankees_schedule[0]['away_name']
+            yankees_home_team = yankees_schedule[0]['home_name']
+            mets_visitors = mets_schedule[0]['away_name']
+            mets_home_team = mets_schedule[0]['home_name']
+            if yankees_visitors == 'New York Yankees':
                 away_team = True
-            elif home_team == 'New York Yankees':
+            elif yankees_home_team == 'New York Yankees':
                 away_team = False
             #print(new_hour)
             # print(game_time_local)
             # print(game_time_local.strftime('%-I:%M%p'))
             # print(game_time_local.hour)
-            if away_team == True and (new_hour.hour <= now.hour <= (new_hour.hour + 4)):
+            if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
                 # home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
-                away_team_score = int(queried_schedule[0]['away_score'])
-                home_team_score = int(queried_schedule[0]['home_score'])
-                if away_score != away_team_score:
-                    print('mets score1')
-                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-                    away_score = away_team_score
-                    
-                if home_score != home_team_score:
-                    print('score')
-                    await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
-                    home_score = home_team_score
+                yankees_away_team_score = int(yankees_schedule[0]['away_score'])
+                yankees_home_team_score = int(yankees_schedule[0]['home_score'])
 
-            if now.hour == (new_hour.hour - 2):
+                if yankees_away_score != yankees_away_team_score:
+                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
+                    yankees_away_score = yankees_away_team_score
+                    
+                if yankees_home_score != yankees_home_team_score:
+                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
+                    yankees_home_score = yankees_home_team_score
+                    
+            if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 4)):
+                mets_away_team_score = int(mets_schedule[0]['away_score'])
+                mets_home_team_score = int(mets_schedule[0]['home_score'])
+                if mets_away_score != mets_away_team_score:
+                    await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel)
+                    mets_away_score = mets_away_team_score
+                
+                if mets_home_score != mets_home_team_score:
+                    await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel)
+                    mets_home_score = mets_home_team_score
+
+            if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 
@@ -693,7 +709,7 @@ class Bot(discord.Client):
                 pitchers.append(lineup_list[0])
                 pitchers.append(lineup_list[1])
                 
-                await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[0] + '\n' + str(home_team) + ': ' + pitchers[1])
+                await channel.send('Starting Pitchers:\n' + str(yankees_visitors) + ': ' + pitchers[0] + '\n' + str(yankees_home_team) + ': ' + pitchers[1])
 
                 lineup_list.pop(0)
                 lineup_list.pop(0)
@@ -701,18 +717,54 @@ class Bot(discord.Client):
                 home_list = lineup_list[n:]
                 away_list = lineup_list[:-n]
 
-                away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+                away_lineup = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
                 await channel.send(away_lineup)
 
-                home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                home_lineup = """```""" + str(yankees_home_team) + """lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                 await channel.send(home_lineup)
-                time.sleep(3600)
+                hour_var = 1
+
+                if now.hour != (mets_new_hour.hour - 1):
+                    hour_var = 0
             
-            if type(queried_schedule) is list:
-                final_status_list = ["Final", "Game Over", "Completed Early"]
-                scheduled_status_list = ["Scheduled", "Pre-Game"]
-                live_status_list = ["In Progress", "Delayed"]
-                other_status_list = ["Postponed"]
+            if (now.hour == (mets_new_hour.hour - 2)) and hour_var < 1:
+                #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
+                #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
+                
+                for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
+                    if item.get('data-razz') == '':
+                        player_name = 'Unknown Player'
+                        lineup_list.append(player_name)
+                    else:
+                        player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                        lineup_list.append(player_name)
+                pitchers.append(lineup_list[0])
+                pitchers.append(lineup_list[1])
+                
+                await channel.send('Starting Pitchers:\n' + str(mets_visitors) + ': ' + pitchers[0] + '\n' + str(mets_home_team) + ': ' + pitchers[1])
+
+                lineup_list.pop(0)
+                lineup_list.pop(0)
+                n = 9
+                home_list = lineup_list[n:]
+                away_list = lineup_list[:-n]
+
+                away_lineup = """```""" + str(mets_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+                await channel.send(away_lineup)
+
+                home_lineup = """```""" + str(mets_home_team) + """lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                await channel.send(home_lineup)
+                hour_var = 1
+
+                if now.hour != (mets_new_hour.hour - 1):
+                    hour_var = 0
+                
+            
+            # #if type(queried_schedule) is list:
+            #     final_status_list = ["Final", "Game Over", "Completed Early"]
+            #     scheduled_status_list = ["Scheduled", "Pre-Game"]
+            #     live_status_list = ["In Progress", "Delayed"]
+            #     other_status_list = ["Postponed"]
 
                 # if previous_game is not None:
                 #     if previous_game['status'] == 'In Progress' and queried_schedule[0]['status'] == 'Scheduled':
