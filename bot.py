@@ -184,9 +184,10 @@ class EmbedFunctions:
         if type(game) == list:
             game = game[0]
         
-        #home_team = statsapi.lookup_team(game['home_name'][0]['name'])
-        #away_team = statsapi.lookup_team(game['away_name'][0]['name'])
+        home_team = statsapi.lookup_team(game['home_name'])
         away_team = statsapi.lookup_team(game['away_name'])
+        away_team_code = away_team[0]['fileCode'].upper()
+        home_team_code = home_team[0]['fileCode'].upper()
         game_id = game['game_id']
         away_box = statsapi.boxscore_data(int(game_id))['awayPitchers']
         home_box = statsapi.boxscore_data(int(game_id))['homePitchers']
@@ -200,7 +201,8 @@ class EmbedFunctions:
             #box_score_embed.add_field(name = away_box[pitcher]['ip'], inline = True)
 
         #await channel.send(content = 'Box Scores ', embed = box_score_embed)
-        print(away_team)
+        print(away_team_code)
+        print(home_team_code)
 
     async def scheduled_game_embed(self, game, message):
         if type(game) == list:
