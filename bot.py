@@ -551,7 +551,8 @@ class Bot(discord.Client):
                 # home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
                 away_team_score = int(queried_schedule[0]['away_score'])
                 home_team_score = int(queried_schedule[0]['home_score'])
-                #await dump.score('away score' + str(away))
+                await dump.score('away score' + str(away_team_score))
+                await dump.score('home score' + str(home_team_score))
                 if away_score != away_team_score:
                     print('mets score1')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
