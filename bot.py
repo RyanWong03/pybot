@@ -184,8 +184,8 @@ class EmbedFunctions:
         if type(game) == list:
             game = game[0]
         
-        home_team = statsapi.lookup_team(game['home_name'])
-        away_team = statsapi.lookup_team(game['away_name'])
+        home_team = statsapi.lookup_team(game['home_name']['name'])
+        away_team = statsapi.lookup_team(game['away_name']['name'])
         game_id = game['game_id']
         away_box = statsapi.boxscore_data(int(game_id))['awayPitchers']
         home_box = statsapi.boxscore_data(int(game_id))['homePitchers']
@@ -194,7 +194,7 @@ class EmbedFunctions:
         box_score_embed.type = 'rich'
         box_score_embed.color = discord.Color.dark_blue()
 
-        for pitcher in range(len(away_box)):
+        for pitcher in range(len(away_box - 1)):
             box_score_embed.add_field(name = away_box[pitcher]['namefield'], value = away_box[pitcher]['ip'], inline=True)
             #box_score_embed.add_field(name = away_box[pitcher]['ip'], inline = True)
 
@@ -557,7 +557,7 @@ class Bot(discord.Client):
         target_date_time = datetime.datetime.now() - timedelta(hours=4)
         team_selected = await self.testFunctions.get_team_no_msg('yankees')
         # while var < 1:
-        queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
+        queried_schedule = statsapi.schedule(date = target_date_time.strftime('2022-06-07'), team = int(team_selected['id'])) #'%Y-%m-%d
         #     await dump.send('msg')
         now = datetime.datetime.now() - timedelta(hours=4)
         await self.embedFunctions.box_score(queried_schedule[0], channel)
