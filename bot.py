@@ -549,8 +549,9 @@ class Bot(discord.Client):
                 home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
                 # home_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index + 1].get_text())
-                away_team_score = queried_schedule[0]['away_score']
-                home_team_score = queried_schedule[0]['home_score']
+                away_team_score = int(queried_schedule[0]['away_score'])
+                home_team_score = int(queried_schedule[0]['home_score'])
+                #await dump.score('away score' + str(away))
                 if away_score != away_team_score:
                     print('mets score1')
                     await self.embedFunctions.scoring_plays_embed(queried_schedule[0], channel)
