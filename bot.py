@@ -757,12 +757,6 @@ class Bot(discord.Client):
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=8) #changing from 4 to 8
-            yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
-            mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
-            yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
-            mets_new_hour = mets_game_time_local - timedelta(hours=4)
-            yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-            mets_new_minute = mets_game_time_local - timedelta(minutes=5)
             yankees_visitors = yankees_schedule[0]['away_name']
             yankees_home_team = yankees_schedule[0]['home_name']
             mets_visitors = mets_schedule[0]['away_name']
@@ -781,6 +775,10 @@ class Bot(discord.Client):
                 away_team = False
 
             if len(yankees_schedule) > 0:
+                yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
+                yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
+                yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
+               
                 if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                     yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                     yankees_home_team_score = int(yankees_schedule[0]['home_score'])
@@ -823,6 +821,9 @@ class Bot(discord.Client):
                         hour_var = 0
 
             if len(mets_schedule) > 0:
+                mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
+                mets_new_hour = mets_game_time_local - timedelta(hours=4)
+                mets_new_minute = mets_game_time_local - timedelta(minutes=5)
                 if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
                     mets_away_team_score = int(mets_schedule[0]['away_score'])
                     mets_home_team_score = int(mets_schedule[0]['home_score'])
