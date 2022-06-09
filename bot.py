@@ -633,11 +633,11 @@ class EmbedFunctions:
                 ):
                     continue
 
-                namefield = boxData["playerInfo"]["ID" + pitcherId]["boxscoreName"]
+                namefield = boxData["playerInfo"]["ID" + pitcherId]["fullName"]
                
                 pitcher = {
                     "namefield": namefield,
-                    "name": boxData["playerInfo"]["ID" + pitcherId]["boxscoreName"],
+                    "name": boxData["playerInfo"]["ID" + pitcherId]["fullName"],
                 }
                 pitchers[i].append(pitcher)
 
