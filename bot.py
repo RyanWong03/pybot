@@ -684,7 +684,8 @@ class EmbedFunctions:
         return boxData
 
 
-    def boxscores(self):
+    async def boxscores(self):
+        channel = client.get_channel(983204319564288151) 
         boxData = self.test()
         rowLen = 79
         fullRowLen = rowLen * 2 + 3
@@ -735,7 +736,7 @@ class EmbedFunctions:
         for i in range(1, len(awayPitchers)):
             print(awayPitchers[i]['namefield'])
             if awayPitchers[i]['namefield'] != 'Taillon':
-                print('pitching change' + awayPitchers[i]['namefield'])
+                await channel.send('pitching change' + awayPitchers[i]['namefield'])
 
 
     # def get_temperature(self, city):
@@ -862,7 +863,7 @@ class Bot(discord.Client):
         pitchers = []
         hour_var = 0
         final = 0
-        self.embedFunctions.boxscores()
+        await self.embedFunctions.boxscores()
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
@@ -894,7 +895,7 @@ class Bot(discord.Client):
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
                 yankees_away_team_code = 'NYY'#yankees_visitors[0]['fileCode'].upper()
                 yankees_home_team_code = 'NYM' #yankees_home_team[0]['fileCode'].upper()
-                yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule['game_datetime'])
+                #yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule['game_datetime'])
 
                 if yankees_visitors == 'New York Yankees':
                     away_team = True
