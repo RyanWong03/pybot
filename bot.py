@@ -734,6 +734,8 @@ class EmbedFunctions:
         awayPitchers.pop(len(awayPitchers) - 1)
         for i in range(1, len(awayPitchers)):
             print(awayPitchers[i]['namefield'])
+            if awayPitchers[i]['namefield'] != 'Taillon':
+                print('pitching change' + awayPitchers[i]['namefield'])
 
 
     # def get_temperature(self, city):
@@ -890,8 +892,8 @@ class Bot(discord.Client):
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
                 yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-                yankees_away_team_code = yankees_visitors[0]['fileCode'].upper()
-                yankees_home_team_code = yankees_home_team[0]['fileCode'].upper()
+                yankees_away_team_code = 'NYY'#yankees_visitors[0]['fileCode'].upper()
+                yankees_home_team_code = 'NYM' #yankees_home_team[0]['fileCode'].upper()
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule['game_datetime'])
 
                 if yankees_visitors == 'New York Yankees':
