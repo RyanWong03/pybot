@@ -672,7 +672,7 @@ class Bot(discord.Client):
             # print(game_time_local)
             # print(game_time_local.strftime('%-I:%M%p'))
             # print(game_time_local.hour)
-            if away_team == True and (yankees_new_hour.hour == now.hour <= (yankees_new_hour.hour + 4)):
+            if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                 print('yankees)')
                 print(yankees_new_hour.hour)
                 break
@@ -691,7 +691,7 @@ class Bot(discord.Client):
                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
                     yankees_home_score = yankees_home_team_score
 
-            if away_team == True and (mets_new_hour.hour == now.hour <= (mets_new_hour.hour + 4)):
+            if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 4)):
                 print('mets')
                 print(mets_new_hour.hour)
                 break
