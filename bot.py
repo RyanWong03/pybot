@@ -166,8 +166,8 @@ class EmbedFunctions:
         away_team = statsapi.lookup_team(game['away_name'])
         away_team_code = away_team[0]['fileCode'].upper()
         home_team_code = home_team[0]['fileCode'].upper()
-        away_team_score = int(game[0]['away_score'])
-        home_team_score = int(game[0]['home_score'])
+        away_team_score = int(game['away_score'])
+        home_team_score = int(game['home_score'])
         scoring_embed = discord.Embed()
         scoring_embed.title = '**%s Scored**' % team
         scoring_embed.type = 'rich'
@@ -632,6 +632,9 @@ class EmbedFunctions:
                 }
             )
         return boxData
+    
+    async def pitching_change(self, game, channel):
+        pass
 
     # def get_temperature(self, city):
     #     city = city.replace(" ", "+")
@@ -877,7 +880,7 @@ class Bot(discord.Client):
                     away_lineup = """```""" + str(mets_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
                     await channel.send(away_lineup)
 
-                    home_lineup = """```""" + str(mets_home_team) + """lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                    home_lineup = """```""" + str(mets_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                     await channel.send(home_lineup)
                     hour_var = 1
 
