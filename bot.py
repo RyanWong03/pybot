@@ -752,6 +752,8 @@ class Bot(discord.Client):
             yankees = await self.testFunctions.get_team_no_msg('yankees')
             mets = await self.testFunctions.get_team_no_msg('mets')
             mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
+            print(mets_schedule)
+            break
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4)
