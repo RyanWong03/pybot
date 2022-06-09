@@ -776,205 +776,205 @@ class EmbedFunctions:
         boxData.update({"away": r["liveData"]["boxscore"]["teams"]["away"]})
         boxData.update({"home": r["liveData"]["boxscore"]["teams"]["home"]})
 
-        batterColumns = [
-            {
-                "namefield": boxData["teamInfo"]["away"]["teamName"] + " Batters",
-                # "ab": "AB",
-                # "r": "R",
-                # "h": "H",
-                # "doubles": "2B",
-                # "triples": "3B",
-                # "hr": "HR",
-                # "rbi": "RBI",
-                # "sb": "SB",
-                # "bb": "BB",
-                # "k": "K",
-                # "lob": "LOB",
-                # "avg": "AVG",
-                # "ops": "OPS",
-                # "personId": 0,
-                # "substitution": False,
-                # "note": "",
-                "name": boxData["teamInfo"]["away"]["teamName"] + " Batters",
-                # "position": "",
-                # "obp": "OBP",
-                # "slg": "SLG",
-                # "battingOrder": "",
-            }
-        ]
-        # Add away and home column headers
+        # batterColumns = [
+        #     {
+        #         "namefield": boxData["teamInfo"]["away"]["teamName"] + " Batters",
+        #         # "ab": "AB",
+        #         # "r": "R",
+        #         # "h": "H",
+        #         # "doubles": "2B",
+        #         # "triples": "3B",
+        #         # "hr": "HR",
+        #         # "rbi": "RBI",
+        #         # "sb": "SB",
+        #         # "bb": "BB",
+        #         # "k": "K",
+        #         # "lob": "LOB",
+        #         # "avg": "AVG",
+        #         # "ops": "OPS",
+        #         # "personId": 0,
+        #         # "substitution": False,
+        #         # "note": "",
+        #         "name": boxData["teamInfo"]["away"]["teamName"] + " Batters",
+        #         # "position": "",
+        #         # "obp": "OBP",
+        #         # "slg": "SLG",
+        #         # "battingOrder": "",
+        #     }
+        # ]
+        # # Add away and home column headers
         sides = ["away", "home"]
-        awayBatters = copy.deepcopy(batterColumns)
-        homeBatters = copy.deepcopy(batterColumns)
-        homeBatters[0]["namefield"] = boxData["teamInfo"]["home"]["teamName"] + " Batters"
-        homeBatters[0]["name"] = boxData["teamInfo"]["home"]["teamName"] + " Batters"
-        batters = [awayBatters, homeBatters]
+        # awayBatters = copy.deepcopy(batterColumns)
+        # homeBatters = copy.deepcopy(batterColumns)
+        # homeBatters[0]["namefield"] = boxData["teamInfo"]["home"]["teamName"] + " Batters"
+        # homeBatters[0]["name"] = boxData["teamInfo"]["home"]["teamName"] + " Batters"
+        # batters = [awayBatters, homeBatters]
 
-        for i in range(0, len(sides)):
-            side = sides[i]
-            for batterId_int in [
-                x
-                for x in boxData[side]["batters"]
-                if boxData[side]["players"].get("ID" + str(x), {}).get("battingOrder")
-            ]:
-                batterId = str(batterId_int)
-                namefield = (
-                    str(boxData[side]["players"]["ID" + batterId]["battingOrder"])[0]
-                    if str(boxData[side]["players"]["ID" + batterId]["battingOrder"])[-1]
-                    == "0"
-                    else "   "
-                )
-                namefield += " " + boxData[side]["players"]["ID" + batterId]["stats"][
-                    "batting"
-                ].get("note", "")
-                namefield += (
-                    boxData["playerInfo"]["ID" + batterId]["boxscoreName"]
-                    + "  "
-                    + boxData[side]["players"]["ID" + batterId]["position"]["abbreviation"]
-                )
-                if not len(
-                    boxData[side]["players"]["ID" + batterId]
-                    .get("stats", {})
-                    .get("batting", {})
-                ):
-                    # Protect against player with no batting data in the box score (#37)
-                    continue
+        # for i in range(0, len(sides)):
+        #     side = sides[i]
+        #     for batterId_int in [
+        #         x
+        #         for x in boxData[side]["batters"]
+        #         if boxData[side]["players"].get("ID" + str(x), {}).get("battingOrder")
+        #     ]:
+        #         batterId = str(batterId_int)
+        #         namefield = (
+        #             str(boxData[side]["players"]["ID" + batterId]["battingOrder"])[0]
+        #             if str(boxData[side]["players"]["ID" + batterId]["battingOrder"])[-1]
+        #             == "0"
+        #             else "   "
+        #         )
+        #         namefield += " " + boxData[side]["players"]["ID" + batterId]["stats"][
+        #             "batting"
+        #         ].get("note", "")
+        #         namefield += (
+        #             boxData["playerInfo"]["ID" + batterId]["boxscoreName"]
+        #             + "  "
+        #             + boxData[side]["players"]["ID" + batterId]["position"]["abbreviation"]
+        #         )
+        #         if not len(
+        #             boxData[side]["players"]["ID" + batterId]
+        #             .get("stats", {})
+        #             .get("batting", {})
+        #         ):
+        #             # Protect against player with no batting data in the box score (#37)
+        #             continue
 
-                batter = {
-                    "namefield": namefield,
-                    # "ab": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "atBats"
-                    #     ]
-                    # ),
-                    # "r": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "runs"
-                    #     ]
-                    # ),
-                    # "h": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "hits"
-                    #     ]
-                    # ),
-                    # "doubles": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "doubles"
-                    #     ]
-                    # ),
-                    # "triples": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "triples"
-                    #     ]
-                    # ),
-                    # "hr": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "homeRuns"
-                    #     ]
-                    # ),
-                    # "rbi": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"]["rbi"]
-                    # ),
-                    # "sb": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "stolenBases"
-                    #     ]
-                    # ),
-                    # "bb": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "baseOnBalls"
-                    #     ]
-                    # ),
-                    # "k": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "strikeOuts"
-                    #     ]
-                    # ),
-                    # "lob": str(
-                    #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
-                    #         "leftOnBase"
-                    #     ]
-                    # ),
-                    # "avg": str(
-                    #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
-                    #         "avg"
-                    #     ]
-                    # ),
-                    # "ops": str(
-                    #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
-                    #         "ops"
-                    #     ]
-                    # ),
-                    # "personId": batterId_int,
-                    # "battingOrder": str(
-                    #     boxData[side]["players"]["ID" + batterId]["battingOrder"]
-                    # ),
-                    # "substitution": False
-                    # if str(boxData[side]["players"]["ID" + batterId]["battingOrder"])[-1]
-                    # == "0"
-                    # else True,
-                    # "note": boxData[side]["players"]["ID" + batterId]["stats"][
-                    #     "batting"
-                    # ].get("note", ""),
-                    "name": boxData["playerInfo"]["ID" + batterId]["boxscoreName"],
-                    # "position": boxData[side]["players"]["ID" + batterId]["position"][
-                    #     "abbreviation"
-                    # ],
-                    # "obp": str(
-                    #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
-                    #         "obp"
-                    #     ]
-                    # ),
-                    # "slg": str(
-                    #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
-                    #         "slg"
-                    #     ]
-                    # ),
-                }
-                batters[i].append(batter)
+        #         batter = {
+        #             "namefield": namefield,
+        #             # "ab": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "atBats"
+        #             #     ]
+        #             # ),
+        #             # "r": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "runs"
+        #             #     ]
+        #             # ),
+        #             # "h": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "hits"
+        #             #     ]
+        #             # ),
+        #             # "doubles": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "doubles"
+        #             #     ]
+        #             # ),
+        #             # "triples": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "triples"
+        #             #     ]
+        #             # ),
+        #             # "hr": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "homeRuns"
+        #             #     ]
+        #             # ),
+        #             # "rbi": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"]["rbi"]
+        #             # ),
+        #             # "sb": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "stolenBases"
+        #             #     ]
+        #             # ),
+        #             # "bb": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "baseOnBalls"
+        #             #     ]
+        #             # ),
+        #             # "k": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "strikeOuts"
+        #             #     ]
+        #             # ),
+        #             # "lob": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["stats"]["batting"][
+        #             #         "leftOnBase"
+        #             #     ]
+        #             # ),
+        #             # "avg": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
+        #             #         "avg"
+        #             #     ]
+        #             # ),
+        #             # "ops": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
+        #             #         "ops"
+        #             #     ]
+        #             # ),
+        #             # "personId": batterId_int,
+        #             # "battingOrder": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["battingOrder"]
+        #             # ),
+        #             # "substitution": False
+        #             # if str(boxData[side]["players"]["ID" + batterId]["battingOrder"])[-1]
+        #             # == "0"
+        #             # else True,
+        #             # "note": boxData[side]["players"]["ID" + batterId]["stats"][
+        #             #     "batting"
+        #             # ].get("note", ""),
+        #             "name": boxData["playerInfo"]["ID" + batterId]["boxscoreName"],
+        #             # "position": boxData[side]["players"]["ID" + batterId]["position"][
+        #             #     "abbreviation"
+        #             # ],
+        #             # "obp": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
+        #             #         "obp"
+        #             #     ]
+        #             # ),
+        #             # "slg": str(
+        #             #     boxData[side]["players"]["ID" + batterId]["seasonStats"]["batting"][
+        #             #         "slg"
+        #             #     ]
+        #             # ),
+        #         }
+        #         batters[i].append(batter)
 
-        #boxData.update({"awayBatters": awayBatters})
-        #boxData.update({"homeBatters": homeBatters})
+        # #boxData.update({"awayBatters": awayBatters})
+        # #boxData.update({"homeBatters": homeBatters})
 
-        # Add team totals
-        sidesBattingTotals = ["awayBattingTotals", "homeBattingTotals"]
-        for i in range(0, len(sides)):
-            side = sides[i]
-            boxData.update(
-                {
-                    sidesBattingTotals[i]: {
-                        "namefield": "Totals",
-                        # "ab": str(boxData[side]["teamStats"]["batting"]["atBats"]),
-                        # "r": str(boxData[side]["teamStats"]["batting"]["runs"]),
-                        # "h": str(boxData[side]["teamStats"]["batting"]["hits"]),
-                        # "hr": str(boxData[side]["teamStats"]["batting"]["homeRuns"]),
-                        # "rbi": str(boxData[side]["teamStats"]["batting"]["rbi"]),
-                        # "bb": str(boxData[side]["teamStats"]["batting"]["baseOnBalls"]),
-                        # "k": str(boxData[side]["teamStats"]["batting"]["strikeOuts"]),
-                        # "lob": str(boxData[side]["teamStats"]["batting"]["leftOnBase"]),
-                        # "avg": "",
-                        # "ops": "",
-                        # "obp": "",
-                        # "slg": "",
-                        # "name": "Totals",
-                        # "position": "",
-                        # "note": "",
-                        # "substitution": False,
-                        # "battingOrder": "",
-                        # "personId": 0,
-                    }
-                }
-            )
+        # # Add team totals
+        # sidesBattingTotals = ["awayBattingTotals", "homeBattingTotals"]
+        # for i in range(0, len(sides)):
+        #     side = sides[i]
+        #     boxData.update(
+        #         {
+        #             sidesBattingTotals[i]: {
+        #                 "namefield": "Totals",
+        #                 # "ab": str(boxData[side]["teamStats"]["batting"]["atBats"]),
+        #                 # "r": str(boxData[side]["teamStats"]["batting"]["runs"]),
+        #                 # "h": str(boxData[side]["teamStats"]["batting"]["hits"]),
+        #                 # "hr": str(boxData[side]["teamStats"]["batting"]["homeRuns"]),
+        #                 # "rbi": str(boxData[side]["teamStats"]["batting"]["rbi"]),
+        #                 # "bb": str(boxData[side]["teamStats"]["batting"]["baseOnBalls"]),
+        #                 # "k": str(boxData[side]["teamStats"]["batting"]["strikeOuts"]),
+        #                 # "lob": str(boxData[side]["teamStats"]["batting"]["leftOnBase"]),
+        #                 # "avg": "",
+        #                 # "ops": "",
+        #                 # "obp": "",
+        #                 # "slg": "",
+        #                 # "name": "Totals",
+        #                 # "position": "",
+        #                 # "note": "",
+        #                 # "substitution": False,
+        #                 # "battingOrder": "",
+        #                 # "personId": 0,
+        #             }
+        #         }
+        #     )
 
-        # Get batting notes
-        awayBattingNotes = {}
-        homeBattingNotes = {}
-        battingNotes = [awayBattingNotes, homeBattingNotes]
-        for i in range(0, len(sides)):
-            for n in boxData[sides[i]]["note"]:
-                awayBattingNotes.update(
-                    {len(battingNotes[i]): n["label"] + "-" + n["value"]}
-                )
+        # # Get batting notes
+        # awayBattingNotes = {}
+        # homeBattingNotes = {}
+        # battingNotes = [awayBattingNotes, homeBattingNotes]
+        # for i in range(0, len(sides)):
+        #     for n in boxData[sides[i]]["note"]:
+        #         awayBattingNotes.update(
+        #             {len(battingNotes[i]): n["label"] + "-" + n["value"]}
+        #         )
 
         #boxData.update({"awayBattingNotes": awayBattingNotes})
         #boxData.update({"homeBattingNotes": homeBattingNotes})
