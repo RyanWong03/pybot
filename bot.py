@@ -692,6 +692,7 @@ class Bot(discord.Client):
                     yankees_home_score = yankees_home_team_score
 
             if away_team == True and (mets_new_hour.hour == now.hour <= (mets_new_hour.hour + 4)):
+                print('mets')
                 print(mets_new_hour.hour)
                 break
                 mets_away_team_score = int(mets_schedule[0]['away_score'])
