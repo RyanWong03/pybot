@@ -741,6 +741,7 @@ class Bot(discord.Client):
         pitchers = []
         hour_var = 0
         final = 0
+        await self.embedFunctions.boxscores()
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
@@ -754,15 +755,14 @@ class Bot(discord.Client):
             yankees = await self.testFunctions.get_team_no_msg('yankees')
             mets = await self.testFunctions.get_team_no_msg('mets')
             mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
-            print(mets_schedule)
-            self.embedFunctions.boxscores()
+            
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=8) #changing from 4 to 8
-            yankees_home_prob = yankees_schedule['home_probable_pitcher']
-            yankees_away_prob = yankees_schedule['away_probable_pitcher']
-            mets_home_prob = mets_schedule['home_probable_pitcher']
-            mets_away_prob = mets_schedule['away_probable_pitcher']
+            # yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
+            # yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
+            # mets_home_prob = mets_schedule[0]['home_probable_pitcher']
+            # mets_away_prob = mets_schedule[0]['away_probable_pitcher']
 
             
             if len(yankees_schedule) > 0:
