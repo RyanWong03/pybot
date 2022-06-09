@@ -579,7 +579,8 @@ class EmbedFunctions:
 
         return boxData
 
-    def boxscores(self):
+    async def boxscores(self):
+        channel = client.get_channel(983204319564288151) 
         boxData = self.boxscoredata(661693)
         rowLen = 79
         fullRowLen = rowLen * 2 + 3
@@ -612,7 +613,8 @@ class EmbedFunctions:
         # awayPitchers.pop(len(awayPitchers) - 2)
         # awayPitchers.pop(len(awayPitchers) - 1)
         for i in range(1, len(awayPitchers)):
-            print(awayPitchers[i]['namefield'])
+            # print(awayPitchers[i]['namefield'])
+            await channel.send(awayPitchers[i]['namefield'])
 
 
     # def get_temperature(self, city):
@@ -757,28 +759,27 @@ class Bot(discord.Client):
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=8) #changing from 4 to 8
-            yankees_visitors = yankees_schedule[0]['away_name']
-            yankees_home_team = yankees_schedule[0]['home_name']
-            mets_visitors = mets_schedule[0]['away_name']
-            mets_home_team = mets_schedule[0]['home_name']
-            yankees_away_team_code = yankees_visitors[0]['fileCode'].upper()
-            yankees_home_team_code = yankees_home_team[0]['fileCode'].upper()
-            yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule['game_datetime'])
             yankees_home_prob = yankees_schedule['home_probable_pitcher']
             yankees_away_prob = yankees_schedule['away_probable_pitcher']
             mets_home_prob = mets_schedule['home_probable_pitcher']
             mets_away_prob = mets_schedule['away_probable_pitcher']
 
-            if yankees_visitors == 'New York Yankees':
-                away_team = True
-            elif yankees_home_team == 'New York Yankees':
-                away_team = False
-
+            
             if len(yankees_schedule) > 0:
+                yankees_visitors = yankees_schedule[0]['away_name']
+                yankees_home_team = yankees_schedule[0]['home_name']
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
                 yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-               
+                yankees_away_team_code = yankees_visitors[0]['fileCode'].upper()
+                yankees_home_team_code = yankees_home_team[0]['fileCode'].upper()
+                yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule['game_datetime'])
+
+                if yankees_visitors == 'New York Yankees':
+                    away_team = True
+                elif yankees_home_team == 'New York Yankees':
+                    away_team = False
+
                 if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                     yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                     yankees_home_team_score = int(yankees_schedule[0]['home_score'])
@@ -821,6 +822,8 @@ class Bot(discord.Client):
                         hour_var = 0
 
             if len(mets_schedule) > 0:
+                mets_visitors = mets_schedule[0]['away_name']
+                mets_home_team = mets_schedule[0]['home_name']
                 mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
                 mets_new_hour = mets_game_time_local - timedelta(hours=4)
                 mets_new_minute = mets_game_time_local - timedelta(minutes=5)
