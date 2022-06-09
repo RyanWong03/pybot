@@ -577,55 +577,14 @@ class EmbedFunctions:
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
-        # Get game info
-        # if gameInfo:
-        #     z = boxData["gameBoxInfo"]
-        #     gameBoxInfo = {}
-        #     for x in z:
-        #         if (
-        #             len(x["label"] + (": " if x.get("value") else "") + x.get("value", ""))
-        #             > fullRowLen
-        #         ):
-        #             words = iter(
-        #                 (
-        #                     x["label"]
-        #                     + (": " if x.get("value") else "")
-        #                     + x.get("value", "")
-        #                 ).split()
-        #             )
-        #             check = ""
-        #             lines = []
-        #             for word in words:
-        #                 if len(check) + 1 + len(word) <= fullRowLen:
-        #                     if check == "":
-        #                         check = word
-        #                     else:
-        #                         check += " " + word
-        #                 else:
-        #                     lines.append(check)
-        #                     check = "    " + word
-
-        #             if len(check):
-        #                 lines.append(check)
-
-        #             for i in range(0, len(lines)):
-        #                 gameBoxInfo.update({len(gameBoxInfo): lines[i]})
-        #         else:
-        #             gameBoxInfo.update(
-        #                 {
-        #                     len(gameBoxInfo): x["label"]
-        #                     + (": " if x.get("value") else "")
-        #                     + x.get("value", "")
-        #                 }
-        #             )
-
-            # # Build the game info box
-            # for i in range(0, len(gameBoxInfo)):
-            #     boxscore += ("{:<%s}" % fullRowLen + "\n").format(gameBoxInfo[i])
-            #     if i == len(gameBoxInfo) - 1:
-            #         boxscore += "-" * fullRowLen + "\n"
-        print(boxscore)
-        return boxscore
+            awayPitchers.pop(len(awayPitchers) - 2)
+            awayPitchers.pop(len(awayPitchers) - 2)
+            awayPitchers.pop(len(awayPitchers) - 1)
+            for i in range(1, len(awayPitchers)):
+                print(awayPitchers[i]['name'])
+        
+            # print(boxscore)
+            return boxscore
 
 
     def boxscore_data(self, gamePk, timecode=None):
