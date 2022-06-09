@@ -156,14 +156,14 @@ class TestFunctions:
 
 class EmbedFunctions:
     testFunctions = TestFunctions()
-    async def scoring_plays_embed(self, game, channel):
+    async def scoring_plays_embed(self, game, channel, team):
         if type(game) == list:
             game = game[0]
         
         game_type = game['game_type']
 
         scoring_embed = discord.Embed()
-        scoring_embed.title = '**Team Scored**' 
+        scoring_embed.title = '**%s Scored**' % team
         scoring_embed.type = 'rich'
         scoring_embed.color = discord.Color.dark_blue()
         #scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'], inline=False)
@@ -681,22 +681,22 @@ class Bot(discord.Client):
                 yankees_home_team_score = int(yankees_schedule[0]['home_score'])
 
                 if yankees_away_score != yankees_away_team_score:
-                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
+                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors)
                     yankees_away_score = yankees_away_team_score
                     
                 if yankees_home_score != yankees_home_team_score:
-                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
+                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team)
                     yankees_home_score = yankees_home_team_score
 
             if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
                 mets_away_team_score = int(mets_schedule[0]['away_score'])
                 mets_home_team_score = int(mets_schedule[0]['home_score'])
                 if mets_away_score != mets_away_team_score:
-                    await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel)
+                    await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_visitors)
                     mets_away_score = mets_away_team_score
                 
                 if mets_home_score != mets_home_team_score:
-                    await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel)
+                    await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_home_team)
                     mets_home_score = mets_home_team_score
 
             if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:
