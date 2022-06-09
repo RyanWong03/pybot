@@ -831,7 +831,7 @@ class Bot(discord.Client):
                     await channel.send(home_lineup)
                     hour_var = 1
 
-                    if now.hour != (mets_new_hour.hour - 1):
+                    if now.hour != (yankees_new_hour.hour - 1):
                         hour_var = 0
 
             if len(mets_schedule) > 0:
