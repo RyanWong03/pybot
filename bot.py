@@ -756,8 +756,6 @@ class Bot(discord.Client):
         pitchers = []
         hour_var = 0
         final = 0
-        #await self.embedFunctions.boxscores()
-        await self.embedFunctions.boxscore(661693)
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
@@ -773,6 +771,8 @@ class Bot(discord.Client):
             mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
             
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
+            print(yankees_schedule[0]['game_id'])
+            break
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
             # yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
@@ -790,6 +790,7 @@ class Bot(discord.Client):
                 yankees_away_team_code = 'NYY'#yankees_visitors[0]['fileCode'].upper()
                 yankees_home_team_code = 'NYM' #yankees_home_team[0]['fileCode'].upper()
                 #yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule['game_datetime'])
+                pitchers = await self.embedFunctions.boxscore(661693)
 
                 if yankees_visitors == 'New York Yankees':
                     away_team = True
