@@ -517,7 +517,7 @@ class EmbedFunctions:
         except ConnectionError as ce:
             print('DEBUG: Request failed in playoff_Series_Embed | {}'.format(ce))
     
-    async def boxscore(self, gamePk, channel = None, pitcher = None, pitchingBox=True, timecode = None):
+    async def boxscore(self, gamePk, pitchingBox=True, timecode = None):
         boxData = self.boxscore_data(gamePk, timecode)
         rowLen = 79
         fullRowLen = rowLen * 2 + 3
@@ -566,11 +566,7 @@ class EmbedFunctions:
             for i in range(1, len(awayPitchers)):
                 pitchers_list.append(awayPitchers[i]['name'])
             
-            print(pitchers_list)
-                # print(awayPitchers[i]['name'])
-                # if awayPitchers[i]['name'] == str(pitcher):
-                #     print('james')
-
+            return pitchers_list
     def boxscore_data(self, gamePk, timecode=None):
         boxData = {}
         params = {
@@ -771,14 +767,14 @@ class Bot(discord.Client):
         #         #     away_team = False
         
         while var < 1:
-            target_date_time = datetime.datetime.now() - timedelta(hours=8) #changing from 4 to 8
+            target_date_time = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
             yankees = await self.testFunctions.get_team_no_msg('yankees')
             mets = await self.testFunctions.get_team_no_msg('mets')
             mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
             
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
-            now = datetime.datetime.now() - timedelta(hours=8) #changing from 4 to 8
+            now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
             # yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
             # yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
             # mets_home_prob = mets_schedule[0]['home_probable_pitcher']
