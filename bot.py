@@ -537,130 +537,130 @@ class EmbedFunctions:
         boxscore = ""
         """boxscore will hold the string to be returned"""
 
-        if battingBox:
-            # Add column headers
-            awayBatters = boxData["awayBatters"]
-            homeBatters = boxData["homeBatters"]
+        # if battingBox:
+        #     # Add column headers
+        #     awayBatters = boxData["awayBatters"]
+        #     homeBatters = boxData["homeBatters"]
 
-            # Make sure the home and away batter lists are the same length
-            blankBatter = {
-                "namefield": "",
-                "ab": "",
-                "r": "",
-                "h": "",
-                "rbi": "",
-                "bb": "",
-                "k": "",
-                "lob": "",
-                "avg": "",
-                "ops": "",
-            }
+        #     # Make sure the home and away batter lists are the same length
+        #     blankBatter = {
+        #         "namefield": "",
+        #         "ab": "",
+        #         "r": "",
+        #         "h": "",
+        #         "rbi": "",
+        #         "bb": "",
+        #         "k": "",
+        #         "lob": "",
+        #         "avg": "",
+        #         "ops": "",
+        #     }
 
-            while len(awayBatters) > len(homeBatters):
-                homeBatters.append(blankBatter)
+        #     while len(awayBatters) > len(homeBatters):
+        #         homeBatters.append(blankBatter)
 
-            while len(awayBatters) < len(homeBatters):
-                awayBatters.append(blankBatter)
+        #     while len(awayBatters) < len(homeBatters):
+        #         awayBatters.append(blankBatter)
 
-            # Get team totals
-            awayBatters.append(boxData["awayBattingTotals"])
-            homeBatters.append(boxData["homeBattingTotals"])
+        #     # Get team totals
+        #     awayBatters.append(boxData["awayBattingTotals"])
+        #     homeBatters.append(boxData["homeBattingTotals"])
 
-            # Build the batting box!
-            for i in range(0, len(awayBatters)):
-                if i == 0 or i == len(awayBatters) - 1:
-                    boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
+        #     # Build the batting box!
+        #     for i in range(0, len(awayBatters)):
+        #         if i == 0 or i == len(awayBatters) - 1:
+        #             boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
-                boxscore += "{namefield:<40} {ab:^3} {r:^3} {h:^3} {rbi:^3} {bb:^3} {k:^3} {lob:^3} {avg:^4} {ops:^5} | ".format(
-                    **awayBatters[i]
-                )
-                boxscore += "{namefield:<40} {ab:^3} {r:^3} {h:^3} {rbi:^3} {bb:^3} {k:^3} {lob:^3} {avg:^4} {ops:^5}\n".format(
-                    **homeBatters[i]
-                )
-                if i == 0 or i == len(awayBatters) - 1:
-                    boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
+        #         boxscore += "{namefield:<40} {ab:^3} {r:^3} {h:^3} {rbi:^3} {bb:^3} {k:^3} {lob:^3} {avg:^4} {ops:^5} | ".format(
+        #             **awayBatters[i]
+        #         )
+        #         boxscore += "{namefield:<40} {ab:^3} {r:^3} {h:^3} {rbi:^3} {bb:^3} {k:^3} {lob:^3} {avg:^4} {ops:^5}\n".format(
+        #             **homeBatters[i]
+        #         )
+        #         if i == 0 or i == len(awayBatters) - 1:
+        #             boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
-            # Get batting notes
-            awayBattingNotes = boxData["awayBattingNotes"]
-            homeBattingNotes = boxData["homeBattingNotes"]
+        #     # Get batting notes
+        #     awayBattingNotes = boxData["awayBattingNotes"]
+        #     homeBattingNotes = boxData["homeBattingNotes"]
 
-            while len(awayBattingNotes) > len(homeBattingNotes):
-                homeBattingNotes.update({len(homeBattingNotes): ""})
+        #     while len(awayBattingNotes) > len(homeBattingNotes):
+        #         homeBattingNotes.update({len(homeBattingNotes): ""})
 
-            while len(awayBattingNotes) < len(homeBattingNotes):
-                awayBattingNotes.update({len(awayBattingNotes): ""})
+        #     while len(awayBattingNotes) < len(homeBattingNotes):
+        #         awayBattingNotes.update({len(awayBattingNotes): ""})
 
-            for i in range(0, len(awayBattingNotes)):
-                boxscore += "{:<79} | ".format(awayBattingNotes[i])
-                boxscore += "{:<79}\n".format(homeBattingNotes[i])
+        #     for i in range(0, len(awayBattingNotes)):
+        #         boxscore += "{:<79} | ".format(awayBattingNotes[i])
+        #         boxscore += "{:<79}\n".format(homeBattingNotes[i])
 
-            boxscore += " " * rowLen + " | " + " " * rowLen + "\n"
+        #     boxscore += " " * rowLen + " | " + " " * rowLen + "\n"
 
-        # Get batting and fielding info
-        awayBoxInfo = {}
-        homeBoxInfo = {}
-        boxInfo = [awayBoxInfo, homeBoxInfo]
-        sides = ["away", "home"]
-        for infoType in ["BATTING", "FIELDING"]:
-            if (infoType == "BATTING" and battingInfo) or (
-                infoType == "FIELDING" and fieldingInfo
-            ):
-                for i in range(0, len(sides)):
-                    for z in (
-                        x for x in boxData[sides[i]]["info"] if x.get("title") == infoType
-                    ):
-                        boxInfo[i].update({len(boxInfo[i]): z["title"]})
-                        for x in z["fieldList"]:
-                            if len(x["label"] + ": " + x.get("value", "")) > rowLen:
-                                words = iter(
-                                    (x["label"] + ": " + x.get("value", "")).split()
-                                )
-                                check = ""
-                                lines = []
-                                for word in words:
-                                    if len(check) + 1 + len(word) <= rowLen:
-                                        if check == "":
-                                            check = word
-                                        else:
-                                            check += " " + word
-                                    else:
-                                        lines.append(check)
-                                        check = "    " + word
+        # # Get batting and fielding info
+        # awayBoxInfo = {}
+        # homeBoxInfo = {}
+        # boxInfo = [awayBoxInfo, homeBoxInfo]
+        # sides = ["away", "home"]
+        # for infoType in ["BATTING", "FIELDING"]:
+        #     if (infoType == "BATTING" and battingInfo) or (
+        #         infoType == "FIELDING" and fieldingInfo
+        #     ):
+        #         for i in range(0, len(sides)):
+        #             for z in (
+        #                 x for x in boxData[sides[i]]["info"] if x.get("title") == infoType
+        #             ):
+        #                 boxInfo[i].update({len(boxInfo[i]): z["title"]})
+        #                 for x in z["fieldList"]:
+        #                     if len(x["label"] + ": " + x.get("value", "")) > rowLen:
+        #                         words = iter(
+        #                             (x["label"] + ": " + x.get("value", "")).split()
+        #                         )
+        #                         check = ""
+        #                         lines = []
+        #                         for word in words:
+        #                             if len(check) + 1 + len(word) <= rowLen:
+        #                                 if check == "":
+        #                                     check = word
+        #                                 else:
+        #                                     check += " " + word
+        #                             else:
+        #                                 lines.append(check)
+        #                                 check = "    " + word
 
-                                if len(check):
-                                    lines.append(check)
+        #                         if len(check):
+        #                             lines.append(check)
 
-                                for j in range(0, len(lines)):
-                                    boxInfo[i].update({len(boxInfo[i]): lines[j]})
-                            else:
-                                boxInfo[i].update(
-                                    {
-                                        len(boxInfo[i]): x["label"]
-                                        + ": "
-                                        + x.get("value", "")
-                                    }
-                                )
+        #                         for j in range(0, len(lines)):
+        #                             boxInfo[i].update({len(boxInfo[i]): lines[j]})
+        #                     else:
+        #                         boxInfo[i].update(
+        #                             {
+        #                                 len(boxInfo[i]): x["label"]
+        #                                 + ": "
+        #                                 + x.get("value", "")
+        #                             }
+        #                         )
 
-                if infoType == "BATTING":
-                    if len(awayBoxInfo):
-                        awayBoxInfo.update({len(awayBoxInfo): " "})
+        #         if infoType == "BATTING":
+        #             if len(awayBoxInfo):
+        #                 awayBoxInfo.update({len(awayBoxInfo): " "})
 
-                    if len(homeBoxInfo):
-                        homeBoxInfo.update({len(homeBoxInfo): " "})
+        #             if len(homeBoxInfo):
+        #                 homeBoxInfo.update({len(homeBoxInfo): " "})
 
-        if len(awayBoxInfo) > 0:
-            while len(awayBoxInfo) > len(homeBoxInfo):
-                homeBoxInfo.update({len(homeBoxInfo): ""})
+        # if len(awayBoxInfo) > 0:
+        #     while len(awayBoxInfo) > len(homeBoxInfo):
+        #         homeBoxInfo.update({len(homeBoxInfo): ""})
 
-            while len(awayBoxInfo) < len(homeBoxInfo):
-                awayBoxInfo.update({len(awayBoxInfo): ""})
+        #     while len(awayBoxInfo) < len(homeBoxInfo):
+        #         awayBoxInfo.update({len(awayBoxInfo): ""})
 
-            # Build info box
-            for i in range(0, len(awayBoxInfo)):
-                boxscore += ("{:<%s} | " % rowLen).format(awayBoxInfo[i])
-                boxscore += ("{:<%s}\n" % rowLen).format(homeBoxInfo[i])
-                if i == len(awayBoxInfo) - 1:
-                    boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
+        #     # Build info box
+        #     for i in range(0, len(awayBoxInfo)):
+        #         boxscore += ("{:<%s} | " % rowLen).format(awayBoxInfo[i])
+        #         boxscore += ("{:<%s}\n" % rowLen).format(homeBoxInfo[i])
+        #         if i == len(awayBoxInfo) - 1:
+        #             boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
         # Get pitching box
         if pitchingBox:
@@ -695,10 +695,10 @@ class EmbedFunctions:
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
-                boxscore += "{namefield:<43} {ip:^4} {h:^3} {r:^3} {er:^3} {bb:^3} {k:^3} {hr:^3} {era:^6} | ".format(
+                boxscore += "{namefield:<43}| ".format(
                     **awayPitchers[i]
                 )
-                boxscore += "{namefield:<43} {ip:^4} {h:^3} {r:^3} {er:^3} {bb:^3} {k:^3} {hr:^3} {era:^6}\n".format(
+                boxscore += "{namefield:<43} \n".format(
                     **homePitchers[i]
                 )
                 if i == 0 or i == len(awayPitchers) - 1:
@@ -770,7 +770,7 @@ class EmbedFunctions:
 
         r = statsapi.get("game", params)
 
-        boxData.update({"gameId": r["gameData"]["game"]["id"]})
+        # boxData.update({"gameId": r["gameData"]["game"]["id"]})
         boxData.update({"teamInfo": r["gameData"]["teams"]})
         boxData.update({"playerInfo": r["gameData"]["players"]})
         boxData.update({"away": r["liveData"]["boxscore"]["teams"]["away"]})
@@ -1019,16 +1019,16 @@ class EmbedFunctions:
                     continue
 
                 namefield = boxData["playerInfo"]["ID" + pitcherId]["boxscoreName"]
-                namefield += (
-                    "  "
-                    + boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"].get(
-                        "note", ""
-                    )
-                    if boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"].get(
-                        "note"
-                    )
-                    else ""
-                )
+                # namefield += (
+                #     "  "
+                #     + boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"].get(
+                #         "note", ""
+                #     )
+                #     if boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"].get(
+                #         "note"
+                #     )
+                #     else ""
+                # )
                 pitcher = {
                     "namefield": namefield,
                     # "ip": str(
@@ -1123,7 +1123,7 @@ class EmbedFunctions:
         # Get game info
         #boxData.update({"gameBoxInfo": r["liveData"]["boxscore"].get("info", [])})
         print(boxData)
-        return boxData
+        #return boxData
     # def test(self):
     #     boxData = {}
     #     params = {
