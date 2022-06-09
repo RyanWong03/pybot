@@ -156,7 +156,7 @@ class TestFunctions:
 
 class EmbedFunctions:
     testFunctions = TestFunctions()
-    async def scoring_plays_embed(self, game, channel, team):
+    async def scoring_plays_embed(self, game, channel, team, score):
         if type(game) == list:
             game = game[0]
         
@@ -172,7 +172,7 @@ class EmbedFunctions:
             scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
             scoringPlays = scoringPlaysList['plays']
             if len(scoringPlays) > 0:
-                scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
+                scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'] + '%s' % score,
                                      inline=False)
             await channel.send(embed=scoring_embed, tts=False)
             return
@@ -682,7 +682,7 @@ class Bot(discord.Client):
                 yankees_home_team_score = int(yankees_schedule[0]['home_score'])
 
                 if yankees_away_score != yankees_away_team_score:
-                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors)
+                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, )
                     yankees_away_score = yankees_away_team_score
                     
                 if yankees_home_score != yankees_home_team_score:
@@ -758,77 +758,77 @@ class Bot(discord.Client):
                 if now.hour != (mets_new_hour.hour - 1):
                     hour_var = 0
                 
-            if type(yankees_schedule) is list:
-                final_status_list = ["Final", "Game Over", "Completed Early"]
-                scheduled_status_list = ["Scheduled", "Pre-Game"]
-                live_status_list = ["In Progress", "Delayed"]
-                other_status_list = ["Postponed"]
+            # if type(yankees_schedule) is list:
+            #     final_status_list = ["Final", "Game Over", "Completed Early"]
+            #     scheduled_status_list = ["Scheduled", "Pre-Game"]
+            #     live_status_list = ["In Progress", "Delayed"]
+            #     other_status_list = ["Postponed"]
 
-                # if previous_game is not None:
-                #     if previous_game['status'] == 'In Progress' and yankees_schedule[0]['status'] == 'Scheduled':
-                #         yankees_schedule[0] = previous_game
+            #     # if previous_game is not None:
+            #     #     if previous_game['status'] == 'In Progress' and yankees_schedule[0]['status'] == 'Scheduled':
+            #     #         yankees_schedule[0] = previous_game
                 
-                if len(yankees_schedule) == 2:
-                    pass
-                    # #game 1
-                    # if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list): 
-                    #     await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_score))
+            #     if len(yankees_schedule) == 2:
+            #         pass
+            #         # #game 1
+            #         # if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list): 
+            #         #     await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_score))
 
-                    # #elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
-                    #     #await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
-                    #     #if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
-                    # #elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
-                    #     #await self.embedFunctions.live_game_embed(queried_schedule[0], message)
-                    #     #return
-                    # elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list):
-                    #     channel.send(yankees_schedule[0]['away_name'] + ' vs ' + yankees_schedule[0]['home_name'] + ' game is postponed.')
+            #         # #elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
+            #         #     #await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
+            #         #     #if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
+            #         # #elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
+            #         #     #await self.embedFunctions.live_game_embed(queried_schedule[0], message)
+            #         #     #return
+            #         # elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list):
+            #         #     channel.send(yankees_schedule[0]['away_name'] + ' vs ' + yankees_schedule[0]['home_name'] + ' game is postponed.')
 
-                    # #game 2
-                    # if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
-                    #     await self.embedFunctions.final_game_embed(queried_schedule[1], message)
-                    #     if len(next_games) > 0:
-                    #         await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                    # elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
-                    #     await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
-                    #     if previous_game is not None:
-                    #         await self.embedFunctions.final_game_embed(previous_game, message)
-                    # elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
-                    #     await self.embedFunctions.live_game_embed(queried_schedule[1], message)
-                    #     return
-                    # elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                    # if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+            #         # #game 2
+            #         # if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
+            #         #     await self.embedFunctions.final_game_embed(queried_schedule[1], message)
+            #         #     if len(next_games) > 0:
+            #         #         await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+            #         # elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
+            #         #     await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
+            #         #     if previous_game is not None:
+            #         #         await self.embedFunctions.final_game_embed(previous_game, message)
+            #         # elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
+            #         #     await self.embedFunctions.live_game_embed(queried_schedule[1], message)
+            #         #     return
+            #         # elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+            #         # if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                 
-                elif ((len(yankees_schedule) == 1) and (final < 1)):
-                    if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list):
-                        await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_score))
-                        await channel.send(statsapi.boxscore(yankees_schedule[0], battingBox = False, battingInfo = False, fieldingInfo = False, gameInfo = False, pitchingBox = True))
-                        final = 1
-                #         if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                #     elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
-                #         await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
-                #         if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
-                #     elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
-                #         await self.embedFunctions.live_game_embed(queried_schedule[0], message)
-                #     elif any(game_status in queried_schedule[0]['status'] for game_status in  other_status_list):
-                #         await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                #         if len(next_games) > 0:
-                #             await self.embedFunctions.scheduled_Game_Embed(next_games[0],  message)
-                # elif len(queried_schedule) <= 0:
-                #     if len(past_games) > 0:
-                #         previous_game = past_games[len(past_games) - 1]
-                #     else:
-                #         await message.channel.send('no recent games')
-                #         return
+            #     elif ((len(yankees_schedule) == 1) and (final < 1)):
+            #         if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list):
+            #             await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_score))
+            #             await channel.send(statsapi.boxscore(yankees_schedule[0], battingBox = False, battingInfo = False, fieldingInfo = False, gameInfo = False, pitchingBox = True))
+            #             final = 1
+            #     #         if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+            #     #     elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
+            #     #         await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
+            #     #         if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
+            #     #     elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
+            #     #         await self.embedFunctions.live_game_embed(queried_schedule[0], message)
+            #     #     elif any(game_status in queried_schedule[0]['status'] for game_status in  other_status_list):
+            #     #         await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+            #     #         if len(next_games) > 0:
+            #     #             await self.embedFunctions.scheduled_Game_Embed(next_games[0],  message)
+            #     # elif len(queried_schedule) <= 0:
+            #     #     if len(past_games) > 0:
+            #     #         previous_game = past_games[len(past_games) - 1]
+            #     #     else:
+            #     #         await message.channel.send('no recent games')
+            #     #         return
                     
-                #     if previous_game['status'] == 'In Progress':
-                #         print('prev game still in progress')
-                #         await self.embedFunctions.live_game_embed(previous_game, message)
+            #     #     if previous_game['status'] == 'In Progress':
+            #     #         print('prev game still in progress')
+            #     #         await self.embedFunctions.live_game_embed(previous_game, message)
                     
-                #     final_status_list = ["Final", "Game Over", "Completed Early"]
-                #     if any(game_status in previous_game['status'] for game_status in final_status_list):
-                #         await self.embedFunctions.final_game_embed(previous_game, message)
-                #         if len(next_games) > 0:
-                #             await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+            #     #     final_status_list = ["Final", "Game Over", "Completed Early"]
+            #     #     if any(game_status in previous_game['status'] for game_status in final_status_list):
+            #     #         await self.embedFunctions.final_game_embed(previous_game, message)
+            #     #         if len(next_games) > 0:
+            #     #             await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                 
     async def on_message(self, message):
         if(message.author == self.user) or message.author.bot:
