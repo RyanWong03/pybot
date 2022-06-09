@@ -156,7 +156,7 @@ class TestFunctions:
 
 class EmbedFunctions:
     testFunctions = TestFunctions()
-    async def scoring_plays_embed(self, game, channel, team, score):
+    async def scoring_plays_embed(self, game, channel, team):
         if type(game) == list:
             game = game[0]
         
@@ -172,7 +172,7 @@ class EmbedFunctions:
             scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
             scoringPlays = scoringPlaysList['plays']
             if len(scoringPlays) > 0:
-                scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'] + '%s' % score,
+                scoring_embed.add_field(name='**Latest scoring play**', value=scoringPlays[len(scoringPlays) - 1]['result']['description'],
                                      inline=False)
             await channel.send(embed=scoring_embed, tts=False)
             return
@@ -682,7 +682,7 @@ class Bot(discord.Client):
                 yankees_home_team_score = int(yankees_schedule[0]['home_score'])
 
                 if yankees_away_score != yankees_away_team_score:
-                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, )
+                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors)
                     yankees_away_score = yankees_away_team_score
                     
                 if yankees_home_score != yankees_home_team_score:
