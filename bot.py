@@ -1121,7 +1121,7 @@ class EmbedFunctions:
             )
 
         # Get game info
-        boxData.update({"gameBoxInfo": r["liveData"]["boxscore"].get("info", [])})
+        #boxData.update({"gameBoxInfo": r["liveData"]["boxscore"].get("info", [])})
         print(boxData)
         return boxData
     # def test(self):
