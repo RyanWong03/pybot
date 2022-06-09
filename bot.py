@@ -517,7 +517,7 @@ class EmbedFunctions:
         except ConnectionError as ce:
             print('DEBUG: Request failed in playoff_Series_Embed | {}'.format(ce))
     
-    async def boxscore(self, channel: None, gamePk, pitcher: None, pitchingBox=True, timecode = None):
+    async def boxscore(self, gamePk, channel = None, pitcher = None, pitchingBox=True, timecode = None):
         boxData = self.boxscore_data(gamePk, timecode)
         rowLen = 79
         fullRowLen = rowLen * 2 + 3
