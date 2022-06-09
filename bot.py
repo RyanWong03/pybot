@@ -578,46 +578,46 @@ class EmbedFunctions:
             #         boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
         # Get game info
-        if gameInfo:
-            z = boxData["gameBoxInfo"]
-            gameBoxInfo = {}
-            for x in z:
-                if (
-                    len(x["label"] + (": " if x.get("value") else "") + x.get("value", ""))
-                    > fullRowLen
-                ):
-                    words = iter(
-                        (
-                            x["label"]
-                            + (": " if x.get("value") else "")
-                            + x.get("value", "")
-                        ).split()
-                    )
-                    check = ""
-                    lines = []
-                    for word in words:
-                        if len(check) + 1 + len(word) <= fullRowLen:
-                            if check == "":
-                                check = word
-                            else:
-                                check += " " + word
-                        else:
-                            lines.append(check)
-                            check = "    " + word
+        # if gameInfo:
+        #     z = boxData["gameBoxInfo"]
+        #     gameBoxInfo = {}
+        #     for x in z:
+        #         if (
+        #             len(x["label"] + (": " if x.get("value") else "") + x.get("value", ""))
+        #             > fullRowLen
+        #         ):
+        #             words = iter(
+        #                 (
+        #                     x["label"]
+        #                     + (": " if x.get("value") else "")
+        #                     + x.get("value", "")
+        #                 ).split()
+        #             )
+        #             check = ""
+        #             lines = []
+        #             for word in words:
+        #                 if len(check) + 1 + len(word) <= fullRowLen:
+        #                     if check == "":
+        #                         check = word
+        #                     else:
+        #                         check += " " + word
+        #                 else:
+        #                     lines.append(check)
+        #                     check = "    " + word
 
-                    if len(check):
-                        lines.append(check)
+        #             if len(check):
+        #                 lines.append(check)
 
-                    for i in range(0, len(lines)):
-                        gameBoxInfo.update({len(gameBoxInfo): lines[i]})
-                else:
-                    gameBoxInfo.update(
-                        {
-                            len(gameBoxInfo): x["label"]
-                            + (": " if x.get("value") else "")
-                            + x.get("value", "")
-                        }
-                    )
+        #             for i in range(0, len(lines)):
+        #                 gameBoxInfo.update({len(gameBoxInfo): lines[i]})
+        #         else:
+        #             gameBoxInfo.update(
+        #                 {
+        #                     len(gameBoxInfo): x["label"]
+        #                     + (": " if x.get("value") else "")
+        #                     + x.get("value", "")
+        #                 }
+        #             )
 
             # Build the game info box
             for i in range(0, len(gameBoxInfo)):
