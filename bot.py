@@ -695,8 +695,8 @@ class Bot(discord.Client):
                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
                     yankees_home_score = yankees_home_team_score
 
-            if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
-                print('mets')
+            if away_team == True and (mets_new_hour.hour == now.hour <= (mets_new_hour.hour + 3)):
+                print('mets second')
                 print(mets_new_hour.hour)
                 break
                 mets_away_team_score = int(mets_schedule[0]['away_score'])
