@@ -517,30 +517,15 @@ class EmbedFunctions:
         except ConnectionError as ce:
             print('DEBUG: Request failed in playoff_Series_Embed | {}'.format(ce))
     
-    def boxscore(
-    self,
-    gamePk,
-    battingBox=False,
-    battingInfo=False,
-    fieldingInfo=False,
-    pitchingBox=True,
-    gameInfo=False,
-    timecode=None,
-    ):
-        """Get a formatted boxscore for a given game."""
+    async def boxscore(self, channel, gamePk, pitcher, pitchingBox=True, timecode = None):
         boxData = self.boxscore_data(gamePk, timecode)
-
         rowLen = 79
-        """rowLen is the total width of each side of the box score, excluding the " | " separator"""
         fullRowLen = rowLen * 2 + 3
-        """fullRowLen is the full table width"""
         boxscore = ""
-        """boxscore will hold the string to be returned"""
+        pitchers_list = []
         if pitchingBox:
             awayPitchers = boxData["awayPitchers"]
             homePitchers = boxData["homePitchers"]
-
-            # Make sure the home and away pitcher lists are the same length
             blankPitcher = {
                 "namefield": "",
                 "ip": "",
@@ -559,11 +544,9 @@ class EmbedFunctions:
             while len(awayPitchers) < len(homePitchers):
                 awayPitchers.append(blankPitcher)
 
-            # Get team totals
             awayPitchers.append(boxData["awayPitchingTotals"])
             homePitchers.append(boxData["homePitchingTotals"])
 
-            # Build the pitching box!
             for i in range(0, len(awayPitchers)):
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
@@ -581,20 +564,15 @@ class EmbedFunctions:
             awayPitchers.pop(len(awayPitchers) - 2)
             awayPitchers.pop(len(awayPitchers) - 1)
             for i in range(1, len(awayPitchers)):
-                print(awayPitchers[i]['name'])
-                if awayPitchers[i]['name'] == 'Jameson Taillon':
-                    print('james')
-        
-            # print(boxscore)
-            return boxscore
-
+                pitchers_list.append(awayPitchers[i]['name'])
+            
+            print(pitchers_list)
+                # print(awayPitchers[i]['name'])
+                # if awayPitchers[i]['name'] == str(pitcher):
+                #     print('james')
 
     def boxscore_data(self, gamePk, timecode=None):
-        """Returns a python dict containing boxscore data for a given game."""
-
         boxData = {}
-        """boxData holds the dict to be returned"""
-
         params = {
             "gamePk": gamePk,
             "fields": "gameData,game,teams,teamName,shortName,teamStats,batting,atBats,runs,hits,doubles,triples,homeRuns,rbi,stolenBases,strikeOuts,baseOnBalls,leftOnBase,pitching,inningsPitched,earnedRuns,homeRuns,players,boxscoreName,liveData,boxscore,teams,players,id,fullName,allPositions,abbreviation,seasonStats,batting,avg,ops,obp,slg,era,pitchesThrown,numberOfPitches,strikes,battingOrder,info,title,fieldList,note,label,value,wins,losses,holds,blownSaves",
@@ -604,7 +582,6 @@ class EmbedFunctions:
 
         r = statsapi.get("game", params)
 
-        # boxData.update({"gameId": r["gameData"]["game"]["id"]})
         boxData.update({"teamInfo": r["gameData"]["teams"]})
         boxData.update({"playerInfo": r["gameData"]["players"]})
         boxData.update({"away": r["liveData"]["boxscore"]["teams"]["away"]})
@@ -646,7 +623,6 @@ class EmbedFunctions:
         boxData.update({"awayPitchers": awayPitchers})
         boxData.update({"homePitchers": homePitchers})
 
-        # Get team totals
         pitchingTotals = ["awayPitchingTotals", "homePitchingTotals"]
         for i in range(0, len(sides)):
             side = sides[i]
@@ -659,227 +635,6 @@ class EmbedFunctions:
                 }
             )
         return boxData
-    # # def test(self):
-    # #     boxData = {}
-    # #     params = {
-    # #         "gamePk": 661693,
-    # #         "fields": "gameData,game,teams,teamName,shortName,teamStats,batting,atBats,runs,hits,doubles,triples,homeRuns,rbi,stolenBases,strikeOuts,baseOnBalls,leftOnBase,pitching,inningsPitched,earnedRuns,homeRuns,players,boxscoreName,liveData,boxscore,teams,players,id,fullName,allPositions,abbreviation,seasonStats,batting,avg,ops,obp,slg,era,pitchesThrown,numberOfPitches,strikes,battingOrder,info,title,fieldList,note,label,value,wins,losses,holds,blownSaves",
-    # #     }
-
-    # #     r = statsapi.get("game", params)
-    # #     #boxData.update({"gameId": r["gameData"]["game"]["id"]})
-    # #     boxData.update({"teamInfo": r["gameData"]["teams"]})
-    # #     boxData.update({"playerInfo": r["gameData"]["players"]})
-    # #     boxData.update({"away": r["liveData"]["boxscore"]["teams"]["away"]})
-    # #     boxData.update({"home": r["liveData"]["boxscore"]["teams"]["home"]})
-
-    # #     # print(boxData)
-
-    # #     pitcherColumns = [
-    # #         {
-    # #             "namefield": boxData["teamInfo"]["away"]["teamName"] + " Pitchers",
-    # #             # "ip": "IP",
-    # #             # "h": "H",
-    # #             # "r": "R",
-    # #             # "er": "ER",
-    # #             # "bb": "BB",
-    # #             # "k": "K",
-    # #             # "hr": "HR",
-    # #             # "era": "ERA",
-    # #             # "p": "P",
-    # #             # "s": "S",
-    # #             # "name": boxData["teamInfo"]["away"]["teamName"] + " Pitchers",
-    # #             # "personId": 0,
-    # #             # "note": "",
-    # #         }
-    # #     ]
-    # #     homePitchers = copy.deepcopy(pitcherColumns)
-    # #     awayPitchers = copy.deepcopy(pitcherColumns)
-    # #     a = 0
-    # #     sides = ["away", "home"]
-    # #     pitchers = [awayPitchers, homePitchers]
-    # #     homePitchers[0]["namefield"] = boxData["teamInfo"]["home"]["teamName"] + " Pitchers"
-    # #     namefield = boxData["playerInfo"]
-    # #     # for dict in namefield:
-    # #     #     a += 1
-    # #     #     print(namefield[dict])
-    # #     # print(a)
-
-    # #     for i in range(0, len(sides)):
-    # #         side = sides[i]
-    # #         for pitcherId_int in boxData[side]["pitchers"]:
-    # #             pitcherId = str(pitcherId_int)
-    # #             if not boxData[side]["players"].get("ID" + pitcherId) or not len(
-    # #                 boxData[side]["players"]["ID" + pitcherId]
-    # #                 .get("stats", {})
-    # #                 .get("pitching", {})
-    # #             ):
-    # #                 # Skip pitcher with no pitching data in the box score (#37)
-    # #                 # Or skip pitcher listed under the wrong team (from comments on #37)
-    # #                 continue
-
-    # #             namefield = boxData["playerInfo"]["ID" + pitcherId]["boxscoreName"]
-    # #             # namefield += (
-    # #             #     "  "
-    # #             #     + boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"].get(
-    # #             #         "note", ""
-    # #             #     )
-    # #             #     if boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"].get(
-    # #             #         "note"
-    # #             #     )
-    # #             #     else ""
-    # #             # )
-    # #             pitcher = {
-    # #                 "namefield": namefield,
-    # #                 # "ip": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "inningsPitched"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "h": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "hits"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "r": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "runs"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "er": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "earnedRuns"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "bb": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "baseOnBalls"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "k": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "strikeOuts"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "hr": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "homeRuns"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "p": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"].get(
-    # #                 #         "pitchesThrown",
-    # #                 #         boxData[side]["players"]["ID" + pitcherId]["stats"][
-    # #                 #             "pitching"
-    # #                 #         ].get("numberOfPitches", 0),
-    # #                 #     )
-    # #                 # ),
-    # #                 # "s": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["stats"]["pitching"][
-    # #                 #         "strikes"
-    # #                 #     ]
-    # #                 # ),
-    # #                 # "era": str(
-    # #                 #     boxData[side]["players"]["ID" + pitcherId]["seasonStats"][
-    # #                 #         "pitching"
-    # #                 #     ]["era"]
-    # #                 # ),
-    # #                 "name": boxData["playerInfo"]["ID" + pitcherId]["boxscoreName"],
-    # #                 # "personId": pitcherId_int,
-    # #                 # "note": boxData[side]["players"]["ID" + pitcherId]["stats"][
-    # #                 #     "pitching"
-    # #                 # ].get("note", ""),
-    # #             }
-    # #             pitchers[i].append(pitcher)
-
-    # #     boxData.update({"awayPitchers": awayPitchers})
-    # #     boxData.update({"homePitchers": homePitchers})
-
-    # #     pitchingTotals = ["awayPitchingTotals", "homePitchingTotals"]
-
-    # #     for i in range(0, len(sides)):
-    # #         side = sides[i]
-    # #         boxData.update(
-    # #             {
-    # #                 pitchingTotals[i]: {
-    # #                     "namefield": "Totals",
-    # #                     # "ip": str(boxData[side]["teamStats"]["pitching"]["inningsPitched"]),
-    # #                     # "h": str(boxData[side]["teamStats"]["pitching"]["hits"]),
-    # #                     # "r": str(boxData[side]["teamStats"]["pitching"]["runs"]),
-    # #                     # "er": str(boxData[side]["teamStats"]["pitching"]["earnedRuns"]),
-    # #                     # "bb": str(boxData[side]["teamStats"]["pitching"]["baseOnBalls"]),
-    # #                     # "k": str(boxData[side]["teamStats"]["pitching"]["strikeOuts"]),
-    # #                     # "hr": str(boxData[side]["teamStats"]["pitching"]["homeRuns"]),
-    # #                     # "p": "",
-    # #                     # "s": "",
-    # #                     # "era": "",
-    # #                     "name": "Totals",
-    # #                     # "personId": 0,
-    # #                     # "note": "",
-    # #                 }
-    # #             }
-    # #         )
-
-    # #     # Get game info
-    # #     boxData.update({"gameBoxInfo": r["liveData"]["boxscore"].get("info", [])})
-
-    # #     return boxData
-
-
-    # async def boxscores(self):
-    #     channel = client.get_channel(983204319564288151) 
-    #     boxData = self.test()
-    #     rowLen = 79
-    #     fullRowLen = rowLen * 2 + 3
-
-    #     boxscore = ""
-    #     awayPitchers = boxData["awayPitchers"]
-    #     homePitchers = boxData["homePitchers"]
-    #     awayPitchers.append(boxData["awayPitchingTotals"])
-    #     homePitchers.append(boxData["homePitchingTotals"])
-    #     blankPitcher = {
-    #         "namefield": "",
-    #         "ip": "",
-    #         "h": "",
-    #         "r": "",
-    #         "er": "",
-    #         "bb": "",
-    #         "k": "",
-    #         "hr": "",
-    #         "era": "",
-    #     }
-
-    #     while len(awayPitchers) > len(homePitchers):
-    #         homePitchers.append(blankPitcher)
-
-    #     while len(awayPitchers) < len(homePitchers):
-    #         awayPitchers.append(blankPitcher)
-
-    #     # Get team totals
-    #     awayPitchers.append(boxData["awayPitchingTotals"])
-    #     homePitchers.append(boxData["homePitchingTotals"])
-
-    #     # Build the pitching box!
-    #     for i in range(0, len(awayPitchers)):
-    #         if i == 0 or i == len(awayPitchers) - 1:
-    #             boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
-
-    #         boxscore += "{namefield:<43}  | ".format(
-    #             **awayPitchers[i]
-    #         )
-    #         boxscore += "{namefield:<43} \n".format(
-    #             **homePitchers[i]
-    #         )
-    #         if i == 0 or i == len(awayPitchers) - 1:
-    #             boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
-    #     awayPitchers.pop(len(awayPitchers) - 2)
-    #     awayPitchers.pop(len(awayPitchers) - 2)
-    #     awayPitchers.pop(len(awayPitchers) - 1)
-    #     for i in range(1, len(awayPitchers)):
-    #         print(awayPitchers[i]['name'])
-    #         # if awayPitchers[i]['namefield'] != 'Taillon':
-    #         #     await channel.send('pitching change' + awayPitchers[i]['namefield'])
-
 
     # def get_temperature(self, city):
     #     city = city.replace(" ", "+")
@@ -1006,7 +761,7 @@ class Bot(discord.Client):
         hour_var = 0
         final = 0
         #await self.embedFunctions.boxscores()
-        self.embedFunctions.boxscore(661693)
+        await self.embedFunctions.boxscore(661693)
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
