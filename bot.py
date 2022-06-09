@@ -673,6 +673,10 @@ class Bot(discord.Client):
             # print(game_time_local.strftime('%-I:%M%p'))
             # print(game_time_local.hour)
             if away_team == True and (yankees_new_hour.hour == now.hour <= (yankees_new_hour.hour + 4)):
+                print(yankees_new_hour.hour)
+                print(now.hour)
+                print(yankees_new_hour + 4)
+                break
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
@@ -689,6 +693,7 @@ class Bot(discord.Client):
                     yankees_home_score = yankees_home_team_score
 
             if away_team == True and (mets_new_hour.hour == now.hour <= (mets_new_hour.hour + 4)):
+                print(mets_new_hour.hour)
                 mets_away_team_score = int(mets_schedule[0]['away_score'])
                 mets_home_team_score = int(mets_schedule[0]['home_score'])
                 if mets_away_score != mets_away_team_score:
@@ -731,19 +736,19 @@ class Bot(discord.Client):
                 if now.hour != (mets_new_hour.hour - 1):
                     hour_var = 0
             
-            if (((now.minute == (yankees_new_minute)) and (now.hour == (yankees_new_hour))) and t < 1):
-                await channel.send('**' + str(yankees_visitors) + '** vs ** ' + str(yankees_home_team) + '** starts soon.**')
-                t = 1
+            # if (((now.minute == (yankees_new_minute)) and (now.hour == (yankees_new_hour))) and t < 1):
+            #     await channel.send('**' + str(yankees_visitors) + '** vs ** ' + str(yankees_home_team) + '** starts soon.**')
+            #     t = 1
 
-                if now.hour != yankees_new_hour:
-                    t = 0
+            #     if now.hour != yankees_new_hour:
+            #         t = 0
                 
-            if (((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))) and y < 1):
-                await channel.send('**' + str(mets_visitors) + '** vs **' + str(mets_home_team) + '** starts soon.**')
-                y = 1
+            # if (((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))) and y < 1):
+            #     await channel.send('**' + str(mets_visitors) + '** vs **' + str(mets_home_team) + '** starts soon.**')
+            #     y = 1
 
-                if now.hour != mets_new_hour:
-                    y = 0
+            #     if now.hour != mets_new_hour:
+            #         y = 0
             if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
