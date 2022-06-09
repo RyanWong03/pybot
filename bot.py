@@ -642,7 +642,7 @@ class EmbedFunctions:
                     #         "pitching"
                     #     ]["era"]
                     # ),
-                    # "name": boxData["playerInfo"]["ID" + pitcherId]["boxscoreName"],
+                    "name": boxData["playerInfo"]["ID" + pitcherId]["boxscoreName"],
                     # "personId": pitcherId_int,
                     # "note": boxData[side]["players"]["ID" + pitcherId]["stats"][
                     #     "pitching"
@@ -671,7 +671,7 @@ class EmbedFunctions:
                         # "p": "",
                         # "s": "",
                         # "era": "",
-                        # "name": "Totals",
+                        "name": "Totals",
                         # "personId": 0,
                         # "note": "",
                     }
@@ -734,9 +734,9 @@ class EmbedFunctions:
         awayPitchers.pop(len(awayPitchers) - 2)
         awayPitchers.pop(len(awayPitchers) - 1)
         for i in range(1, len(awayPitchers)):
-            print(awayPitchers[i]['namefield'])
-            if awayPitchers[i]['namefield'] != 'Taillon':
-                await channel.send('pitching change' + awayPitchers[i]['namefield'])
+            print(awayPitchers[i]['name'])
+            # if awayPitchers[i]['namefield'] != 'Taillon':
+            #     await channel.send('pitching change' + awayPitchers[i]['namefield'])
 
 
     # def get_temperature(self, city):
