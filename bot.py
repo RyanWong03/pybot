@@ -674,8 +674,6 @@ class Bot(discord.Client):
             # print(game_time_local.hour)
             if away_team == True and (yankees_new_hour.hour == now.hour <= (yankees_new_hour.hour + 4)):
                 print(yankees_new_hour.hour)
-                print(now.hour)
-                print(yankees_new_hour + 4)
                 break
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
@@ -694,6 +692,7 @@ class Bot(discord.Client):
 
             if away_team == True and (mets_new_hour.hour == now.hour <= (mets_new_hour.hour + 4)):
                 print(mets_new_hour.hour)
+                break
                 mets_away_team_score = int(mets_schedule[0]['away_score'])
                 mets_home_team_score = int(mets_schedule[0]['home_score'])
                 if mets_away_score != mets_away_team_score:
