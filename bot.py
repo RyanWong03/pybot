@@ -675,7 +675,10 @@ class Bot(discord.Client):
             if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                 print('yankees)')
                 print(yankees_new_hour.hour)
+                print('mets)')
                 print(mets_new_hour.hour)
+                print('now')
+                print(now.hour)
                 break
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
