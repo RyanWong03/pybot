@@ -697,6 +697,7 @@ class EmbedFunctions:
                     }
                 }
             )
+        return boxData
     # def test(self):
     #     boxData = {}
     #     params = {
