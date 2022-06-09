@@ -753,6 +753,7 @@ class Bot(discord.Client):
             mets = await self.testFunctions.get_team_no_msg('mets')
             mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
             print(mets_schedule)
+            self.embedFunctions.boxscores()
             break
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
