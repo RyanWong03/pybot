@@ -638,6 +638,7 @@ class Bot(discord.Client):
         hour_var = 0
         t = 0
         y = 0
+        final = 0
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
@@ -699,10 +700,7 @@ class Bot(discord.Client):
                     await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_home_team)
                     mets_home_score = mets_home_team_score
 
-            if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:
-                #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-                #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-                
+            if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
                 for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
@@ -730,24 +728,8 @@ class Bot(discord.Client):
 
                 if now.hour != (mets_new_hour.hour - 1):
                     hour_var = 0
-            
-            # if (((now.minute == (yankees_new_minute)) and (now.hour == (yankees_new_hour))) and t < 1):
-            #     await channel.send('**' + str(yankees_visitors) + '** vs ** ' + str(yankees_home_team) + '** starts soon.**')
-            #     t = 1
 
-            #     if now.hour != yankees_new_hour:
-            #         t = 0
-                
-            # if (((now.minute == (mets_new_minute)) and (now.hour == (mets_new_hour))) and y < 1):
-            #     await channel.send('**' + str(mets_visitors) + '** vs **' + str(mets_home_team) + '** starts soon.**')
-            #     y = 1
-
-            #     if now.hour != mets_new_hour:
-            #         y = 0
-            if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:
-                #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
-                #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
-                
+            if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:                
                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                     if item.get('data-razz') == '':
                         player_name = 'Unknown Player'
@@ -776,48 +758,51 @@ class Bot(discord.Client):
                 if now.hour != (mets_new_hour.hour - 1):
                     hour_var = 0
                 
-            
-            # #if type(queried_schedule) is list:
-            #     final_status_list = ["Final", "Game Over", "Completed Early"]
-            #     scheduled_status_list = ["Scheduled", "Pre-Game"]
-            #     live_status_list = ["In Progress", "Delayed"]
-            #     other_status_list = ["Postponed"]
+            if type(yankees_schedule) is list:
+                final_status_list = ["Final", "Game Over", "Completed Early"]
+                scheduled_status_list = ["Scheduled", "Pre-Game"]
+                live_status_list = ["In Progress", "Delayed"]
+                other_status_list = ["Postponed"]
 
                 # if previous_game is not None:
-                #     if previous_game['status'] == 'In Progress' and queried_schedule[0]['status'] == 'Scheduled':
-                #         queried_schedule[0] = previous_game
+                #     if previous_game['status'] == 'In Progress' and yankees_schedule[0]['status'] == 'Scheduled':
+                #         yankees_schedule[0] = previous_game
                 
-                # if len(queried_schedule) == 2:
-                #     #game 1
-                #     if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list): 
-                #         await self.embedFunctions.final_game_embed(queried_schedule[0], message)
-                #     #elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
-                #         #await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
-                #         #if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
-                #     #elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
-                #         #await self.embedFunctions.live_game_embed(queried_schedule[0], message)
-                #         #return
-                #     elif any(game_status in queried_schedule[0]['status'] for game_status in other_status_list):
-                #         channel.send(queried_schedule[0]['away_name'] + ' vs ' + queried_schedule[0]['home_name'] + ' game is postponed.')
+                if len(yankees_schedule) == 2:
+                    pass
+                    # #game 1
+                    # if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list): 
+                    #     await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_score))
 
-                #     #game 2
-                #     if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
-                #         await self.embedFunctions.final_game_embed(queried_schedule[1], message)
-                #         if len(next_games) > 0:
-                #             await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                #     elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
-                #         await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
-                #         if previous_game is not None:
-                #             await self.embedFunctions.final_game_embed(previous_game, message)
-                #     elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
-                #         await self.embedFunctions.live_game_embed(queried_schedule[1], message)
-                #         return
-                #     elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                #     if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                    # #elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
+                    #     #await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
+                    #     #if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
+                    # #elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
+                    #     #await self.embedFunctions.live_game_embed(queried_schedule[0], message)
+                    #     #return
+                    # elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list):
+                    #     channel.send(yankees_schedule[0]['away_name'] + ' vs ' + yankees_schedule[0]['home_name'] + ' game is postponed.')
+
+                    # #game 2
+                    # if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
+                    #     await self.embedFunctions.final_game_embed(queried_schedule[1], message)
+                    #     if len(next_games) > 0:
+                    #         await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                    # elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
+                    #     await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
+                    #     if previous_game is not None:
+                    #         await self.embedFunctions.final_game_embed(previous_game, message)
+                    # elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
+                    #     await self.embedFunctions.live_game_embed(queried_schedule[1], message)
+                    #     return
+                    # elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                    # if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                 
-                # elif len(queried_schedule) == 1:
-                #     if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list):
-                #         await self.embedFunctions.final_game_embed(queried_schedule[0], message)
+                elif ((len(yankees_schedule) == 1) and (final < 1)):
+                    if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list):
+                        await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_score))
+                        await channel.send(statsapi.boxscore(yankees_schedule[0], battingBox = False, battingInfo = False, fieldingInfo = False, gameInfo = False, pitchingBox = True))
+                        final = 1
                 #         if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                 #     elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
                 #         await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
