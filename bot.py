@@ -608,9 +608,9 @@ class EmbedFunctions:
 
         awayPitchers.append(boxData["awayPitchingTotals"])
         homePitchers.append(boxData["homePitchingTotals"])
-        awayPitchers.pop(len(awayPitchers) - 2)
-        awayPitchers.pop(len(awayPitchers) - 2)
-        awayPitchers.pop(len(awayPitchers) - 1)
+        # awayPitchers.pop(len(awayPitchers) - 2)
+        # awayPitchers.pop(len(awayPitchers) - 2)
+        # awayPitchers.pop(len(awayPitchers) - 1)
         for i in range(1, len(awayPitchers)):
             print(awayPitchers[i]['namefield'])
 
