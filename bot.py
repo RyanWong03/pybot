@@ -564,18 +564,18 @@ class EmbedFunctions:
             homePitchers.append(boxData["homePitchingTotals"])
 
             # Build the pitching box!
-            # for i in range(0, len(awayPitchers)):
-            #     if i == 0 or i == len(awayPitchers) - 1:
-            #         boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
+            for i in range(0, len(awayPitchers)):
+                if i == 0 or i == len(awayPitchers) - 1:
+                    boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
-            #     boxscore += "{namefield:<43}| ".format(
-            #         **awayPitchers[i]
-            #     )
-            #     boxscore += "{namefield:<43} \n".format(
-            #         **homePitchers[i]
-            #     )
-            #     if i == 0 or i == len(awayPitchers) - 1:
-            #         boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
+                boxscore += "{namefield:<43}| ".format(
+                    **awayPitchers[i]
+                )
+                boxscore += "{namefield:<43} \n".format(
+                    **homePitchers[i]
+                )
+                if i == 0 or i == len(awayPitchers) - 1:
+                    boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
 
         # Get game info
         # if gameInfo:
@@ -619,11 +619,11 @@ class EmbedFunctions:
         #                 }
         #             )
 
-            # Build the game info box
-            for i in range(0, len(gameBoxInfo)):
-                boxscore += ("{:<%s}" % fullRowLen + "\n").format(gameBoxInfo[i])
-                if i == len(gameBoxInfo) - 1:
-                    boxscore += "-" * fullRowLen + "\n"
+            # # Build the game info box
+            # for i in range(0, len(gameBoxInfo)):
+            #     boxscore += ("{:<%s}" % fullRowLen + "\n").format(gameBoxInfo[i])
+            #     if i == len(gameBoxInfo) - 1:
+            #         boxscore += "-" * fullRowLen + "\n"
         print(boxscore)
         return boxscore
 
