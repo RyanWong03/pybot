@@ -673,13 +673,6 @@ class Bot(discord.Client):
             # print(game_time_local.strftime('%-I:%M%p'))
             # print(game_time_local.hour)
             if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
-                print('yankees)')
-                print(yankees_new_hour.hour)
-                print('mets)')
-                print(mets_new_hour.hour)
-                print('now')
-                print(now.hour)
-                break
                 #visitors = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index].get_text()
                 #home_team = soup.find_all(class_ = "TeamWrappersstyle__DesktopTeamWrapper-sc-uqs6qh-0 iNsMPL")[team_index + 1].get_text()
                 # away_team_score = int(soup.find_all(class_ = "TeamMatchupLayerstyle__ScoreWrapper-sc-3lvmzz-3 cLonxp")[team_index].get_text())
@@ -695,10 +688,7 @@ class Bot(discord.Client):
                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel)
                     yankees_home_score = yankees_home_team_score
 
-            if away_team == True and (mets_new_hour.hour == now.hour <= (mets_new_hour.hour + 3)):
-                print('mets second')
-                print(mets_new_hour.hour)
-                break
+            if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
                 mets_away_team_score = int(mets_schedule[0]['away_score'])
                 mets_home_team_score = int(mets_schedule[0]['home_score'])
                 if mets_away_score != mets_away_team_score:
