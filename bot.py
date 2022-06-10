@@ -1329,7 +1329,7 @@ class Bot(discord.Client):
                             upper_team = name['teamName'].upper()
                             if message_array[0].upper() == 'BOT' and message_array[1].upper() == upper_team:
                                 if message_array[2].upper() == 'ON':
-                                    await message.channel.send(upper_team + ('notifs are now on'))
+                                    await message.channel.send(message_array[1] + ('notifs are now on'))
                                 await message.channel.send(upper_team)
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
