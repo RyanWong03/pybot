@@ -685,6 +685,7 @@ class EmbedFunctions:
         hour_var = 0
         away_team = None
         error_var = 0
+        await channel.send(team)
         while True and error_var < 1:
             await channel.send('team_notif')
             # target_date_time = datetime.datetime.now() - timedelta(hours=4)
