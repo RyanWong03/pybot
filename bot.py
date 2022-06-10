@@ -800,7 +800,7 @@ class Bot(discord.Client):
                 if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                     yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                     yankees_home_team_score = int(yankees_schedule[0]['home_score'])
-
+#
                     if yankees_away_score != yankees_away_team_score:
                         await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
                         time.sleep(5)
