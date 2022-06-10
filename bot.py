@@ -760,7 +760,6 @@ class EmbedFunctions:
 #     print('Bot is ready.')
 
 class Bot(discord.Client):
-    break_var = None
     embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
     async def on_ready(self):
@@ -1315,16 +1314,20 @@ class Bot(discord.Client):
                             print('DEBUG: Exception in SCORE. Input was %s' % message.content)
                             print('DEBUG: Exception was %s' % e)
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
-                    elif message_array[1].upper() == 'ACTIVATE':
-                        while break_var != True:
-                            await message.channel.send('team activated. you will now receive notifs')
-                        # while break_var != True:
-                        #     await self.embedFunctions.team_notifications('padres', 789273776105193472, True)
-                    if message_array[0].upper() == 'BOT' and message_array[1].upper() == 'DEACTIVATE':
-                        await message.channel.send('team deactiviating. no more notifs')
-                        break_var = False
-                        #await self.embedFunctions.team_notifications('padres', 789273776105193472, False)
-
+                    # elif message_array[1].upper() == 'ACTIVATE':
+                    #     while break_var != True:
+                    #         await message.channel.send('team activated. you will now receive notifs')
+                    #     # while break_var != True:
+                    #     #     await self.embedFunctions.team_notifications('padres', 789273776105193472, True)
+                    # if message_array[0].upper() == 'BOT' and message_array[1].upper() == 'DEACTIVATE':
+                    #     await message.channel.send('team deactiviating. no more notifs')
+                    #     break_var = False
+                    #     #await self.embedFunctions.team_notifications('padres', 789273776105193472, False)
+                    teams = [x['name'] for x in statsapi.get('teams',{'sportIds':1,'activeStatus':'Yes','fields':'teams,name'})['teams']]
+                    for team in teams:
+                        for name in team:
+                            if message_array[0].upper() == 'BOT' and message_array[1] == name:
+                                print(name)
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
                     print('test')
