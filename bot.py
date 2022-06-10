@@ -1328,7 +1328,7 @@ class Bot(discord.Client):
                         for name in statsapi.lookup_team(team):
                             upper_team = name['teamName'].upper()
                             if message_array[0].upper() == 'BOT' and message_array[1].upper() == upper_team:
-                                print(name)
+                                await message.channel.send(upper_team)
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
                     print('test')
