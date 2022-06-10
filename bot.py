@@ -810,14 +810,14 @@ class Bot(discord.Client):
                         await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team, yankees_away_team_score, yankees_home_team_score)
                         yankees_home_score = yankees_home_team_score
                     
-                    if g < 1:
-                        print(yankees_pitchers[len(yankees_pitchers) - 1])
-                        print(yankees_pitchers[len(yankees_pitchers) - 2])
-                        #print(yankees_pitchers)
-                        g = 1
-                    if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_pitchers[len(yankees_pitchers) - 2]:
-                        await channel.send(str(yankees_pitchers[len(yankees_pitchers) - 2]) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
-                        yankees_pitchers[len(yankees_pitchers) - 1] = yankees_pitchers[len(yankees_pitchers) - 2]
+                    # if g < 1:
+                    #     print(yankees_pitchers[len(yankees_pitchers) - 1])
+                    #     print(yankees_pitchers[len(yankees_pitchers) - 2])
+                    #     #print(yankees_pitchers)
+                    #     g = 1
+                    # if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_pitchers[len(yankees_pitchers) - 2]:
+                    #     await channel.send(str(yankees_pitchers[len(yankees_pitchers) - 2]) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
+                    #     yankees_pitchers[len(yankees_pitchers) - 1] = yankees_pitchers[len(yankees_pitchers) - 2]
                     
                 if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
                     for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
