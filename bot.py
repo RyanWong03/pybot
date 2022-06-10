@@ -798,7 +798,7 @@ class Bot(discord.Client):
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
                 yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-                yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])
+                yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])[0]
                 print(yankees_away_team_code)
                 break
                 yankees_home_team_code = yankees[0]['fileCode']
