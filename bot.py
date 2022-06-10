@@ -238,7 +238,7 @@ class EmbedFunctions:
         scheduled_embed.type = 'rich'
         scheduled_embed.color = discord.Color.dark_blue()
         scheduled_embed.add_field(name = 'Game Status:', value = game['status'], inline = False)
-        scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET'), inline = False)
+        scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET') - timedelta(hours = 4), inline = False)
         
         if not home_prob:
             home_prob = 'Unannounced'
