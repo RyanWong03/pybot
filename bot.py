@@ -1307,9 +1307,10 @@ class Bot(discord.Client):
                             print('DEBUG: Exception was %s' % e)
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
                     elif 'ACTIVATE' in message_array[1].upper():
-                        await self.embedFunctions.test_act(message)
+                        #await self.embedFunctions.test_act(message)
+                        pass
                     elif 'DEACTIVATE' in message_array[1].upper():
-                        return
+                        pass
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
                     print('test')
