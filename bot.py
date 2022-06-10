@@ -760,6 +760,7 @@ class EmbedFunctions:
 #     print('Bot is ready.')
 
 class Bot(discord.Client):
+    break_var = None
     embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
     async def on_ready(self):
@@ -1004,7 +1005,6 @@ class Bot(discord.Client):
                 #             await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                 
     async def on_message(self, message):
-        break_var = None
         if(message.author == self.user) or message.author.bot:
             return
         else:
@@ -1316,12 +1316,13 @@ class Bot(discord.Client):
                             print('DEBUG: Exception was %s' % e)
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
                     elif message_array[1].upper() == 'ACTIVATE':
-                        await message.channel.send('team activated. you will now receive notifs')
+                        while break_var != True:
+                            await message.channel.send('team activated. you will now receive notifs')
                         # while break_var != True:
                         #     await self.embedFunctions.team_notifications('padres', 789273776105193472, True)
                     if message_array[0].upper() == 'BOT' and message_array[1].upper() == 'DEACTIVATE':
                         await message.channel.send('team deactiviating. no more notifs')
-                        break_var = True
+                        break_var = False
                         #await self.embedFunctions.team_notifications('padres', 789273776105193472, False)
 
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
