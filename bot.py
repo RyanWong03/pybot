@@ -744,7 +744,7 @@ class EmbedFunctions:
             #         home_score = home_team_score
 
 
-            
+            #
             if error == False:
                 return
 
