@@ -760,6 +760,7 @@ class Bot(discord.Client):
         pitchers = []
         hour_var = 0
         final = 0
+        g = 0
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
@@ -809,6 +810,10 @@ class Bot(discord.Client):
                         await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team, yankees_away_team_score, yankees_home_team_score)
                         yankees_home_score = yankees_home_team_score
                     
+                    if g < 1:
+                        print(yankees_pitchers[len(yankees_pitchers) - 1])
+                        print(yankees_pitchers[len(yankees_pitchers) - 2])
+                        g = 1
                     if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_pitchers[len(yankees_pitchers) - 2]:
                         await channel.send(str(yankees_pitchers[len(yankees_pitchers) - 2]) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
                         yankees_pitchers[len(yankees_pitchers) - 1] = yankees_pitchers[len(yankees_pitchers) - 2]
