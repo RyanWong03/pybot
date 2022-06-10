@@ -104,7 +104,7 @@ class TestFunctions:
             return
         return team_selected
 
-    async def get_team_no_msg(self, team_name):
+    def get_team_no_msg(self, team_name):
         teams_returned = statsapi.lookup_team(team_name)
         team_selected = teams_returned[0]
         return team_selected
@@ -770,8 +770,8 @@ class Bot(discord.Client):
         
         while var < 1:
             target_date_time = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
-            yankees = await self.testFunctions.get_team_no_msg('yankees')
-            mets = await self.testFunctions.get_team_no_msg('mets')
+            yankees = self.testFunctions.get_team_no_msg('yankees')
+            mets = self.testFunctions.get_team_no_msg('mets')
             mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
             yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
             await dump.send('msg')
@@ -784,7 +784,7 @@ class Bot(discord.Client):
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
                 yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-                yankees_away_team_code = await self.testFunctions.get_team_no_msg('cubs')[0]['fileCode']
+                yankees_away_team_code = self.testFunctions.get_team_no_msg('cubs')[0]['fileCode']
                 print(yankees_away_team_code)
                 break
                 yankees_home_team_code = yankees[0]['fileCode']
