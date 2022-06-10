@@ -559,9 +559,8 @@ class EmbedFunctions:
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
             print(awayPitchers)
-            # awayPitchers.pop(0)
-            awayPitchers.pop(len(awayPitchers) - 2)
-            awayPitchers.pop(len(awayPitchers) - 1)
+            awayPitchers.pop(0)
+            awayPitchers.pop()
             for i in range(1, len(awayPitchers)):
                 if awayPitchers[i]['name'] not in pitchers_list:
                     pitchers_list.append(awayPitchers[i]['name'])
@@ -625,8 +624,8 @@ class EmbedFunctions:
             boxData.update(
                 {
                     pitchingTotals[i]: {
-                        "namefield": "",
-                        "name": "",
+                        "namefield": "Totals",
+                        "name": "Totals",
                     }
                 }
             )
