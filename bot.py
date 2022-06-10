@@ -675,7 +675,7 @@ class EmbedFunctions:
         
     async def test_deact(self):
         return
-    async def team_notifications(self, team, channel_id):
+    async def team_notifications(self, team, channel_id, error):
         channel = client.get_channel(int(channel_id))
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
@@ -739,6 +739,10 @@ class EmbedFunctions:
                 if home_score != home_team_score:
                     #await self.scoring_plays_embed(queried_schedule[0], channel)
                     home_score = home_team_score
+
+            if error == True:
+                raise(Exception("BreakError"))
+            return error
 
 # @client.event
 # async def on_ready():
@@ -996,6 +1000,7 @@ class Bot(discord.Client):
                 #             await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                 
     async def on_message(self, message):
+        break_var = None
         if(message.author == self.user) or message.author.bot:
             return
         else:
@@ -1306,10 +1311,13 @@ class Bot(discord.Client):
                             print('DEBUG: Exception in SCORE. Input was %s' % message.content)
                             print('DEBUG: Exception was %s' % e)
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
-                    elif 'ACTIVATE' in message_array[1].upper():
-                        print('hi')
-                        if 'DEACTIVATE' in message_array[1].upper():
-                            print('bye')
+                    elif message_array[1].upper() == 'ACTIVATE':
+                        await message.channel.send('team activated. you will now receive notifs')
+                        #break_var = await self.embedFunctions.team_notifications(self, 'padres', 789273776105193472, True)
+                    elif message_array[1].upper() == 'DEACTIVATE':
+                            if break_var == True:
+                                pass
+
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
                     print('test')
