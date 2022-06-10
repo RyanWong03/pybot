@@ -653,7 +653,21 @@ class EmbedFunctions:
     # def print_temperature(self, city):
     #     city = city + " weather"
     #     return self.get_temperature(city)
+    def file_code(self, game):
+        if type(game) == list:
+            game = game[0]
+        
+        game_type = game['game_type']
+        home_team = statsapi.lookup_team(game['home_name'])
+        away_team = statsapi.lookup_team(game['away_name'])
+        away_team_code = away_team[0]['fileCode'].upper()
+        home_team_code = home_team[0]['fileCode'].upper()
 
+        file_code_list = []
+        file_code_list.append(away_team_code)
+        file_code_list.append(home_team_code)
+
+        return file_code_list
     async def team_notifications(self, team, channel_id, message):
         channel = client.get_channel(int(channel_id))
         lineup_url = "https://www.baseballpress.com/lineups/" 
@@ -784,7 +798,7 @@ class Bot(discord.Client):
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
                 yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-                yankees_away_team_code = self.testFunctions.get_team_no_msg('cubs')[0]['fileCode']
+                yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])
                 print(yankees_away_team_code)
                 break
                 yankees_home_team_code = yankees[0]['fileCode']
