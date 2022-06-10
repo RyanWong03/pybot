@@ -363,7 +363,7 @@ class EmbedFunctions:
                              value=awayTeamShort + ' ' + awayWinProb + ' - ' + homeTeamShort + ' ' + homeWinProb + '%')
         
         if game_type != 'S':
-
+#
             scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
             scoringPlays = scoringPlaysList['plays']
 
