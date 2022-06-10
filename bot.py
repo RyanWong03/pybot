@@ -668,7 +668,14 @@ class EmbedFunctions:
         file_code_list.append(home_team_code)
 
         return file_code_list
-    async def team_notifications(self, team, channel_id, message):
+    
+    async def test_act(self, message):
+        while True:
+            await message.channel.send("hi")
+        
+    async def test_deact(self):
+        return
+    async def team_notifications(self, team, channel_id):
         channel = client.get_channel(int(channel_id))
         lineup_url = "https://www.baseballpress.com/lineups/" 
         r = requests.get(lineup_url)
@@ -1300,9 +1307,9 @@ class Bot(discord.Client):
                             print('DEBUG: Exception was %s' % e)
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
                     elif 'ACTIVATE' in message_array[1].upper():
-                        pass
+                        await self.embedFunctions.test_act(message)
                     elif 'DEACTIVATE' in message_array[1].upper():
-                        pass            
+                        return
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
                     print('test')
