@@ -747,7 +747,7 @@ class EmbedFunctions:
                 error_var = 1
             
             if error == False:
-                error_var = 0
+                return
 
 # @client.event
 # async def on_ready():
