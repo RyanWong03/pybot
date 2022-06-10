@@ -857,7 +857,7 @@ class Bot(discord.Client):
                 mets_new_minute = mets_game_time_local - timedelta(minutes=5)
                 mets_home_prob = mets_schedule[0]['home_probable_pitcher']
                 mets_away_prob = mets_schedule[0]['away_probable_pitcher']
-                mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
+                #mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
                 if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
                     mets_away_team_score = int(mets_schedule[0]['away_score'])
                     mets_home_team_score = int(mets_schedule[0]['home_score'])
