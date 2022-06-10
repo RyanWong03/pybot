@@ -214,7 +214,7 @@ class EmbedFunctions:
         if type(game) == list:
             game = game[0]
 
-        game_time_local = self.testFunctions.get_local_time(game['game_datetime'])
+        game_time_local = self.testFunctions.get_local_time(game['game_datetime']) - timedelta(hours=4)
         home_team = statsapi.lookup_team(game['home_name'])
         away_team = statsapi.lookup_team(game['away_name'])
         game_type = game['game_type']
@@ -238,7 +238,7 @@ class EmbedFunctions:
         scheduled_embed.type = 'rich'
         scheduled_embed.color = discord.Color.dark_blue()
         scheduled_embed.add_field(name = 'Game Status:', value = game['status'], inline = False)
-        scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET') - timedelta(hours = 4), inline = False)
+        scheduled_embed.add_field(name = 'Start Time: ', value = game_time_local.strftime('%-I:%M%p' + ' ET'), inline = False)
         
         if not home_prob:
             home_prob = 'Unannounced'
