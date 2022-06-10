@@ -1317,7 +1317,7 @@ class Bot(discord.Client):
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
                     elif message_array[1].upper() == 'ACTIVATE':
                         await message.channel.send('team activated. you will now receive notifs')
-                        await self.embedFunctions.team_notifications('padres', 789273776105193472, True)
+                        #await self.embedFunctions.team_notifications('padres', 789273776105193472, True)
                     if message_array[0].upper() == 'BOT' and message_array[1].upper() == 'DEACTIVATE':
                         await message.channel.send('team deactiviating. no more notifs')
                         await self.embedFunctions.team_notifications('padres', 789273776105193472, False)
