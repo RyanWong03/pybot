@@ -1326,7 +1326,7 @@ class Bot(discord.Client):
                     teams = [x['name'] for x in statsapi.get('teams',{'sportIds':1,'activeStatus':'Yes','fields':'teams,name'})['teams']]
                     for team in teams:
                         for name in team:
-                            if message_array[0].upper() == 'BOT' and message_array[1] == name:
+                            if message_array[0].upper() == 'BOT' and message_array[1].upper() == name['teamName']:
                                 print(name)
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
