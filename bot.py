@@ -813,6 +813,7 @@ class Bot(discord.Client):
                     if g < 1:
                         print(yankees_pitchers[len(yankees_pitchers) - 1])
                         print(yankees_pitchers[len(yankees_pitchers) - 2])
+                        print(yankees_pitchers)
                         g = 1
                     if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_pitchers[len(yankees_pitchers) - 2]:
                         await channel.send(str(yankees_pitchers[len(yankees_pitchers) - 2]) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
