@@ -802,7 +802,7 @@ class Bot(discord.Client):
                 yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
                 yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
                 yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
-                yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                #yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
 
                 if yankees_visitors == 'New York Yankees':
                     away_team = True
