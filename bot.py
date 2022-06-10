@@ -743,8 +743,7 @@ class EmbedFunctions:
             #         #await self.scoring_plays_embed(queried_schedule[0], channel)
             #         home_score = home_team_score
 
-            if error == True:
-                error_var = 1
+
             
             if error == False:
                 return
