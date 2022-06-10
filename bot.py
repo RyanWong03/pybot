@@ -1308,7 +1308,7 @@ class Bot(discord.Client):
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
                     elif 'ACTIVATE' in message_array[1].upper():
                         print('hi')
-                        if 'DE' in message_array[1].upper():
+                        if 'DEACTIVATE' in message_array[1].upper():
                             print('bye')
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
