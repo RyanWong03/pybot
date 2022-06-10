@@ -814,12 +814,13 @@ class Bot(discord.Client):
                     yankees_home_team_score = int(yankees_schedule[0]['home_score'])
                     if yankees_away_score != yankees_away_team_score:
                         await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
-                        time.sleep(5)
                         yankees_away_score = yankees_away_team_score
+                        time.sleep(15)
                         
                     if yankees_home_score != yankees_home_team_score:
                         await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team, yankees_away_team_score, yankees_home_team_score)
                         yankees_home_score = yankees_home_team_score
+                        time.sleep(15)
                     
                     # if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_away_prob:
                     #     await channel.send(yankees_away_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1])
@@ -870,11 +871,12 @@ class Bot(discord.Client):
                     if mets_away_score != mets_away_team_score:
                         await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_visitors, mets_away_team_score, mets_home_team_score)
                         mets_away_score = mets_away_team_score
-                        time.sleep(5)
+                        time.sleep(15)
                     
                     if mets_home_score != mets_home_team_score:
                         await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_home_team, mets_away_score, mets_home_team_score)
                         mets_home_score = mets_home_team_score
+                        time.sleep(15)
 
                 if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:                
                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
