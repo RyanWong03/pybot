@@ -784,10 +784,8 @@ class Bot(discord.Client):
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
                 yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-                # home_team = statsapi.lookup_team(game['home_name'])
-                # home_team_short = home_team[0]['fileCode'].upper()
-                yankees_away_team_code = 'NYY'#yankees_visitors[0]['fileCode'].upper()
-                yankees_home_team_code = 'NYM' #yankees_home_team[0]['fileCode'].upper()
+                yankees_away_team_code = yankees_visitors[0]['fileCode'].upper()
+                yankees_home_team_code = yankees_home_team[0]['fileCode'].upper()
                 yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
                 yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
                 #yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
