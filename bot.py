@@ -157,7 +157,7 @@ class TestFunctions:
 
 class EmbedFunctions:
     testFunctions = TestFunctions()
-    async def scoring_plays_embed(self, game, channel, team):
+    async def scoring_plays_embed(self, game, channel, team, away_team_score, home_team_score):
         if type(game) == list:
             game = game[0]
         
@@ -166,8 +166,8 @@ class EmbedFunctions:
         away_team = statsapi.lookup_team(game['away_name'])
         away_team_code = away_team[0]['fileCode'].upper()
         home_team_code = home_team[0]['fileCode'].upper()
-        away_team_score = int(game['away_score'])
-        home_team_score = int(game['home_score'])
+        # away_team_score = int(game['away_score'])
+        # home_team_score = int(game['home_score'])
         scoring_embed = discord.Embed()
         scoring_embed.title = '**%s Scored**' % team
         scoring_embed.type = 'rich'
@@ -801,11 +801,12 @@ class Bot(discord.Client):
                     yankees_home_team_score = int(yankees_schedule[0]['home_score'])
 
                     if yankees_away_score != yankees_away_team_score:
-                        await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors)
+                        await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
+                        time.sleep(5)
                         yankees_away_score = yankees_away_team_score
                         
                     if yankees_home_score != yankees_home_team_score:
-                        await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team)
+                        await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team, yankees_away_team_score, yankees_home_team_score)
                         yankees_home_score = yankees_home_team_score
                     
                 if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
@@ -851,11 +852,12 @@ class Bot(discord.Client):
                     mets_away_team_score = int(mets_schedule[0]['away_score'])
                     mets_home_team_score = int(mets_schedule[0]['home_score'])
                     if mets_away_score != mets_away_team_score:
-                        await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_visitors)
+                        await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_visitors, mets_away_team_score, mets_home_team_score)
                         mets_away_score = mets_away_team_score
+                        time.sleep(5)
                     
                     if mets_home_score != mets_home_team_score:
-                        await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_home_team)
+                        await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_home_team, mets_away_score, mets_home_team_score)
                         mets_home_score = mets_home_team_score
 
                 if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:                
