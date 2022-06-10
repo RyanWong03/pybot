@@ -566,7 +566,7 @@ class EmbedFunctions:
             for i in range(1, len(awayPitchers)):
                 if awayPitchers[i]['name'] not in pitchers_list:
                     pitchers_list.append(awayPitchers[i]['name'])
-            
+            print(pitchers_list)
             return pitchers_list
     def boxscore_data(self, gamePk, timecode=None):
         boxData = {}
@@ -813,7 +813,7 @@ class Bot(discord.Client):
                     if g < 1:
                         print(yankees_pitchers[len(yankees_pitchers) - 1])
                         print(yankees_pitchers[len(yankees_pitchers) - 2])
-                        print(yankees_pitchers)
+                        #print(yankees_pitchers)
                         g = 1
                     if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_pitchers[len(yankees_pitchers) - 2]:
                         await channel.send(str(yankees_pitchers[len(yankees_pitchers) - 2]) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
