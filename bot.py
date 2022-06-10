@@ -773,7 +773,7 @@ class Bot(discord.Client):
         hour_var = 0
         final = 0
         g = 0
-        await self.embedFunctions.boxscore(661697)
+        #await self.embedFunctions.boxscore(661697)
         # for tea in range(num_teams):
         #     if teamtest[tea].get_text() == 'Yankees':
         #         #team_index = tea
