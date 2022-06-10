@@ -625,8 +625,8 @@ class EmbedFunctions:
             boxData.update(
                 {
                     pitchingTotals[i]: {
-                        # "namefield": "Totals",
-                        # "name": "Totals",
+                        "namefield": "",
+                        "name": "",
                     }
                 }
             )
