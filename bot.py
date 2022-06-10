@@ -363,7 +363,6 @@ class EmbedFunctions:
                              value=awayTeamShort + ' ' + awayWinProb + ' - ' + homeTeamShort + ' ' + homeWinProb + '%')
         
         if game_type != 'S':
-#
             scoringPlaysList = statsapi.game_scoring_play_data(game['game_id'])
             scoringPlays = scoringPlaysList['plays']
 
@@ -778,7 +777,6 @@ class Bot(discord.Client):
             await dump.send('msg')
             now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
             
-            
             if len(yankees_schedule) > 0:
                 yankees_game_id = yankees_schedule[0]['game_id']
                 yankees_visitors = yankees_schedule[0]['away_name']
@@ -786,6 +784,8 @@ class Bot(discord.Client):
                 yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
                 yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
                 yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
+                # home_team = statsapi.lookup_team(game['home_name'])
+                # home_team_short = home_team[0]['fileCode'].upper()
                 yankees_away_team_code = 'NYY'#yankees_visitors[0]['fileCode'].upper()
                 yankees_home_team_code = 'NYM' #yankees_home_team[0]['fileCode'].upper()
                 yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
@@ -800,7 +800,6 @@ class Bot(discord.Client):
                 if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                     yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                     yankees_home_team_score = int(yankees_schedule[0]['home_score'])
-#
                     if yankees_away_score != yankees_away_team_score:
                         await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
                         time.sleep(5)
