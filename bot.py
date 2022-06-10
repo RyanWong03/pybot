@@ -684,64 +684,69 @@ class EmbedFunctions:
         pitchers = []
         hour_var = 0
         away_team = None
-        while True:
-            target_date_time = datetime.datetime.now() - timedelta(hours=4)
-            team_selected = await self.testFunctions.get_team_no_msg(str(team))
-            queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
-            now = datetime.datetime.now() - timedelta(hours=4)
-            game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
-            new_hour = game_time_local - timedelta(hours=4)
-            visitors = queried_schedule[0]['away_name']
-            home_team = queried_schedule[0]['home_name']
-            if visitors == 'New York Yankees':
-                away_team = True
-            elif home_team == 'New York Yankees':
-                away_team = False
-            if away_team == True:
-                if (now.hour == (new_hour.hour - 1)) and (hour_var < 1):
-                    for item in soup_lineup.select("[data-league='%s']:-soup-contains('%s') .player > a.player-link" % ()):
-                        if item.get('data-razz') == '':
-                            player_name = 'Unknown Player'
-                            lineup_list.append(player_name)
-                        else:
-                            player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                            lineup_list.append(player_name)
-                    pitchers.append(lineup_list[0])
-                    pitchers.append(lineup_list[1])
+        error_var = 0
+        while True and error_var < 1:
+            await channel.send('team_notif')
+            # target_date_time = datetime.datetime.now() - timedelta(hours=4)
+            # team_selected = await self.testFunctions.get_team_no_msg(str(team))
+            # queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id'])) #'%Y-%m-%d
+            # now = datetime.datetime.now() - timedelta(hours=4)
+            # game_time_local = self.testFunctions.get_local_time(queried_schedule[0]['game_datetime'])
+            # new_hour = game_time_local - timedelta(hours=4)
+            # visitors = queried_schedule[0]['away_name']
+            # home_team = queried_schedule[0]['home_name']
+            # if visitors == 'New York Yankees':
+            #     away_team = True
+            # elif home_team == 'New York Yankees':
+            #     away_team = False
+            # if away_team == True:
+            #     if (now.hour == (new_hour.hour - 1)) and (hour_var < 1):
+            #         for item in soup_lineup.select("[data-league='%s']:-soup-contains('%s') .player > a.player-link" % ()):
+            #             if item.get('data-razz') == '':
+            #                 player_name = 'Unknown Player'
+            #                 lineup_list.append(player_name)
+            #             else:
+            #                 player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+            #                 lineup_list.append(player_name)
+            #         pitchers.append(lineup_list[0])
+            #         pitchers.append(lineup_list[1])
                     
-                    await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[0] + '\n' + str(home_team) + ': ' + pitchers[1])
+            #         await channel.send('Starting Pitchers:\n' + str(visitors) + ': ' + pitchers[0] + '\n' + str(home_team) + ': ' + pitchers[1])
 
-                    lineup_list.pop(0)
-                    lineup_list.pop(0)
-                    n = 9
-                    home_list = lineup_list[n:]
-                    away_list = lineup_list[:-n]
+            #         lineup_list.pop(0)
+            #         lineup_list.pop(0)
+            #         n = 9
+            #         home_list = lineup_list[n:]
+            #         away_list = lineup_list[:-n]
 
-                    away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
-                    await channel.send(away_lineup)
+            #         away_lineup = """```1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+            #         await channel.send(away_lineup)
 
-                    home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-                    await channel.send(home_lineup)
-                    hour_var = 1
+            #         home_lineup = """```1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+            #         await channel.send(home_lineup)
+            #         hour_var = 1
 
-                    if now.hour != (new_hour.hour - 1):
-                        hour_var = 0
-            elif away_team == False:
-                pass
+            #         if now.hour != (new_hour.hour - 1):
+            #             hour_var = 0
+            # elif away_team == False:
+            #     pass
             
-            if (new_hour.hour <= now.hour <= (new_hour.hour + 4)):
-                away_team_score = int(queried_schedule[0]['away_score'])
-                home_team_score = int(queried_schedule[0]['home_score'])
-                if away_score != away_team_score:
-                   # await self.scoring_plays_embed(queried_schedule[0], channel)
-                    away_score = away_team_score
+            # if (new_hour.hour <= now.hour <= (new_hour.hour + 4)):
+            #     away_team_score = int(queried_schedule[0]['away_score'])
+            #     home_team_score = int(queried_schedule[0]['home_score'])
+            #     if away_score != away_team_score:
+            #        # await self.scoring_plays_embed(queried_schedule[0], channel)
+            #         away_score = away_team_score
                     
-                if home_score != home_team_score:
-                    #await self.scoring_plays_embed(queried_schedule[0], channel)
-                    home_score = home_team_score
+            #     if home_score != home_team_score:
+            #         #await self.scoring_plays_embed(queried_schedule[0], channel)
+            #         home_score = home_team_score
 
             if error == True:
-                raise(Exception("BreakError"))
+                error_var = 1
+            
+            if error == False:
+                error_var = 0
             return error
 
 # @client.event
@@ -1313,10 +1318,10 @@ class Bot(discord.Client):
                             await message.channel.send('Sorry, something went wrong :( %s' % e)          
                     elif message_array[1].upper() == 'ACTIVATE':
                         await message.channel.send('team activated. you will now receive notifs')
-                        #break_var = await self.embedFunctions.team_notifications(self, 'padres', 789273776105193472, True)
+                        await self.embedFunctions.team_notifications(self, 'padres', 789273776105193472, True)
                     elif message_array[1].upper() == 'DEACTIVATE':
-                            if break_var == True:
-                                pass
+                        await message.channel.send('team deactiviating. no more notifs')
+                        await self.embedFunctions.team_notifications(self, 'padres', 789273776105193472, False)
 
                 elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
                     await message.channel.send('test')
