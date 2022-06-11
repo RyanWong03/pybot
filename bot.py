@@ -864,7 +864,7 @@ class Bot(discord.Client):
                         time.sleep(15)
                     
                     if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_away_prob:
-                        await channel.send(yankees_away_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1])
+                        await channel.send((yankees_away_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
                         yankees_away_prob = yankees_pitchers[len(yankees_pitchers) - 1]
                     
                 if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
