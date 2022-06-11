@@ -851,6 +851,7 @@ class Bot(discord.Client):
                     away_team = False
 
                 if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
+                    print('f')
                     yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                     yankees_home_team_score = int(yankees_schedule[0]['home_score'])
                     if yankees_away_score != yankees_away_team_score:
