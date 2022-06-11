@@ -1048,7 +1048,13 @@ class Bot(discord.Client):
                     #         if len(next_games) > 0:
                     #             await self.embedFunctions.scheduled_game_embed(next_games[0], message)
         except Exception as e:
-            print('Error: ' + str(e))
+            exception_type, exception_object, exception_traceback = sys.exc_info()
+            filename = exception_traceback.tb_frame.f_code.co_filename
+            line_num = exception_traceback.tb_lineno
+            print("Exception type: ", exception_type)
+            print("File name: ", filename)
+            print("Line number: ", line_num)
+            print('DEBUG: Exception is %s' % e)
             await channel.send('Error: ' + str(e))
                 
     async def on_message(self, message):
