@@ -591,8 +591,8 @@ class EmbedFunctions:
             #awayPitchers.pop(0)
             awayPitchers.pop()
             for i in range(1, len(homePitchers)):
-                if homePitchers[i]['name'] not in pitchers_list:
-                    pitchers_list.append(homePitchers[i]['name'])
+                if homePitchers[i]['namefield'] not in pitchers_list:
+                    pitchers_list.append(homePitchers[i]['namefield'])
             print(pitchers_list)
             return pitchers_list
     def boxscore_data(self, gamePk, timecode=None):
