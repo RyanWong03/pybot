@@ -589,7 +589,7 @@ class EmbedFunctions:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
             #print(homePitchers)
             #awayPitchers.pop(0)
-            #homePitchers.pop(0)
+            #homePitchers.pop(0
             homePitchers.pop()
             #homePitchers.pop()
             for i in range(1, len(homePitchers)):
@@ -834,7 +834,7 @@ class Bot(discord.Client):
                 mets = self.testFunctions.get_team_no_msg('mets')
                 mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
                 yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
-               # await dump.send('msg')
+                await dump.send('msg')
                 now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
                 
                 if len(yankees_schedule) > 0:
