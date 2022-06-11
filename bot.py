@@ -587,13 +587,13 @@ class EmbedFunctions:
                 )
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
-            #print(homePitchers)
+            print(homePitchers)
             #awayPitchers.pop(0)
             awayPitchers.pop()
             for i in range(1, len(homePitchers)):
                 if homePitchers[i]['namefield'] not in pitchers_list:
                     pitchers_list.append(homePitchers[i]['namefield'])
-            #print(pitchers_list)
+            print(pitchers_list)
             return pitchers_list
     def boxscore_data(self, gamePk, timecode=None):
         boxData = {}
@@ -815,6 +815,7 @@ class Bot(discord.Client):
             pitchers = []
             hour_var = 0
             final = 0
+            await self.embedFunctions.boxscore(661284)
             #await self.embedFunctions.boxscore(661697)
             # for tea in range(num_teams):
             #     if teamtest[tea].get_text() == 'Yankees':
@@ -844,7 +845,7 @@ class Bot(discord.Client):
                     yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
                     yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
                     yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
-                    yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                    #yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
 
                     if yankees_visitors == 'New York Yankees':
                         away_team = True
