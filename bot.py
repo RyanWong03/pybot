@@ -853,6 +853,7 @@ class Bot(discord.Client):
                     if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_home_prob:
                             await dump.send((yankees_home_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
                             yankees_home_prob = yankees_pitchers[len(yankees_pitchers) - 1]
+                            await dump.send(yankees_home_prob)
                     if yankees_visitors == 'New York Yankees':
                         away_team = True
                     elif yankees_home_team == 'New York Yankees':
