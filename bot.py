@@ -850,6 +850,9 @@ class Bot(discord.Client):
                     yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
                     yankees_pitchers = await self.embedFunctions.boxscore(661284)
 
+                    if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_home_prob:
+                            await dump.send((yankees_home_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
+                            yankees_home_prob = yankees_pitchers[len(yankees_pitchers) - 1]
                     if yankees_visitors == 'New York Yankees':
                         away_team = True
                     elif yankees_home_team == 'New York Yankees':
@@ -868,9 +871,7 @@ class Bot(discord.Client):
                             yankees_home_score = yankees_home_team_score
                             time.sleep(15)
                         #
-                        if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_home_prob:
-                            await dump.send((yankees_home_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
-                            yankees_home_prob = yankees_pitchers[len(yankees_pitchers) - 1]
+                        
                         
                     if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
                         for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
