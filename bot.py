@@ -835,7 +835,7 @@ class Bot(discord.Client):
                 mets = self.testFunctions.get_team_no_msg('mets')
                 mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
                 yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
-                #await dump.send('msg')
+                await dump.send('msg')
                 now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
                 
                 if len(yankees_schedule) > 0:
@@ -860,12 +860,12 @@ class Bot(discord.Client):
                         pitcher_var = 1
                         if now.hour == 4:
                             pitcher_var = 0
-                    yankees_pitchers = await self.embedFunctions.boxscore(661284)
+                    yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
 
                     if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_home_prob:
                             await channel.send((yankees_home_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
                             yankees_home_prob = yankees_pitchers[len(yankees_pitchers) - 1]
-                            await dump.send(yankees_home_prob)
+                            #await dump.send(yankees_home_prob)
                     if yankees_visitors == 'New York Yankees':
                         away_team = True
                     elif yankees_home_team == 'New York Yankees':
@@ -908,7 +908,7 @@ class Bot(discord.Client):
                         away_lineup = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
                         await channel.send(away_lineup)
 
-                        home_lineup = """```""" + str(yankees_home_team) + """lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                        home_lineup = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                         await channel.send(home_lineup)
                         hour_var = 1
 
