@@ -589,7 +589,7 @@ class EmbedFunctions:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
             print(homePitchers)
             #awayPitchers.pop(0)
-            homePitchers.pop(0)
+            #homePitchers.pop(0)
             homePitchers.pop()
             homePitchers.pop()
             homePitchers.pop()
