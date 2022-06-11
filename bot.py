@@ -1048,6 +1048,7 @@ class Bot(discord.Client):
                     #         if len(next_games) > 0:
                     #             await self.embedFunctions.scheduled_game_embed(next_games[0], message)
         except Exception as e:
+            print('Error: ' + str(e))
             await channel.send('Error: ' + str(e))
                 
     async def on_message(self, message):
