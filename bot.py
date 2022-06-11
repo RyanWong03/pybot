@@ -589,7 +589,9 @@ class EmbedFunctions:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
             print(homePitchers)
             #awayPitchers.pop(0)
-            awayPitchers.pop()
+            homePitchers.pop(0)
+            homePitchers.pop()
+            homePitchers.pop()
             for i in range(1, len(homePitchers)):
                 if homePitchers[i]['namefield'] not in pitchers_list:
                     pitchers_list.append(homePitchers[i]['namefield'])
