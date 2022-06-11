@@ -818,6 +818,7 @@ class Bot(discord.Client):
             pitchers = []
             hour_var = 0
             final = 0
+            pitcher_var = 0
             # await self.embedFunctions.boxscore(661284)
             #await self.embedFunctions.boxscore(661697)
             # for tea in range(num_teams):
@@ -847,10 +848,12 @@ class Bot(discord.Client):
                     yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])[0]
                     yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
                     #make an if statement if the day is the next day the we'll set this so it only sets once each day, preventing it from spamming.
-                    if 1 <= now.hour <= 23:
+                    if pitcher_var < 1:
                         #yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
                         yankees_home_prob = 'Luis Severino'
                         yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
+                        pitcher_var = 1
+                        
                     yankees_pitchers = await self.embedFunctions.boxscore(661284)
 
                     if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_home_prob:
