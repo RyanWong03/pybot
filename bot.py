@@ -599,7 +599,8 @@ class EmbedFunctions:
                 if awayPitchers[away_pitcher]['namefield'] not in away_pitchers_list:
                     away_pitchers_list.append(awayPitchers[away_pitcher]['namefield'])
             
-            
+            away_pitchers_list = [i for i in away_pitchers_list if i['namefield'] != '']
+            home_pitchers_list = [i for i in home_pitchers_list if i['namefield'] != '']
             pitchers_list.append(away_pitchers_list)
             pitchers_list.append(home_pitchers_list)
             print(away_pitchers_list)
