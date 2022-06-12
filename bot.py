@@ -714,12 +714,6 @@ class EmbedFunctions:
 
         return file_code_list
     
-    async def test_act(self, message):
-        while True:
-            await message.channel.send("hi")
-        
-    async def test_deact(self):
-        return
     async def team_notifications(self, team, channel_id, error):
         channel = client.get_channel(int(channel_id))
         lineup_url = "https://www.baseballpress.com/lineups/" 
@@ -1050,8 +1044,12 @@ class Bot(discord.Client):
                     
                     elif ((len(yankees_schedule) == 1) and (final_yan < 1)):
                         if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list):
-                            await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' 
-                            + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_score))
+                            if yankees_away_team_score > yankees_home_team_score:
+                                await channel.send("""```The """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ game has ended. The final score is """ 
+                                + str(yankees_away_team_score) + """ - """ + str(yankees_home_team_score) + """```""")
+                            elif yankees_home_team_score > yankees_away_team_score:
+                                await channel.send("""```The """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ game has ended. The final score is """
+                                + str(yankees_home_team_score) + """ - """ + str(yankees_away_team_score) + """```""")
                             final_yan = 1
                             yankees_home_score = 0
                             yankees_away_score = 0
@@ -1135,8 +1133,12 @@ class Bot(discord.Client):
                     
                     elif ((len(mets_schedule) == 1) and (final_met < 1)):
                         if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list):
-                            await channel.send("Game 1 of the " + str(mets_visitors) + ' vs ' + str(mets_home_team) + ' DH has ended. The final score is ' 
-                            + str(mets_away_team_score) + ' - ' + str(mets_home_team_score))
+                            if mets_away_team_score > mets_home_team_score:
+                                await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
+                                + str(mets_away_team_score) + """ - """ + str(mets_home_team_score) + """```""")
+                            elif mets_home_team_score > mets_away_team_score:
+                                await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """
+                                + str(mets_home_team_score) + """```""")
                             final_met = 1
                             mets_home_score = 0
                             mets_away_score = 0
