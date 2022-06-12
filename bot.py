@@ -859,13 +859,15 @@ class Bot(discord.Client):
                     yankees_half_inning = yankees_schedule[0]['inning_state']
                     yankees_current_inning_text = ''
                     if yankees_current_inning[-1] == '1':
-                        yankees_current_inning_text = 'st'
+                        yankees_current_inning += 'st'
+                        yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
                     elif yankees_current_inning[-1] == '2':
                         yankees_current_inning_text = 'nd'
                     elif yankees_current_inning[-1] == '3':
                         yankees_current_inning_text = 'rd'
                     elif 4 <= int(yankees_current_inning[-1]) <= 10:
-                        yankees_current_inning_text = 'th'
+                        yankees_current_inning += 'th'
+                        yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
                     #make an if statement if the day is the next day the we'll set this so it only sets once each day, preventing it from spamming.
                     if yankees_pitcher_var < 1:
                         #Example: Gerrit Cole is starting today. Once we get this pitcher we will skip over this if statement since it is no longer needed until the next day
@@ -894,7 +896,7 @@ class Bot(discord.Client):
                         home_yankees_pitchers = yankees_pitchers[1]
 
                         if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
-                            await self.embedFunctions.pitching_change(yankees_visitors, away_yankees_pitchers[len(away_yankees_pitchers) - 1], yankees_away_prob, yankees_current_inning)
+                            await self.embedFunctions.pitching_change(channel, yankees_visitors, away_yankees_pitchers[len(away_yankees_pitchers) - 1], yankees_away_prob, yankees_current_inning_text)
                             #await channel.send(yankees_away_prob + ' has been replaced by ' + str(away_yankees_pitchers[len(away_yankees_pitchers) - 1]))
                             yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
                         
