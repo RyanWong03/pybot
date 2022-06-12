@@ -874,29 +874,27 @@ class Bot(discord.Client):
                         if now.hour == 4:
                             yankees_pitcher_var = 0
 
-                    yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
-                    await channel.send(yankees_pitchers)
-                    away_yankees_pitchers = yankees_pitchers[0]
-                    await channel.send(away_yankees_pitchers)
-                    home_yankees_pitchers = yankees_pitchers[1]
-                    await channel.send(home_yankees_pitchers)
-                    break
-                    if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
-                        await channel.send(yankees_away_prob + ' has been replaced by ' + str(away_yankees_pitchers[len(away_yankees_pitchers) - 1]))
-                        yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
-                    
-                    if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
-                        await channel.send(yankees_home_prob + ' has been replaced by ' + str(home_yankees_pitchers[len(home_yankees_pitchers) - 1]))
-                        yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
-
                     # if yankees_visitors == 'New York Yankees':
                     #     away_team = True
                     # elif yankees_home_team == 'New York Yankees':
                     #     away_team = False
 
-                    if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
+                    if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 6)):
                         yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                         yankees_home_team_score = int(yankees_schedule[0]['home_score'])
+
+                        yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                        away_yankees_pitchers = yankees_pitchers[0]
+                        home_yankees_pitchers = yankees_pitchers[1]
+
+                        if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
+                            await channel.send(yankees_away_prob + ' has been replaced by ' + str(away_yankees_pitchers[len(away_yankees_pitchers) - 1]))
+                            yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
+                        
+                        if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
+                            await channel.send(yankees_home_prob + ' has been replaced by ' + str(home_yankees_pitchers[len(home_yankees_pitchers) - 1]))
+                            yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
+
                         if yankees_away_score != yankees_away_team_score:
                             await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
                             yankees_away_score = yankees_away_team_score
@@ -945,10 +943,6 @@ class Bot(discord.Client):
                     mets_new_minute = mets_game_time_local - timedelta(minutes=5)
                     mets_away_team_code = self.embedFunctions.file_code(mets_schedule[0])[0]
                     mets_home_team_code = self.embedFunctions.file_code(mets_schedule[0])[1]
-                    mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
-                    away_mets_pitchers = mets_pitchers[0]
-                    home_mets_pitchers = mets_pitchers[1]
-
                     if mets_pitcher_var < 1:
                         mets_home_prob = mets_schedule[0]['home_probable_pitcher']
                         mets_away_prob = mets_schedule[0]['away_probable_pitcher']
@@ -956,17 +950,21 @@ class Bot(discord.Client):
                         if now.hour == 4:
                             mets_pitcher_var = 0
 
-                    if away_mets_pitchers[len(away_mets_pitchers) - 1] != mets_away_prob:
-                        await channel.send(mets_away_prob + ' has been replaced by ' + str(away_mets_pitchers[len(away_mets_pitchers) - 1]))
-                        mets_away_prob = away_mets_pitchers[len(away_mets_pitchers) - 1]
-                    
-                    if home_mets_pitchers[len(home_mets_pitchers) - 1] != mets_home_prob:
-                        await channel.send(mets_home_prob + ' has been replaced by ' + str(home_mets_pitchers[len(home_mets_pitchers) - 1]))
-                        mets_home_prob = home_mets_pitchers[len(home_mets_pitchers) - 1]
-
-                    if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
+                    if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 5)):
                         mets_away_team_score = int(mets_schedule[0]['away_score'])
                         mets_home_team_score = int(mets_schedule[0]['home_score'])
+                        mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
+                        away_mets_pitchers = mets_pitchers[0]
+                        home_mets_pitchers = mets_pitchers[1]
+
+                        if away_mets_pitchers[len(away_mets_pitchers) - 1] != mets_away_prob:
+                            await channel.send(mets_away_prob + ' has been replaced by ' + str(away_mets_pitchers[len(away_mets_pitchers) - 1]))
+                            mets_away_prob = away_mets_pitchers[len(away_mets_pitchers) - 1]
+                    
+                        if home_mets_pitchers[len(home_mets_pitchers) - 1] != mets_home_prob:
+                            await channel.send(mets_home_prob + ' has been replaced by ' + str(home_mets_pitchers[len(home_mets_pitchers) - 1]))
+                            mets_home_prob = home_mets_pitchers[len(home_mets_pitchers) - 1]
+
                         if mets_away_score != mets_away_team_score:
                             await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_visitors, mets_away_team_score, mets_home_team_score)
                             mets_away_score = mets_away_team_score
