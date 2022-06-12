@@ -604,7 +604,7 @@ class EmbedFunctions:
             pitchers_list.append(away_pitchers_list)
             pitchers_list.append(home_pitchers_list)
             #print(away_pitchers_list)
-            print(home_pitchers_list)
+            #print(home_pitchers_list)
             return pitchers_list
 
     def boxscore_data(self, gamePk, timecode=None):
