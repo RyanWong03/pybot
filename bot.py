@@ -874,9 +874,12 @@ class Bot(discord.Client):
                             yankees_pitcher_var = 0
 
                     yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                    await channel.send(yankees_pitchers)
                     away_yankees_pitchers = yankees_pitchers[0]
+                    await channel.send(away_yankees_pitchers)
                     home_yankees_pitchers = yankees_pitchers[1]
-
+                    await channel.send(home_yankees_pitchers)
+                    break
                     if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
                         await channel.send(yankees_away_prob + ' has been replaced by ' + str(away_yankees_pitchers[len(away_yankees_pitchers) - 1]))
                         yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
