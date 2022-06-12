@@ -599,8 +599,8 @@ class EmbedFunctions:
                     pitchers_list.append(homePitchers[i]['namefield'])
             
             for a in range(1, len(awayPitchers)):
-                if (awayPitchers[a]['namefield'] == 'Totals'): #awayPitchers[a]['namefield'] == '') or 
-                    awayPitchers.pop(a)
+                # if (awayPitchers[a]['namefield'] == 'Totals'): #awayPitchers[a]['namefield'] == '') or 
+                #     awayPitchers.pop(a)
                 if awayPitchers[1]['namefield'] not in g:
                     g.append(awayPitchers[a]['namefield'])
             print(pitchers_list)
