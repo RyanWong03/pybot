@@ -589,8 +589,8 @@ class EmbedFunctions:
                 )
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
-            print(homePitchers)
-            print(awayPitchers)
+            # print(homePitchers)
+            # print(awayPitchers)
             for home_pitcher in range(1, len(homePitchers)):
                 if homePitchers[home_pitcher]['namefield'] not in home_pitchers_list:
                     home_pitchers_list.append(homePitchers[home_pitcher]['namefield'])
@@ -603,7 +603,7 @@ class EmbedFunctions:
             home_pitchers_list = [i for i in home_pitchers_list if i != '']
             pitchers_list.append(away_pitchers_list)
             pitchers_list.append(home_pitchers_list)
-            print(away_pitchers_list)
+            #print(away_pitchers_list)
             print(home_pitchers_list)
             return pitchers_list
 
@@ -901,6 +901,7 @@ class Bot(discord.Client):
                             yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
                         
                         if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
+                            await self.embedFunctions.pitching_change(channel, yankees_home_team, home_yankees_pitchers[len(home_yankees_pitchers) - 1], yankees_home_prob, yankees_current_inning_text)
                             #await channel.send(yankees_home_prob + ' has been replaced by ' + str(home_yankees_pitchers[len(home_yankees_pitchers) - 1]))
                             yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
 
