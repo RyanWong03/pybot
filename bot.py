@@ -609,6 +609,8 @@ class EmbedFunctions:
             
             pitchers_list.append(away_pitchers_list)
             pitchers_list.append(home_pitchers_list)
+            print(away_pitchers_list)
+            print(home_pitchers_list)
             return pitchers_list
 
     def boxscore_data(self, gamePk, timecode=None):
@@ -833,6 +835,7 @@ class Bot(discord.Client):
             final_met = 0
             yankees_pitcher_var = 0
             mets_pitcher_var = 0
+            yankees_pitchers = await self.embedFunctions.boxscore(661270)
             # for tea in range(num_teams):
             #     if teamtest[tea].get_text() == 'Yankees':
             #         #team_index = tea
