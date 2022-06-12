@@ -551,6 +551,7 @@ class EmbedFunctions:
         fullRowLen = rowLen * 2 + 3
         boxscore = ""
         pitchers_list = []
+        g = []
         if pitchingBox:
             awayPitchers = boxData["awayPitchers"]
             homePitchers = boxData["homePitchers"]
@@ -587,14 +588,19 @@ class EmbedFunctions:
                 )
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
-            #print(homePitchers)
-            homePitchers.pop()
+            print(homePitchers)
             #homePitchers.pop()
-            #print(awayPitchers)
+            #homePitchers.pop()
+            print(awayPitchers)
             for i in range(1, len(homePitchers)):
                 if homePitchers[i]['namefield'] not in pitchers_list:
                     pitchers_list.append(homePitchers[i]['namefield'])
-            #print(pitchers_list)
+            
+            for a in range(1, len(awayPitchers)):
+                if awayPitchers[1]['namefield'] not in g:
+                    g.append(awayPitchers[i]['namefield'])
+            print(pitchers_list)
+            print(g)
             return pitchers_list
 
     def boxscore_data(self, gamePk, timecode=None):
@@ -819,6 +825,7 @@ class Bot(discord.Client):
             final_yan = 0
             final_met = 0
             pitcher_var = 0
+            mets_pitchers = await self.embedFunctions.boxscore(663412)
             # await self.embedFunctions.boxscore(661284)
             #await self.embedFunctions.boxscore(661697)
             # for tea in range(num_teams):
