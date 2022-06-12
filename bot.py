@@ -566,11 +566,11 @@ class EmbedFunctions:
                 "era": "",
             }
 
-            while len(awayPitchers) > len(homePitchers):
-                homePitchers.append(blankPitcher)
+            # while len(awayPitchers) > len(homePitchers):
+            #     homePitchers.append(blankPitcher)
 
-            while len(awayPitchers) < len(homePitchers):
-                awayPitchers.append(blankPitcher)
+            # while len(awayPitchers) < len(homePitchers):
+            #     awayPitchers.append(blankPitcher)
 
             awayPitchers.append(boxData["awayPitchingTotals"])
             homePitchers.append(boxData["homePitchingTotals"])
