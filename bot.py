@@ -600,9 +600,10 @@ class EmbedFunctions:
                     away_pitchers_list.append(awayPitchers[away_pitcher]['namefield'])
             
             for pitcher in range(len(home_pitchers_list)):
-                # if (home_pitchers_list[pitcher] == 'Totals') or (home_pitchers_list[pitcher] == ''):
-                #     home_pitchers_list.pop(pitcher)
-                print(home_pitchers_list[pitcher])
+                if (home_pitchers_list[pitcher] == 'Totals') or (home_pitchers_list[pitcher] == ''):
+                    #home_pitchers_list.pop(pitcher)
+                    print('one')
+                #print(home_pitchers_list[pitcher])
             
             # for player in range(len(away_pitchers_list)):
             #     if (away_pitchers_list[player] == 'Totals') or (away_pitchers_list[pitcher] == ''):
