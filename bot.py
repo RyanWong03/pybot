@@ -550,8 +550,9 @@ class EmbedFunctions:
         rowLen = 79
         fullRowLen = rowLen * 2 + 3
         boxscore = ""
+        home_pitchers_list = []
+        away_pitchers_list = []
         pitchers_list = []
-        g = []
         if pitchingBox:
             awayPitchers = boxData["awayPitchers"]
             homePitchers = boxData["homePitchers"]
@@ -588,27 +589,25 @@ class EmbedFunctions:
                 )
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
-            print(homePitchers)
-            #homePitchers.pop()
-            #homePitchers.pop()
-            print(awayPitchers)
-            for i in range(1, len(homePitchers)):
-                # if (homePitchers[i]['namefield'] == 'Totals'): #(homePitchers[i]['namefield'] == '') or 
-                #     homePitchers.pop(i)
-                if homePitchers[i]['namefield'] not in pitchers_list:
-                    pitchers_list.append(homePitchers[i]['namefield'])
+
+            for home_pitcher in range(1, len(homePitchers)):
+                if homePitchers[home_pitcher]['namefield'] not in home_pitchers_list:
+                    home_pitchers_list.append(homePitchers[home_pitcher]['namefield'])
             
-            for a in range(1, len(awayPitchers)):
-                # if (awayPitchers[a]['namefield'] == 'Totals'): #awayPitchers[a]['namefield'] == '') or 
-                #     awayPitchers.pop(a)
-                if awayPitchers[a]['namefield'] not in g:
-                    g.append(awayPitchers[a]['namefield'])
+            for away_pitcher in range(1, len(awayPitchers)):
+                if awayPitchers[away_pitcher]['namefield'] not in away_pitchers_list:
+                    away_pitchers_list.append(awayPitchers[away_pitcher]['namefield'])
             
-            for c in range(len(pitchers_list)):
-                if pitchers_list[c] == 'Totals':
-                    pitchers_list.pop(c)
-            print(pitchers_list)
-            print(g)
+            for pitcher in range(len(home_pitchers_list)):
+                if (home_pitchers_list[pitcher] == 'Totals') or (home_pitchers_list[pitcher] == ''):
+                    home_pitchers_list.pop(pitcher)
+            
+            for player in range(len(away_pitchers_list)):
+                if (away_pitchers_list[player] == 'Totals') or (away_pitchers_list[pitcher] == ''):
+                    away_pitchers_list.pop(player)
+            
+            pitchers_list.append(away_pitchers_list)
+            pitchers_list.append(home_pitchers_list)
             return pitchers_list
 
     def boxscore_data(self, gamePk, timecode=None):
@@ -832,10 +831,8 @@ class Bot(discord.Client):
             hour_var = 0
             final_yan = 0
             final_met = 0
-            pitcher_var = 0
-            mets_pitchers = await self.embedFunctions.boxscore(663412)
-            # await self.embedFunctions.boxscore(661284)
-            #await self.embedFunctions.boxscore(661697)
+            yankees_pitcher_var = 0
+            mets_pitcher_var = 0
             # for tea in range(num_teams):
             #     if teamtest[tea].get_text() == 'Yankees':
             #         #team_index = tea
@@ -863,7 +860,7 @@ class Bot(discord.Client):
                     yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])[0]
                     yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
                     #make an if statement if the day is the next day the we'll set this so it only sets once each day, preventing it from spamming.
-                    if pitcher_var < 1:
+                    if yankees_pitcher_var < 1:
                         #Example: Gerrit Cole is starting today. Once we get this pitcher we will skip over this if statement since it is no longer needed until the next day
                         #Since the game has not started yet, Gerrit Cole is the only pitcher in the list. Therefore the corresponding if statement is never true until the first
                         #pitching change is made. Let's say Michael King replaces him. Once we see King gets added to the list the if statement becomes true. We print the pitching
@@ -872,21 +869,28 @@ class Bot(discord.Client):
                         #sometime in the morning, the new starting pitchers will get updated. 
                         yankees_home_prob = yankees_schedule[0]['home_probable_pitcher'] 
                         yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
-                        pitcher_var = 1
+                        yankees_pitcher_var = 1
                         if now.hour == 4:
-                            pitcher_var = 0
-                    # yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                            yankees_pitcher_var = 0
 
-                    # if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_home_prob:
-                    #         await channel.send((yankees_home_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1]))
-                    #         yankees_home_prob = yankees_pitchers[len(yankees_pitchers) - 1]
-                    #         #await dump.send(yankees_home_prob)
-                    if yankees_visitors == 'New York Yankees':
-                        away_team = True
-                    elif yankees_home_team == 'New York Yankees':
-                        away_team = False
+                    yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                    away_yankees_pitchers = yankees_pitchers[0]
+                    home_yankees_pitchers = yankees_pitchers[1]
 
-                    if away_team == False and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
+                    if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
+                        await channel.send(yankees_away_prob + ' has been replaced by ' + str(away_yankees_pitchers[len(away_yankees_pitchers) - 1]))
+                        yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
+                    
+                    if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
+                        await channel.send(yankees_home_prob + ' has been replaced by ' + str(home_yankees_pitchers[len(home_yankees_pitchers) - 1]))
+                        yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
+
+                    # if yankees_visitors == 'New York Yankees':
+                    #     away_team = True
+                    # elif yankees_home_team == 'New York Yankees':
+                    #     away_team = False
+
+                    if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
                         yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                         yankees_home_team_score = int(yankees_schedule[0]['home_score'])
                         if yankees_away_score != yankees_away_team_score:
@@ -935,12 +939,28 @@ class Bot(discord.Client):
                     mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
                     mets_new_hour = mets_game_time_local - timedelta(hours=4)
                     mets_new_minute = mets_game_time_local - timedelta(minutes=5)
-                    mets_home_prob = mets_schedule[0]['home_probable_pitcher']
-                    mets_away_prob = mets_schedule[0]['away_probable_pitcher']
                     mets_away_team_code = self.embedFunctions.file_code(mets_schedule[0])[0]
                     mets_home_team_code = self.embedFunctions.file_code(mets_schedule[0])[1]
-                    #mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
-                    if away_team == False and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
+                    mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
+                    away_mets_pitchers = mets_pitchers[0]
+                    home_mets_pitchers = mets_pitchers[1]
+
+                    if mets_pitcher_var < 1:
+                        mets_home_prob = mets_schedule[0]['home_probable_pitcher']
+                        mets_away_prob = mets_schedule[0]['away_probable_pitcher']
+                        mets_pitcher_var = 1
+                        if now.hour == 4:
+                            mets_pitcher_var = 0
+
+                    if away_mets_pitchers[len(away_mets_pitchers) - 1] != mets_away_prob:
+                        await channel.send(mets_away_prob + ' has been replaced by ' + str(away_mets_pitchers[len(away_mets_pitchers) - 1]))
+                        mets_away_prob = away_mets_pitchers[len(away_mets_pitchers) - 1]
+                    
+                    if home_mets_pitchers[len(home_mets_pitchers) - 1] != mets_home_prob:
+                        await channel.send(mets_home_prob + ' has been replaced by ' + str(home_mets_pitchers[len(home_mets_pitchers) - 1]))
+                        mets_home_prob = home_mets_pitchers[len(home_mets_pitchers) - 1]
+
+                    if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
                         mets_away_team_score = int(mets_schedule[0]['away_score'])
                         mets_home_team_score = int(mets_schedule[0]['home_score'])
                         if mets_away_score != mets_away_team_score:
