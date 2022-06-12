@@ -590,7 +590,7 @@ class EmbedFunctions:
             print(homePitchers)
             #awayPitchers.pop(0)
             homePitchers.pop(0)
-            homePitchers.pop()
+            # homePitchers.pop()
             homePitchers.pop()
             for i in range(1, len(homePitchers)):
                 if homePitchers[i]['namefield'] not in pitchers_list:
