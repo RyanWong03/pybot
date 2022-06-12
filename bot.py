@@ -593,12 +593,12 @@ class EmbedFunctions:
             #homePitchers.pop()
             print(awayPitchers)
             for i in range(1, len(homePitchers)):
-                if homePitchers[i]['namefield'] not in pitchers_list:
-                    pitchers_list.append(homePitchers[i]['namefield'])
+                #if homePitchers[i]['namefield'] not in pitchers_list:
+                pitchers_list.append(homePitchers[i]['namefield'])
             
             for a in range(1, len(awayPitchers)):
-                if awayPitchers[1]['namefield'] not in g:
-                    g.append(awayPitchers[i]['namefield'])
+                #if awayPitchers[1]['namefield'] not in g:
+                g.append(awayPitchers[i]['namefield'])
             print(pitchers_list)
             print(g)
             return pitchers_list
