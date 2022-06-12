@@ -941,7 +941,7 @@ class Bot(discord.Client):
                             time.sleep(15)
 
                     if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:                
-                        for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
+                        for item in soup_lineup.select("[data-league='AL']:-soup-contains('Mets') .player > a.player-link"):
                             if item.get('data-razz') == '':
                                 player_name = 'Unknown Player'
                                 lineup_list.append(player_name)
