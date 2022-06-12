@@ -590,11 +590,13 @@ class EmbedFunctions:
             #print(homePitchers)
             homePitchers.pop()
             #homePitchers.pop()
+            print(awayPitchers)
             for i in range(1, len(homePitchers)):
                 if homePitchers[i]['namefield'] not in pitchers_list:
                     pitchers_list.append(homePitchers[i]['namefield'])
             #print(pitchers_list)
             return pitchers_list
+
     def boxscore_data(self, gamePk, timecode=None):
         boxData = {}
         params = {
@@ -881,8 +883,6 @@ class Bot(discord.Client):
                             await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team, yankees_away_team_score, yankees_home_team_score)
                             yankees_home_score = yankees_home_team_score
                             time.sleep(15)
-                        #
-                        
                         
                     if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
                         for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
@@ -985,6 +985,7 @@ class Bot(discord.Client):
                                 start at ' + str(yankees_game_time_local))
                             yankees_home_score = 0
                             yankees_away_score = 0
+                            time.sleep(15)
 
                         # elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
                         #     await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
@@ -993,6 +994,7 @@ class Bot(discord.Client):
                             channel.send(yankees_schedule[0]['away_name'] + ' vs ' + yankees_schedule[0]['home_name'] + ' game is postponed.')
                             yankees_home_score = 0
                             yankees_away_score = 0
+                            time.sleep(15)
 
                         # #game 2
                         # if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
@@ -1016,11 +1018,13 @@ class Bot(discord.Client):
                             final_yan = 1
                             yankees_home_score = 0
                             yankees_away_score = 0
+                            time.sleep(15)
                         
                         if any(game_status in yankees_schedule[0]['status'] for game_status in scheduled_status_list):
                             final_yan = 0
                             yankees_home_score = 0
                             yankees_away_score = 0
+                            time.sleep(15)
                     #         if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                     #     elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
                     #         await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
@@ -1066,6 +1070,7 @@ class Bot(discord.Client):
                                 start at ' + str(yankees_game_time_local))
                             mets_home_score = 0
                             mets_away_score = 0
+                            time.sleep(15)
 
                         # elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
                         #     await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
@@ -1074,6 +1079,7 @@ class Bot(discord.Client):
                             channel.send(mets_schedule[0]['away_name'] + ' vs ' + mets_schedule[0]['home_name'] + ' game is postponed.')
                             mets_home_score = 0
                             mets_away_score = 0
+                            time.sleep(15)
 
                         # #game 2
                         # if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
@@ -1097,11 +1103,13 @@ class Bot(discord.Client):
                             final_met = 1
                             mets_home_score = 0
                             mets_away_score = 0
+                            time.sleep(15)
                         
                         if any(game_status in mets_schedule[0]['status'] for game_status in scheduled_status_list):
                             final_met = 0
                             mets_home_score = 0
                             mets_away_score = 0
+                            time.sleep(15)
                     #         if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
                     #     elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
                     #         await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
