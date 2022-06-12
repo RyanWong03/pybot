@@ -600,7 +600,7 @@ class EmbedFunctions:
                     away_pitchers_list.append(awayPitchers[away_pitcher]['namefield'])
             
             away_pitchers_list = [i for i in away_pitchers_list if i != '']
-            #home_pitchers_list = [i for i in home_pitchers_list if home_pitchers_list[i]['namefield'] != '']
+            home_pitchers_list = [i for i in home_pitchers_list if i != '']
             pitchers_list.append(away_pitchers_list)
             pitchers_list.append(home_pitchers_list)
             print(away_pitchers_list)
@@ -829,7 +829,6 @@ class Bot(discord.Client):
             final_met = 0
             yankees_pitcher_var = 0
             mets_pitcher_var = 0
-            yankees_pitchers = await self.embedFunctions.boxscore(661270)
             # for tea in range(num_teams):
             #     if teamtest[tea].get_text() == 'Yankees':
             #         #team_index = tea
@@ -856,13 +855,17 @@ class Bot(discord.Client):
                     yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
                     yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])[0]
                     yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
-                    yankees_current_inning = yankees_schedule[0]['current_inning']
+                    yankees_current_inning = str(yankees_schedule[0]['current_inning'])
                     yankees_half_inning = yankees_schedule[0]['inning_state']
                     yankees_current_inning_text = ''
-                    if yankees_current_inning == 1:
+                    if yankees_current_inning[-1] == '1':
                         yankees_current_inning_text = 'st'
-                    elif yankees_current_inning == 2:
+                    elif yankees_current_inning[-1] == '2':
                         yankees_current_inning_text = 'nd'
+                    elif yankees_current_inning[-1] == '3':
+                        yankees_current_inning_text = 'rd'
+                    elif 4 <= int(yankees_current_inning[-1]) <= 10:
+                        yankees_current_inning_text = 'th'
                     #make an if statement if the day is the next day the we'll set this so it only sets once each day, preventing it from spamming.
                     if yankees_pitcher_var < 1:
                         #Example: Gerrit Cole is starting today. Once we get this pitcher we will skip over this if statement since it is no longer needed until the next day
@@ -886,18 +889,18 @@ class Bot(discord.Client):
                         yankees_away_team_score = int(yankees_schedule[0]['away_score'])
                         yankees_home_team_score = int(yankees_schedule[0]['home_score'])
 
-                        # yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
-                        # away_yankees_pitchers = yankees_pitchers[0]
-                        # home_yankees_pitchers = yankees_pitchers[1]
+                        yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                        away_yankees_pitchers = yankees_pitchers[0]
+                        home_yankees_pitchers = yankees_pitchers[1]
 
-                        # if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
-                        #     #await self.embedFunctions.pitching_change(yankees_visitors, away_yankees_pitchers[len(away_yankees_pitchers) - 1], yankees_away_prob, yankees_current_inning)
-                        #     #await channel.send(yankees_away_prob + ' has been replaced by ' + str(away_yankees_pitchers[len(away_yankees_pitchers) - 1]))
-                        #     yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
+                        if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
+                            await self.embedFunctions.pitching_change(yankees_visitors, away_yankees_pitchers[len(away_yankees_pitchers) - 1], yankees_away_prob, yankees_current_inning)
+                            #await channel.send(yankees_away_prob + ' has been replaced by ' + str(away_yankees_pitchers[len(away_yankees_pitchers) - 1]))
+                            yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
                         
-                        # if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
-                        #     #await channel.send(yankees_home_prob + ' has been replaced by ' + str(home_yankees_pitchers[len(home_yankees_pitchers) - 1]))
-                        #     yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
+                        if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
+                            #await channel.send(yankees_home_prob + ' has been replaced by ' + str(home_yankees_pitchers[len(home_yankees_pitchers) - 1]))
+                            yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
 
                         if yankees_away_score != yankees_away_team_score:
                             await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
