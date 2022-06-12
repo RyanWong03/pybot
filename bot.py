@@ -667,16 +667,16 @@ class EmbedFunctions:
         boxData.update({"homePitchers": homePitchers})
 
         pitchingTotals = ["awayPitchingTotals", "homePitchingTotals"]
-        # for i in range(0, len(sides)):
-        #     side = sides[i]
-        #     boxData.update(
-        #         {
-        #             pitchingTotals[i]: {
-        #                 "namefield": "Totals",
-        #                 "name": "Totals",
-        #             }
-        #         }
-        #     )
+        for i in range(0, len(sides)):
+            side = sides[i]
+            boxData.update(
+                {
+                    pitchingTotals[i]: {
+                        "namefield": "Totals",
+                        "name": "Totals",
+                    }
+                }
+            )
         return boxData
     
     async def pitching_change(self, channel, team, new_pitcher, old_pitcher, inning):
