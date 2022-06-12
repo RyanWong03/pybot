@@ -842,20 +842,20 @@ class Bot(discord.Client):
             #         #     away_team = False
             
             while var < 1:
-                target_date_time = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
+                target_date_time = datetime.datetime.now() - timedelta(hours=10) #changing from 4 to 8/10
                 yankees = self.testFunctions.get_team_no_msg('yankees')
                 mets = self.testFunctions.get_team_no_msg('mets')
                 mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
                 yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
                 await dump.send('msg')
-                now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
+                now = datetime.datetime.now() - timedelta(hours=10) #changing from 4 to 8/10
                 
                 if len(yankees_schedule) > 0:
                     yankees_game_id = yankees_schedule[0]['game_id']
                     yankees_visitors = yankees_schedule[0]['away_name']
                     yankees_home_team = yankees_schedule[0]['home_name']
                     yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
-                    yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
+                    yankees_new_hour = yankees_game_time_local - timedelta(hours=10)
                     yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
                     yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])[0]
                     yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
@@ -937,7 +937,7 @@ class Bot(discord.Client):
                     mets_visitors = mets_schedule[0]['away_name']
                     mets_home_team = mets_schedule[0]['home_name']
                     mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
-                    mets_new_hour = mets_game_time_local - timedelta(hours=4)
+                    mets_new_hour = mets_game_time_local - timedelta(hours=10)
                     mets_new_minute = mets_game_time_local - timedelta(minutes=5)
                     mets_away_team_code = self.embedFunctions.file_code(mets_schedule[0])[0]
                     mets_home_team_code = self.embedFunctions.file_code(mets_schedule[0])[1]
