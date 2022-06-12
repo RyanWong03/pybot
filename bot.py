@@ -598,7 +598,7 @@ class EmbedFunctions:
             
             for a in range(1, len(awayPitchers)):
                 #if awayPitchers[1]['namefield'] not in g:
-                g.append(awayPitchers[i]['namefield'])
+                g.append(awayPitchers[a]['namefield'])
             print(pitchers_list)
             print(g)
             return pitchers_list
