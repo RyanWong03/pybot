@@ -587,7 +587,7 @@ class EmbedFunctions:
                 )
                 if i == 0 or i == len(awayPitchers) - 1:
                     boxscore += "-" * rowLen + " | " + "-" * rowLen + "\n"
-            #print(homePitchers)
+            print(homePitchers)
             homePitchers.pop()
             #homePitchers.pop()
             print(awayPitchers)
