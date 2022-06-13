@@ -1263,11 +1263,12 @@ class Bot(discord.Client):
         #     await channel.send('Error: ' + str(e))
                 
     async def on_message(self, message):
+        var = 0
         if(message.author == self.user) or message.author.bot:
             return
         else:
             message_array = message.content.split()
-            while True:
+            while var < 1:
                 if len(message_array) > 0:
                     if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                         if 'PLAYER' in message_array[1].upper():
@@ -1576,7 +1577,7 @@ class Bot(discord.Client):
                                 await message.channel.send('Sorry, something went wrong :( %s' % e)          
                         elif 'BREAK' in message_array[1].upper():
                             await message.channel.send('breaking loop')
-                            break
+                            var = 1
                         # elif message_array[1].upper() == 'ACTIVATE':
                         #     while break_var != True:
                         #         await message.channel.send('team activated. you will now receive notifs')
