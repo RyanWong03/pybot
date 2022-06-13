@@ -827,7 +827,6 @@ class Bot(discord.Client):
             while var < 1:
                 target_date_time = datetime.datetime.now() - timedelta(hours=10) #changing from 4 to 8/10
                 yankees = self.testFunctions.get_team_no_msg('yankees')
-                time.sleep(10)
                 mets = self.testFunctions.get_team_no_msg('mets')
                 mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
                 yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
