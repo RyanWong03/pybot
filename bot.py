@@ -1,7 +1,7 @@
 import discord
 import os
 import requests
-from discord.ext import commands
+from discord.utils import find
 import datetime
 from datetime import timedelta
 import time
@@ -15,9 +15,9 @@ from bs4 import BeautifulSoup
 import lxml
 import copy
  #add click more button for pitching line fix local time
-intents = discord.Intents.default()
-intents.members = True
-client = commands.Bot(command_prefix = '$', intents=intents)
+# intents = discord.Intents.default()
+# intents.members = True
+# client = commands.Bot(command_prefix = '$', intents=intents)
 
 class TestFunctions:
     async def wait_for_response(self, message, user_response, wait_time):
@@ -1206,7 +1206,7 @@ class Bot(discord.Client):
                             elif 4 <= int(yankees_current_inning[-1]) <= 10:
                                 yankees_current_inning += 'th'
                                 yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
-                                
+
                             if (now.hour == yankees_new_hour.hour) and hour_var < 1:    #change to 45 minutes before first pitch  
                                 if yankees_interleague == True:
                                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Yankees') .player > a.player-link"):
@@ -1849,6 +1849,11 @@ class Bot(discord.Client):
                     return
             else:
                 return
+    
+    async def on_server_join(self, guild):
+        general = find(lambda x: x.name == 'general', guild.text_channels)
+        if general and general.permissions_for(guild.me).send_messages:
+            await general.send('Hi there. ')
     # @client.command()
     # async def test(ctx):
     #     await ctx.channel.send('hi')
