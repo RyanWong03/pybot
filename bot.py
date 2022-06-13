@@ -1753,5 +1753,18 @@ async def test(ctx):
 @client.command()
 async def bye(ctx):
     await ctx.send('bye')
+
+@client.command()
+async def hi(ctx, command):
+    await ctx.send('shutting down')
+    command = client.get_command(command)
+    if command is None:
+        await ctx.send('cant find this command')
+    elif ctx.command == command:
+        await ctx.send('cant disable this')
+    else:
+        command.enabled = not command.enabled
+        ternary = "enabled" if command.enabled else "disabled"
+        await ctx.send(f"I have {ternary} {command.qualified_name} for you")
 #client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
