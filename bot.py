@@ -1737,9 +1737,16 @@ class Bot(discord.Client):
                     return
             else:
                 return
-    @client.command()
-    async def test(ctx):
-        await ctx.channel.send('hi')
+    # @client.command()
+    # async def test(ctx):
+    #     await ctx.channel.send('hi')
 
-client = Bot()  
+@client.event
+async def on_ready():
+    print('bot is ready')
+
+@client.command()
+async def test(ctx):
+    await ctx.send('hi')
+#client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
