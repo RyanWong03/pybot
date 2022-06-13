@@ -790,8 +790,7 @@ class Bot(discord.Client):
     embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
     async def on_ready(self):
-        channel = client.get_channel(983204319564288151) 
-        await channel.send('testing')
+        print('bot is ready')
         # try:
         #     channel = client.get_channel(983204319564288151) 
         #     dump = client.get_channel(983209443770642462)
@@ -1263,482 +1262,480 @@ class Bot(discord.Client):
         #     await channel.send('Error: ' + str(e))
                 #
     async def on_message(self, message):
-        dump = client.get_channel(983209443770642462)
         var = 0
         if(message.author == self.user) or message.author.bot:
             return
         else:
             message_array = message.content.split()
-            while var < 1:
-                await dump.send('msg')
-                if len(message_array) > 0:
-                    if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
-                        if 'PLAYER' in message_array[1].upper():
-                            try:
-                                now = datetime.datetime.now()
-                                stat_year = now.year
+            #while var < 1:
+            if len(message_array) > 0:
+                if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
+                    if 'PLAYER' in message_array[1].upper():
+                        try:
+                            now = datetime.datetime.now()
+                            stat_year = now.year
 
-                                if len(message_array) < 2:
-                                    await message.channel.send('Send Player Name.')
-                                    return
-                                else:
-                                    if message_array[len(message_array) - 1].isdigit() and len(message_array) > 3:
-                                        if int(message_array[len(message_array) - 1]) > now.year:
-                                            await message.channel.send('cant predict future')
-                                            return
-                                        elif int(message_array[len(message_array) - 1]) < 1900:
-                                            await message.channel.send("cant work with year 1900 or before")
-                                            return
-                                        else:
-                                            stat_year = message_array[len(message_array) - 1]
-                                    
-                                    name_to_search = ""
-                                    display_name_to_search = ""
-
-                                    if message_array[len(message_array) - 1].isdigit():
-                                        for index in range(2, len(message_array) - 1):
-                                            name_to_search = name_to_search + message_array[index] + ' '
-                                            display_name_to_search = display_name_to_search + message_array[index] + ' '
-                                        
-                                        name_to_search = name_to_search.strip()
-                                        display_name_to_search = display_name_to_search.strip()
-                                        name_to_search = name_to_search + '%25'
+                            if len(message_array) < 2:
+                                await message.channel.send('Send Player Name.')
+                                return
+                            else:
+                                if message_array[len(message_array) - 1].isdigit() and len(message_array) > 3:
+                                    if int(message_array[len(message_array) - 1]) > now.year:
+                                        await message.channel.send('cant predict future')
+                                        return
+                                    elif int(message_array[len(message_array) - 1]) < 1900:
+                                        await message.channel.send("cant work with year 1900 or before")
+                                        return
                                     else:
-                                        for index in range(2, len(message_array)):
-                                            name_to_search = name_to_search + message_array[index] + ' '
-                                            display_name_to_search = display_name_to_search + message_array[index] + ' '
-                                        
-                                        name_to_search = name_to_search.strip()
-                                        display_name_to_search = display_name_to_search.strip()
-                                        name_to_search = name_to_search + '%25'
+                                        stat_year = message_array[len(message_array) - 1]
                                 
-                                if name_to_search is None or name_to_search == '':
-                                    await message.channel.send('I didn\'t get a name to search. Something went wrong, Sorry')
-                                    return
-                                
-                                activePlayerSearchURL = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'Y\'&name_part=\'' + name_to_search + '\''
-                                player_search = await self.testFunctions.send_get_request(activePlayerSearchURL)
+                                name_to_search = ""
+                                display_name_to_search = ""
+
+                                if message_array[len(message_array) - 1].isdigit():
+                                    for index in range(2, len(message_array) - 1):
+                                        name_to_search = name_to_search + message_array[index] + ' '
+                                        display_name_to_search = display_name_to_search + message_array[index] + ' '
+                                    
+                                    name_to_search = name_to_search.strip()
+                                    display_name_to_search = display_name_to_search.strip()
+                                    name_to_search = name_to_search + '%25'
+                                else:
+                                    for index in range(2, len(message_array)):
+                                        name_to_search = name_to_search + message_array[index] + ' '
+                                        display_name_to_search = display_name_to_search + message_array[index] + ' '
+                                    
+                                    name_to_search = name_to_search.strip()
+                                    display_name_to_search = display_name_to_search.strip()
+                                    name_to_search = name_to_search + '%25'
+                            
+                            if name_to_search is None or name_to_search == '':
+                                await message.channel.send('I didn\'t get a name to search. Something went wrong, Sorry')
+                                return
+                            
+                            activePlayerSearchURL = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'Y\'&name_part=\'' + name_to_search + '\''
+                            player_search = await self.testFunctions.send_get_request(activePlayerSearchURL)
+                            player_search_json = json.loads(player_search.text)
+                            num_players = player_search_json['search_player_all']['queryResults']['totalSize']
+
+                            if num_players == "0":
+                                inactive_player_search_url = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'N\'&name_part=\'' + name_to_search + '\''
+                                player_search = await self.testFunctions.send_get_request(inactive_player_search_url)
                                 player_search_json = json.loads(player_search.text)
                                 num_players = player_search_json['search_player_all']['queryResults']['totalSize']
-
-                                if num_players == "0":
-                                    inactive_player_search_url = 'http://lookup-service-prod.mlb.com/json/named.search_player_all.bam?sport_code=\'mlb\'&active_sw=\'N\'&name_part=\'' + name_to_search + '\''
-                                    player_search = await self.testFunctions.send_get_request(inactive_player_search_url)
-                                    player_search_json = json.loads(player_search.text)
-                                    num_players = player_search_json['search_player_all']['queryResults']['totalSize']
+                            
+                            player_search_results = []
+                            for search_index in range(int(num_players)):
+                                player_found = players.PlayerSearchInfo()
+                                player_found.ParseJson(player_search_json, search_index)
+                                player_search_results.append(player_found)
+                            
+                            if len(player_search_results) > 1:
+                                if len(player_search_results) > 50:
+                                    await message.channel.send('too many matches for ' + display_name_to_search)
+                                    return
                                 
-                                player_search_results = []
-                                for search_index in range(int(num_players)):
-                                    player_found = players.PlayerSearchInfo()
-                                    player_found.ParseJson(player_search_json, search_index)
-                                    player_search_results.append(player_found)
-                                
-                                if len(player_search_results) > 1:
-                                    if len(player_search_results) > 50:
-                                        await message.channel.send('too many matches for ' + display_name_to_search)
-                                        return
-                                    
-                                    player_info_list = []
-                                    for player in player_search_results:
-                                        player_info = players.PlayerInfo()
-                                        player_info_url = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + player.player_id + '\''
-                                        player_info_request = await self.testFunctions.send_get_request(player_info_url)
-                                        player_info_json = json.loads(player_info_request.text)
-                                        player_info.ParseJson(player_info_json)
-                                        player_info_list.append(player_info)
-                                    
-                                    discord_formatted_string = '>>> I found ' + str(len(player_search_results)) + ' players matching **' + display_name_to_search + '** in ' + str(
-                                        stat_year) + '\n Enter the number for the player you want \n\n'
-                                    
-                                    for index in range(len(player_search_results)):
-                                        if index < len(player_search_results):
-                                            append_string = ' ' + str(index + 1) + ': ' + player_info_list[index].name_display_first_last + ' - ' + player_info_list[
-                                                index].team_name + ' (' + player_info_list[index].primary_position_txt + ' )' + '\n'
-                                        else:
-                                            appendString = ' ' + str(index + 1) + ': ' + player_info_list[index].name_display_first_last + ' - ' + player_info_list[
-                                                index].team_name + ' (' + player_info_list[index].primary_position_txt + ')'
-                                        
-                                        discord_formatted_string = discord_formatted_string + append_string
-                                    
-                                    await message.channel.send(discord_formatted_string)
-                                    message_time = datetime.utcnow()
-                                    time.sleep(2)
-
+                                player_info_list = []
+                                for player in player_search_results:
                                     player_info = players.PlayerInfo()
-                                    player_selected_index = await self.testFunctions.wait_for_number(message, len(player_search_results), 30)
-
-                                    if player_selected_index:
-                                        player_info = player_info_list[player_selected_index - 1]
-                                    else:
-                                        return
-                                elif len(player_search_results) == 1:
-                                    player_info = players.PlayerInfo()
-                                    player_info_url = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + \
-                                        player_search_results[0].player_id + '\''
-                                    player_info_header = {'Content-Type': 'application/json'}
-                                    player_info_request = requests.get(player_info_url, player_info_header)
+                                    player_info_url = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + player.player_id + '\''
+                                    player_info_request = await self.testFunctions.send_get_request(player_info_url)
                                     player_info_json = json.loads(player_info_request.text)
                                     player_info.ParseJson(player_info_json)
-                                elif len(player_search_results) == 0:
-                                    await message.channel.send('I couldn\'t find any players with the name %s in the year %s' % (display_name_to_search, stat_year))
-                                    return
+                                    player_info_list.append(player_info)
                                 
-                                if player_info.primary_position_txt != 'P':
-                                    stats_lookup = statsapi.player_stat_data(player_info.player_id, group="[hitting]", type="yearByYear")
-                                    stats_lookup_return = None
-
-                                    for stats_list_data in stats_lookup['stats']:
-                                        if stats_list_data['season'] == str(stat_year):
-                                            stats_lookup_return = stats_list_data
+                                discord_formatted_string = '>>> I found ' + str(len(player_search_results)) + ' players matching **' + display_name_to_search + '** in ' + str(
+                                    stat_year) + '\n Enter the number for the player you want \n\n'
+                                
+                                for index in range(len(player_search_results)):
+                                    if index < len(player_search_results):
+                                        append_string = ' ' + str(index + 1) + ': ' + player_info_list[index].name_display_first_last + ' - ' + player_info_list[
+                                            index].team_name + ' (' + player_info_list[index].primary_position_txt + ' )' + '\n'
+                                    else:
+                                        appendString = ' ' + str(index + 1) + ': ' + player_info_list[index].name_display_first_last + ' - ' + player_info_list[
+                                            index].team_name + ' (' + player_info_list[index].primary_position_txt + ')'
                                     
-                                    if stats_lookup_return is None:
-                                        await message.channel.send('%s doesn\'t appear to have any stats for %s' % (player_info.name_display_first_last, stat_year))
-                                        return
-                                    
-                                    player_embed = discord.Embed()
-                                    player_embed.title = '**' + player_info.name_display_first_last + '\'s** Stats for **' + str(stat_year) + '**'
-                                    player_embed.type = 'rich'
-                                    player_embed.color = discord.Color.dark_blue()
+                                    discord_formatted_string = discord_formatted_string + append_string
+                                
+                                await message.channel.send(discord_formatted_string)
+                                message_time = datetime.utcnow()
+                                time.sleep(2)
 
-                                    valueString = ' Batting Avg: %s\n' \
-                                                            ' HomeRuns: %s\n' \
-                                                            ' Slugging: %s\n' \
-                                                            ' OPS: %s\n' \
-                                                            ' RBI: %s' % (
-                                                                stats_lookup_return['stats']['avg'],
-                                                                stats_lookup_return['stats']['homeRuns'],
-                                                                stats_lookup_return['stats']['slg'],
-                                                                stats_lookup_return['stats']['ops'],
-                                                                stats_lookup_return['stats']['rbi'])
-                                    player_embed.add_field(name="Hitting Stats",
-                                                                    value=valueString)
-                                    await message.channel.send(embed=player_embed)
+                                player_info = players.PlayerInfo()
+                                player_selected_index = await self.testFunctions.wait_for_number(message, len(player_search_results), 30)
+
+                                if player_selected_index:
+                                    player_info = player_info_list[player_selected_index - 1]
                                 else:
-                                    player_stats_url = 'http://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id=\'mlb\'&game_type=\'R\'&season=\'' + str(
-                                                    stat_year) + '\'&player_id=\'' + player_info.player_id + '\''
-                                    player_stats_header = {'Content-Type': 'application/json'}
-                                    player_stats_request = requests.get(player_stats_url, player_stats_header)
-                                    player_stats_json = json.loads(player_stats_request.text)
+                                    return
+                            elif len(player_search_results) == 1:
+                                player_info = players.PlayerInfo()
+                                player_info_url = 'http://lookup-service-prod.mlb.com/json/named.player_info.bam?sport_code=\'mlb\'&player_id=\'' + \
+                                    player_search_results[0].player_id + '\''
+                                player_info_header = {'Content-Type': 'application/json'}
+                                player_info_request = requests.get(player_info_url, player_info_header)
+                                player_info_json = json.loads(player_info_request.text)
+                                player_info.ParseJson(player_info_json)
+                            elif len(player_search_results) == 0:
+                                await message.channel.send('I couldn\'t find any players with the name %s in the year %s' % (display_name_to_search, stat_year))
+                                return
+                            
+                            if player_info.primary_position_txt != 'P':
+                                stats_lookup = statsapi.player_stat_data(player_info.player_id, group="[hitting]", type="yearByYear")
+                                stats_lookup_return = None
 
-                                    if int(player_stats_json['sport_pitching_tm']['queryResults']['totalSize']) == 0:
-                                        await message.channel.send('%s doesn\'t appear to have any stats for %s' % (player_info.name_display_first_last, stat_year))
+                                for stats_list_data in stats_lookup['stats']:
+                                    if stats_list_data['season'] == str(stat_year):
+                                        stats_lookup_return = stats_list_data
+                                
+                                if stats_lookup_return is None:
+                                    await message.channel.send('%s doesn\'t appear to have any stats for %s' % (player_info.name_display_first_last, stat_year))
+                                    return
+                                
+                                player_embed = discord.Embed()
+                                player_embed.title = '**' + player_info.name_display_first_last + '\'s** Stats for **' + str(stat_year) + '**'
+                                player_embed.type = 'rich'
+                                player_embed.color = discord.Color.dark_blue()
+
+                                valueString = ' Batting Avg: %s\n' \
+                                                        ' HomeRuns: %s\n' \
+                                                        ' Slugging: %s\n' \
+                                                        ' OPS: %s\n' \
+                                                        ' RBI: %s' % (
+                                                            stats_lookup_return['stats']['avg'],
+                                                            stats_lookup_return['stats']['homeRuns'],
+                                                            stats_lookup_return['stats']['slg'],
+                                                            stats_lookup_return['stats']['ops'],
+                                                            stats_lookup_return['stats']['rbi'])
+                                player_embed.add_field(name="Hitting Stats",
+                                                                value=valueString)
+                                await message.channel.send(embed=player_embed)
+                            else:
+                                player_stats_url = 'http://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id=\'mlb\'&game_type=\'R\'&season=\'' + str(
+                                                stat_year) + '\'&player_id=\'' + player_info.player_id + '\''
+                                player_stats_header = {'Content-Type': 'application/json'}
+                                player_stats_request = requests.get(player_stats_url, player_stats_header)
+                                player_stats_json = json.loads(player_stats_request.text)
+
+                                if int(player_stats_json['sport_pitching_tm']['queryResults']['totalSize']) == 0:
+                                    await message.channel.send('%s doesn\'t appear to have any stats for %s' % (player_info.name_display_first_last, stat_year))
+                                    return
+                                
+                                season_pitching_info = players.SeasonPitchingStats()
+                                season_pitching_info.ParseJson(player_stats_json)
+                                pitcher_embed = discord.Embed()
+                                pitcher_embed.title = '**' + player_info.name_display_first_last + '\'s** Stats for **' + str(stat_year) + '**'
+                                pitcher_embed.type = 'rich'
+                                pitcher_embed.color = discord.Color.dark_blue()
+
+                                for index in range(0, season_pitching_info.totalSize):
+                                    valueString = ' ERA: %s\n' \
+                                                            ' Wins/Losses: %s/%s\n' \
+                                                            ' Games: %s\n' \
+                                                            ' WHIP: %s' % (
+                                                                season_pitching_info.era[index],
+                                                                season_pitching_info.w[index],
+                                                                season_pitching_info.l[index],
+                                                                season_pitching_info.gs[index],
+                                                                season_pitching_info.whip[index])
+                                    pitcher_embed.add_field(name=season_pitching_info.team_abbrev[index],value=valueString)
+
+                                await message.channel.send(embed=pitcher_embed)
+                                return
+                        except Exception as e:
+                            exception_type, exception_object, exception_traceback = sys.exc_info()
+                            filename = exception_traceback.tb_frame.f_code.co_filename
+                            line_num = exception_traceback.tb_lineno
+                            print("Exception type: ", exception_type)
+                            print("File name: ", filename)
+                            print("Line number: ", line_num)
+                            print('DEBUG: Exception in PLAYER. Input was %s' % message.content)
+                            print('DEBUG: Exception is %s' % e)
+                            await message.channel.send("Sorry, I've encountered an error :(")
+                    elif 'SCORE' in message_array[1].upper():
+                        try:
+                            if len(message_array) < 3:
+                                await message.channel.send("I need a team to check the score for")
+                                return
+                            
+                            team_selected = None
+                            team_to_search = ''
+                            team_to_search = message_array[2]
+                            if len(message_array) > 3:
+                                for message_data in range(3, len(message_array)):
+                                    team_to_search = team_to_search + ' ' + message_array[message_data]
+                            
+                            team_selected = await self.testFunctions.get_team(team_to_search, message)
+                            target_date_time = datetime.datetime.now()
+
+                            if team_selected is None:
+                                await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % team_to_search)
+                                print('DEBUG: Failed to get the team in time in SCORE function')
+                                print('DEBUG: Input was: ' + team_to_search)
+                                print('DEBUG: Message content was: ' + message.content)
+                                return
+                            
+                            queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
+                            past_day = datetime.datetime.today() - timedelta(1)
+                            past_week = datetime.datetime.today() - timedelta(7)
+                            past_games = statsapi.schedule(start_date = past_week.strftime('%m/%d/%Y'), end_date = past_day.strftime('%m/%d/%Y'), team=team_selected['id'])
+
+                            next_day = datetime.datetime.today() + timedelta(1)
+                            next_week = datetime.datetime.today() + timedelta(7)
+                            next_games = statsapi.schedule(start_date = next_day.strftime('%m/%d/%Y'), end_date = next_week.strftime('%m/%d/%Y'), team = team_selected['id'])
+
+                            if len(past_games) > 0:
+                                previous_game = past_games[len(past_games) - 1]
+                            else:
+                                previous_game = None
+                            
+                            if type(queried_schedule) is list:
+                                final_status_list = ["Final", "Game Over", "Completed Early"]
+                                scheduled_status_list = ["Scheduled", "Pre-Game"]
+                                live_status_list = ["In Progress", "Delayed"]
+                                other_status_list = ["Postponed"]
+
+                                if previous_game is not None:
+                                    if previous_game['status'] == 'In Progress' and queried_schedule[0]['status'] == 'Scheduled':
+                                        queried_schedule[0] = previous_game
+                                
+                                if len(queried_schedule) > 2:
+                                    for game in queried_schedule:
+                                        if any(game_status in game['status'] for game_status in final_status_list):
+                                            await self.embedFunctions.final_game_embed(game, message)
+                                        elif any(game_status in game['status'] for game_status in scheduled_status_list):
+                                            await self.embedFunctions.scheduled_game_embed(game, message)
+                                        elif any(game_status in game['status'] for game_status in live_status_list):
+                                            await self.embedFunctions.live_game_embed(game, message)
+                                        elif any(game_status in game['status'] for game_status in other_status_list):
+                                            await self.embedFunctions.generic_Game_Embed(game, message)
+                                
+                                elif len(queried_schedule) == 2:
+                                    #game 1
+                                    if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list): await self.embedFunctions.final_game_embed(queried_schedule[0], message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
+                                        await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
+                                        if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
+                                        await self.embedFunctions.live_game_embed(queried_schedule[0], message)
                                         return
-                                    
-                                    season_pitching_info = players.SeasonPitchingStats()
-                                    season_pitching_info.ParseJson(player_stats_json)
-                                    pitcher_embed = discord.Embed()
-                                    pitcher_embed.title = '**' + player_info.name_display_first_last + '\'s** Stats for **' + str(stat_year) + '**'
-                                    pitcher_embed.type = 'rich'
-                                    pitcher_embed.color = discord.Color.dark_blue()
-
-                                    for index in range(0, season_pitching_info.totalSize):
-                                        valueString = ' ERA: %s\n' \
-                                                                ' Wins/Losses: %s/%s\n' \
-                                                                ' Games: %s\n' \
-                                                                ' WHIP: %s' % (
-                                                                    season_pitching_info.era[index],
-                                                                    season_pitching_info.w[index],
-                                                                    season_pitching_info.l[index],
-                                                                    season_pitching_info.gs[index],
-                                                                    season_pitching_info.whip[index])
-                                        pitcher_embed.add_field(name=season_pitching_info.team_abbrev[index],value=valueString)
-
-                                    await message.channel.send(embed=pitcher_embed)
-                                    return
-                            except Exception as e:
-                                exception_type, exception_object, exception_traceback = sys.exc_info()
-                                filename = exception_traceback.tb_frame.f_code.co_filename
-                                line_num = exception_traceback.tb_lineno
-                                print("Exception type: ", exception_type)
-                                print("File name: ", filename)
-                                print("Line number: ", line_num)
-                                print('DEBUG: Exception in PLAYER. Input was %s' % message.content)
-                                print('DEBUG: Exception is %s' % e)
-                                await message.channel.send("Sorry, I've encountered an error :(")
-                        elif 'SCORE' in message_array[1].upper():
-                            try:
-                                if len(message_array) < 3:
-                                    await message.channel.send("I need a team to check the score for")
-                                    return
-                                
-                                team_selected = None
-                                team_to_search = ''
-                                team_to_search = message_array[2]
-                                if len(message_array) > 3:
-                                    for message_data in range(3, len(message_array)):
-                                        team_to_search = team_to_search + ' ' + message_array[message_data]
-                                
-                                team_selected = await self.testFunctions.get_team(team_to_search, message)
-                                target_date_time = datetime.datetime.now()
-
-                                if team_selected is None:
-                                    await message.channel.send('I couldn\'t find a team with the name %s. Please try again.' % team_to_search)
-                                    print('DEBUG: Failed to get the team in time in SCORE function')
-                                    print('DEBUG: Input was: ' + team_to_search)
-                                    print('DEBUG: Message content was: ' + message.content)
-                                    return
-                                
-                                queried_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(team_selected['id']))
-                                past_day = datetime.datetime.today() - timedelta(1)
-                                past_week = datetime.datetime.today() - timedelta(7)
-                                past_games = statsapi.schedule(start_date = past_week.strftime('%m/%d/%Y'), end_date = past_day.strftime('%m/%d/%Y'), team=team_selected['id'])
-
-                                next_day = datetime.datetime.today() + timedelta(1)
-                                next_week = datetime.datetime.today() + timedelta(7)
-                                next_games = statsapi.schedule(start_date = next_day.strftime('%m/%d/%Y'), end_date = next_week.strftime('%m/%d/%Y'), team = team_selected['id'])
-
-                                if len(past_games) > 0:
-                                    previous_game = past_games[len(past_games) - 1]
-                                else:
-                                    previous_game = None
-                                
-                                if type(queried_schedule) is list:
-                                    final_status_list = ["Final", "Game Over", "Completed Early"]
-                                    scheduled_status_list = ["Scheduled", "Pre-Game"]
-                                    live_status_list = ["In Progress", "Delayed"]
-                                    other_status_list = ["Postponed"]
-
-                                    if previous_game is not None:
-                                        if previous_game['status'] == 'In Progress' and queried_schedule[0]['status'] == 'Scheduled':
-                                            queried_schedule[0] = previous_game
-                                    
-                                    if len(queried_schedule) > 2:
-                                        for game in queried_schedule:
-                                            if any(game_status in game['status'] for game_status in final_status_list):
-                                                await self.embedFunctions.final_game_embed(game, message)
-                                            elif any(game_status in game['status'] for game_status in scheduled_status_list):
-                                                await self.embedFunctions.scheduled_game_embed(game, message)
-                                            elif any(game_status in game['status'] for game_status in live_status_list):
-                                                await self.embedFunctions.live_game_embed(game, message)
-                                            elif any(game_status in game['status'] for game_status in other_status_list):
-                                                await self.embedFunctions.generic_Game_Embed(game, message)
-                                    
-                                    elif len(queried_schedule) == 2:
-                                        #game 1
-                                        if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list): await self.embedFunctions.final_game_embed(queried_schedule[0], message)
-                                        elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
-                                            await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
-                                            if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
-                                        elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
-                                            await self.embedFunctions.live_game_embed(queried_schedule[0], message)
-                                            return
-                                        elif any(game_status in queried_schedule[0]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                                        #game 2
-                                        if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
-                                            await self.embedFunctions.final_game_embed(queried_schedule[1], message)
-                                            if len(next_games) > 0:
-                                                await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                                        elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
-                                            await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
-                                            if previous_game is not None:
-                                                await self.embedFunctions.final_game_embed(previous_game, message)
-                                        elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
-                                            await self.embedFunctions.live_game_embed(queried_schedule[1], message)
-                                            return
-                                        elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                                        if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                                    
-                                    elif len(queried_schedule) == 1:
-                                        if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list):
-                                            await self.embedFunctions.final_game_embed(queried_schedule[0], message)
-                                            if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                                        elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
-                                            await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
-                                            if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
-                                        elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
-                                            await self.embedFunctions.live_game_embed(queried_schedule[0], message)
-                                        elif any(game_status in queried_schedule[0]['status'] for game_status in  other_status_list):
-                                            await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                                            if len(next_games) > 0:
-                                                await self.embedFunctions.scheduled_Game_Embed(next_games[0],  message)
-                                    elif len(queried_schedule) <= 0:
-                                        if len(past_games) > 0:
-                                            previous_game = past_games[len(past_games) - 1]
-                                        else:
-                                            await message.channel.send('no recent games')
-                                            return
-                                        
-                                        if previous_game['status'] == 'In Progress':
-                                            print('prev game still in progress')
-                                            await self.embedFunctions.live_game_embed(previous_game, message)
-                                        
-                                        final_status_list = ["Final", "Game Over", "Completed Early"]
-                                        if any(game_status in previous_game['status'] for game_status in final_status_list):
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                                    #game 2
+                                    if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
+                                        await self.embedFunctions.final_game_embed(queried_schedule[1], message)
+                                        if len(next_games) > 0:
+                                            await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                                    elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
+                                        await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
+                                        if previous_game is not None:
                                             await self.embedFunctions.final_game_embed(previous_game, message)
-                                            if len(next_games) > 0:
-                                                await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                            except Exception as e:
-                                exception_type, exception_object, exception_traceback = sys.exc_info()
-                                filename = exception_traceback.tb_frame.f_code.co_filename
-                                line_num = exception_traceback.tb_lineno
-                                print("Exception type: ", exception_type)
-                                print("File name: ", filename)
-                                print("Line number: ", line_num)
-                                print('DEBUG: Exception in SCORE. Input was %s' % message.content)
-                                print('DEBUG: Exception was %s' % e)
-                                await message.channel.send('Sorry, something went wrong :( %s' % e)          
-                        elif 'BREAK' in message_array[1].upper():
-                            await message.channel.send('breaking loop')
-                            var = 1
-                        # elif message_array[1].upper() == 'ACTIVATE':
-                        #     while break_var != True:
-                        #         await message.channel.send('team activated. you will now receive notifs')
-                        #     # while break_var != True:
-                        #     #     await self.embedFunctions.team_notifications('padres', 789273776105193472, True)
-                        # if message_array[0].upper() == 'BOT' and message_array[1].upper() == 'DEACTIVATE':
-                        #     await message.channel.send('team deactiviating. no more notifs')
-                        #     break_var = False
-                        #     #await self.embedFunctions.team_notifications('padres', 789273776105193472, False)
-                        # teams = [x['name'] for x in statsapi.get('teams',{'sportIds':1,'activeStatus':'Yes','fields':'teams,name'})['teams']]
-                        # for team in teams:
-                        #     for name in statsapi.lookup_team(team):
-                        #         upper_team = name['teamName'].upper()
-                        #         if message_array[0].upper() == 'BOT' and message_array[1].upper() == upper_team:
-                        #             if len(message_array) > 1:
-                        #                 if message_array[2].upper() == 'ON':
-                        #                     #await message.channel.send(message_array[1] + ('notifs are now on'))
-                        #                     var = 0
-                        #                     away_team = True
-                        #                     yankees_away_score = 0
-                        #                     yankees_home_score = 0
-                        #                     mets_away_score = 0
-                        #                     mets_home_score = 0
-                        #                     lineup_url = "https://www.baseballpress.com/lineups/" 
-                        #                     r = requests.get(lineup_url)
-                        #                     soup_lineup = BeautifulSoup(r.text, 'lxml') 
-                        #                     lineup_list = []
-                        #                     pitchers = []
-                        #                     hour_var = 0
+                                    elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
+                                        await self.embedFunctions.live_game_embed(queried_schedule[1], message)
+                                        return
+                                    elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                                    if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                                
+                                elif len(queried_schedule) == 1:
+                                    if any(game_status in queried_schedule[0]['status'] for game_status in final_status_list):
+                                        await self.embedFunctions.final_game_embed(queried_schedule[0], message)
+                                        if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in scheduled_status_list):
+                                        await self.embedFunctions.scheduled_game_embed(queried_schedule[0], message)
+                                        if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in live_status_list):
+                                        await self.embedFunctions.live_game_embed(queried_schedule[0], message)
+                                    elif any(game_status in queried_schedule[0]['status'] for game_status in  other_status_list):
+                                        await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                                        if len(next_games) > 0:
+                                            await self.embedFunctions.scheduled_Game_Embed(next_games[0],  message)
+                                elif len(queried_schedule) <= 0:
+                                    if len(past_games) > 0:
+                                        previous_game = past_games[len(past_games) - 1]
+                                    else:
+                                        await message.channel.send('no recent games')
+                                        return
+                                    
+                                    if previous_game['status'] == 'In Progress':
+                                        print('prev game still in progress')
+                                        await self.embedFunctions.live_game_embed(previous_game, message)
+                                    
+                                    final_status_list = ["Final", "Game Over", "Completed Early"]
+                                    if any(game_status in previous_game['status'] for game_status in final_status_list):
+                                        await self.embedFunctions.final_game_embed(previous_game, message)
+                                        if len(next_games) > 0:
+                                            await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                        except Exception as e:
+                            exception_type, exception_object, exception_traceback = sys.exc_info()
+                            filename = exception_traceback.tb_frame.f_code.co_filename
+                            line_num = exception_traceback.tb_lineno
+                            print("Exception type: ", exception_type)
+                            print("File name: ", filename)
+                            print("Line number: ", line_num)
+                            print('DEBUG: Exception in SCORE. Input was %s' % message.content)
+                            print('DEBUG: Exception was %s' % e)
+                            await message.channel.send('Sorry, something went wrong :( %s' % e)          
+                    elif 'BREAK' in message_array[1].upper():
+                        await message.channel.send('breaking loop')
+                        var = 1
+                    # elif message_array[1].upper() == 'ACTIVATE':
+                    #     while break_var != True:
+                    #         await message.channel.send('team activated. you will now receive notifs')
+                    #     # while break_var != True:
+                    #     #     await self.embedFunctions.team_notifications('padres', 789273776105193472, True)
+                    # if message_array[0].upper() == 'BOT' and message_array[1].upper() == 'DEACTIVATE':
+                    #     await message.channel.send('team deactiviating. no more notifs')
+                    #     break_var = False
+                    #     #await self.embedFunctions.team_notifications('padres', 789273776105193472, False)
+                    # teams = [x['name'] for x in statsapi.get('teams',{'sportIds':1,'activeStatus':'Yes','fields':'teams,name'})['teams']]
+                    # for team in teams:
+                    #     for name in statsapi.lookup_team(team):
+                    #         upper_team = name['teamName'].upper()
+                    #         if message_array[0].upper() == 'BOT' and message_array[1].upper() == upper_team:
+                    #             if len(message_array) > 1:
+                    #                 if message_array[2].upper() == 'ON':
+                    #                     #await message.channel.send(message_array[1] + ('notifs are now on'))
+                    #                     var = 0
+                    #                     away_team = True
+                    #                     yankees_away_score = 0
+                    #                     yankees_home_score = 0
+                    #                     mets_away_score = 0
+                    #                     mets_home_score = 0
+                    #                     lineup_url = "https://www.baseballpress.com/lineups/" 
+                    #                     r = requests.get(lineup_url)
+                    #                     soup_lineup = BeautifulSoup(r.text, 'lxml') 
+                    #                     lineup_list = []
+                    #                     pitchers = []
+                    #                     hour_var = 0
+                                        
+                    #                     while var < 1:
+                    #                         target_date_time = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
+                    #                         yankees = self.testFunctions.get_team_no_msg('yankees')
+                    #                         mets = self.testFunctions.get_team_no_msg('mets')
+                    #                         mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
+                    #                         yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
+                    #                         now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
                                             
-                        #                     while var < 1:
-                        #                         target_date_time = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
-                        #                         yankees = self.testFunctions.get_team_no_msg('yankees')
-                        #                         mets = self.testFunctions.get_team_no_msg('mets')
-                        #                         mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
-                        #                         yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
-                        #                         now = datetime.datetime.now() - timedelta(hours=4) #changing from 4 to 8
-                                                
-                        #                         if len(yankees_schedule) > 0:
-                        #                             yankees_game_id = yankees_schedule[0]['game_id']
-                        #                             yankees_visitors = yankees_schedule[0]['away_name']
-                        #                             yankees_home_team = yankees_schedule[0]['home_name']
-                        #                             yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
-                        #                             yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
-                        #                             yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
-                        #                             yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])[0]
-                        #                             yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
-                        #                             yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
-                        #                             yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
-                        #                             #yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
+                    #                         if len(yankees_schedule) > 0:
+                    #                             yankees_game_id = yankees_schedule[0]['game_id']
+                    #                             yankees_visitors = yankees_schedule[0]['away_name']
+                    #                             yankees_home_team = yankees_schedule[0]['home_name']
+                    #                             yankees_game_time_local = self.testFunctions.get_local_time(yankees_schedule[0]['game_datetime'])
+                    #                             yankees_new_hour = yankees_game_time_local - timedelta(hours=4)
+                    #                             yankees_new_minute = yankees_game_time_local - timedelta(minutes=5)
+                    #                             yankees_away_team_code = self.embedFunctions.file_code(yankees_schedule[0])[0]
+                    #                             yankees_home_team_code = self.embedFunctions.file_code(yankees_schedule[0])[1]
+                    #                             yankees_home_prob = yankees_schedule[0]['home_probable_pitcher']
+                    #                             yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
+                    #                             #yankees_pitchers = await self.embedFunctions.boxscore(int(yankees_game_id))
 
-                        #                             if yankees_visitors == 'New York Yankees':
-                        #                                 away_team = True
-                        #                             elif yankees_home_team == 'New York Yankees':
-                        #                                 away_team = False
+                    #                             if yankees_visitors == 'New York Yankees':
+                    #                                 away_team = True
+                    #                             elif yankees_home_team == 'New York Yankees':
+                    #                                 away_team = False
 
-                        #                             if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
-                        #                                 yankees_away_team_score = int(yankees_schedule[0]['away_score'])
-                        #                                 yankees_home_team_score = int(yankees_schedule[0]['home_score'])
-                        #                                 if yankees_away_score != yankees_away_team_score:
-                        #                                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
-                        #                                     yankees_away_score = yankees_away_team_score
-                        #                                     time.sleep(15)
-                                                            
-                        #                                 if yankees_home_score != yankees_home_team_score:
-                        #                                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team, yankees_away_team_score, yankees_home_team_score)
-                        #                                     yankees_home_score = yankees_home_team_score
-                        #                                     time.sleep(15)
+                    #                             if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 4)):
+                    #                                 yankees_away_team_score = int(yankees_schedule[0]['away_score'])
+                    #                                 yankees_home_team_score = int(yankees_schedule[0]['home_score'])
+                    #                                 if yankees_away_score != yankees_away_team_score:
+                    #                                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
+                    #                                     yankees_away_score = yankees_away_team_score
+                    #                                     time.sleep(15)
                                                         
-                        #                                 # if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_away_prob:
-                        #                                 #     await channel.send(yankees_away_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1])
-                        #                                 #     yankees_away_prob = yankees_pitchers[len(yankees_pitchers) - 1]
-                                                        
-                        #                             if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
-                        #                                 for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
-                        #                                     if item.get('data-razz') == '':
-                        #                                         player_name = 'Unknown Player'
-                        #                                         lineup_list.append(player_name)
-                        #                                     else:
-                        #                                         player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                        #                                         lineup_list.append(player_name)
-                        #                                 pitchers.append(lineup_list[0])
-                        #                                 pitchers.append(lineup_list[1])
-                                                        
-                        #                                 await message.channel.send('Starting Pitchers:\n' + str(yankees_visitors) + ': ' + pitchers[0] + '\n' + str(yankees_home_team) + ': ' + pitchers[1])
+                    #                                 if yankees_home_score != yankees_home_team_score:
+                    #                                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_home_team, yankees_away_team_score, yankees_home_team_score)
+                    #                                     yankees_home_score = yankees_home_team_score
+                    #                                     time.sleep(15)
+                                                    
+                    #                                 # if yankees_pitchers[len(yankees_pitchers) - 1] != yankees_away_prob:
+                    #                                 #     await channel.send(yankees_away_prob) + ' has been replaced by ' + str(yankees_pitchers[len(yankees_pitchers) - 1])
+                    #                                 #     yankees_away_prob = yankees_pitchers[len(yankees_pitchers) - 1]
+                                                    
+                    #                             if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:                
+                    #                                 for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
+                    #                                     if item.get('data-razz') == '':
+                    #                                         player_name = 'Unknown Player'
+                    #                                         lineup_list.append(player_name)
+                    #                                     else:
+                    #                                         player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                    #                                         lineup_list.append(player_name)
+                    #                                 pitchers.append(lineup_list[0])
+                    #                                 pitchers.append(lineup_list[1])
+                                                    
+                    #                                 await message.channel.send('Starting Pitchers:\n' + str(yankees_visitors) + ': ' + pitchers[0] + '\n' + str(yankees_home_team) + ': ' + pitchers[1])
 
-                        #                                 lineup_list.pop(0)
-                        #                                 lineup_list.pop(0)
-                        #                                 n = 9
-                        #                                 home_list = lineup_list[n:]
-                        #                                 away_list = lineup_list[:-n]
+                    #                                 lineup_list.pop(0)
+                    #                                 lineup_list.pop(0)
+                    #                                 n = 9
+                    #                                 home_list = lineup_list[n:]
+                    #                                 away_list = lineup_list[:-n]
 
-                        #                                 away_lineup = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
-                        #                                 await message.channel.send(away_lineup)
+                    #                                 away_lineup = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+                    #                                 await message.channel.send(away_lineup)
 
-                        #                                 home_lineup = """```""" + str(yankees_home_team) + """lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-                        #                                 await message.channel.send(home_lineup)
-                        #                                 hour_var = 1
+                    #                                 home_lineup = """```""" + str(yankees_home_team) + """lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                    #                                 await message.channel.send(home_lineup)
+                    #                                 hour_var = 1
 
-                        #                                 if now.hour != (yankees_new_hour.hour - 1):
-                        #                                     hour_var = 0
+                    #                                 if now.hour != (yankees_new_hour.hour - 1):
+                    #                                     hour_var = 0
 
-                        #                         if len(mets_schedule) > 0:
-                        #                             mets_game_id = mets_schedule[0]['game_id']
-                        #                             mets_visitors = mets_schedule[0]['away_name']
-                        #                             mets_home_team = mets_schedule[0]['home_name']
-                        #                             mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
-                        #                             mets_new_hour = mets_game_time_local - timedelta(hours=4)
-                        #                             mets_new_minute = mets_game_time_local - timedelta(minutes=5)
-                        #                             mets_home_prob = mets_schedule[0]['home_probable_pitcher']
-                        #                             mets_away_prob = mets_schedule[0]['away_probable_pitcher']
-                        #                             #mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
-                        #                             if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
-                        #                                 mets_away_team_score = int(mets_schedule[0]['away_score'])
-                        #                                 mets_home_team_score = int(mets_schedule[0]['home_score'])
-                        #                                 if mets_away_score != mets_away_team_score:
-                        #                                     await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_visitors, mets_away_team_score, mets_home_team_score)
-                        #                                     mets_away_score = mets_away_team_score
-                        #                                     time.sleep(15)
-                                                        
-                        #                                 if mets_home_score != mets_home_team_score:
-                        #                                     await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_home_team, mets_away_score, mets_home_team_score)
-                        #                                     mets_home_score = mets_home_team_score
-                        #                                     time.sleep(15)
+                    #                         if len(mets_schedule) > 0:
+                    #                             mets_game_id = mets_schedule[0]['game_id']
+                    #                             mets_visitors = mets_schedule[0]['away_name']
+                    #                             mets_home_team = mets_schedule[0]['home_name']
+                    #                             mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
+                    #                             mets_new_hour = mets_game_time_local - timedelta(hours=4)
+                    #                             mets_new_minute = mets_game_time_local - timedelta(minutes=5)
+                    #                             mets_home_prob = mets_schedule[0]['home_probable_pitcher']
+                    #                             mets_away_prob = mets_schedule[0]['away_probable_pitcher']
+                    #                             #mets_pitchers = await self.embedFunctions.boxscore(int(mets_game_id))
+                    #                             if away_team == True and (mets_new_hour.hour <= now.hour <= (mets_new_hour.hour + 3)):
+                    #                                 mets_away_team_score = int(mets_schedule[0]['away_score'])
+                    #                                 mets_home_team_score = int(mets_schedule[0]['home_score'])
+                    #                                 if mets_away_score != mets_away_team_score:
+                    #                                     await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_visitors, mets_away_team_score, mets_home_team_score)
+                    #                                     mets_away_score = mets_away_team_score
+                    #                                     time.sleep(15)
+                                                    
+                    #                                 if mets_home_score != mets_home_team_score:
+                    #                                     await self.embedFunctions.scoring_plays_embed(mets_schedule[0], channel, mets_home_team, mets_away_score, mets_home_team_score)
+                    #                                     mets_home_score = mets_home_team_score
+                    #                                     time.sleep(15)
 
-                        #                             if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:                
-                        #                                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
-                        #                                     if item.get('data-razz') == '':
-                        #                                         player_name = 'Unknown Player'
-                        #                                         lineup_list.append(player_name)
-                        #                                     else:
-                        #                                         player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                        #                                         lineup_list.append(player_name)
-                        #                                 pitchers.append(lineup_list[0])
-                        #                                 pitchers.append(lineup_list[1])
-                                                        
-                        #                                 await message.channel.send('Starting Pitchers:\n' + str(mets_visitors) + ': ' + pitchers[0] + '\n' + str(mets_home_team) + ': ' + pitchers[1])
+                    #                             if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:                
+                    #                                 for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
+                    #                                     if item.get('data-razz') == '':
+                    #                                         player_name = 'Unknown Player'
+                    #                                         lineup_list.append(player_name)
+                    #                                     else:
+                    #                                         player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                    #                                         lineup_list.append(player_name)
+                    #                                 pitchers.append(lineup_list[0])
+                    #                                 pitchers.append(lineup_list[1])
+                                                    
+                    #                                 await message.channel.send('Starting Pitchers:\n' + str(mets_visitors) + ': ' + pitchers[0] + '\n' + str(mets_home_team) + ': ' + pitchers[1])
 
-                        #                                 lineup_list.pop(0)
-                        #                                 lineup_list.pop(0)
-                        #                                 n = 9
-                        #                                 home_list = lineup_list[n:]
-                        #                                 away_list = lineup_list[:-n]
+                    #                                 lineup_list.pop(0)
+                    #                                 lineup_list.pop(0)
+                    #                                 n = 9
+                    #                                 home_list = lineup_list[n:]
+                    #                                 away_list = lineup_list[:-n]
 
-                        #                                 away_lineup = """```""" + str(mets_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
-                        #                                 await message.channel.send(away_lineup)
+                    #                                 away_lineup = """```""" + str(mets_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+                    #                                 await message.channel.send(away_lineup)
 
-                        #                                 home_lineup = """```""" + str(mets_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-                        #                                 await message.channel.send(home_lineup)
-                        #                                 hour_var = 1
+                    #                                 home_lineup = """```""" + str(mets_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                    #                                 await message.channel.send(home_lineup)
+                    #                                 hour_var = 1
 
-                        #                                 if now.hour != (mets_new_hour.hour - 1):
-                        #                                     hour_var = 0
-                    elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
-                        await message.channel.send('test')
-                        print('test')
-                        return
-                else:
+                    #                                 if now.hour != (mets_new_hour.hour - 1):
+                    #                                     hour_var = 0
+                elif message_array[0].upper() == 'BOT' and len(message_array) == 1:
+                    await message.channel.send('test')
+                    print('test')
                     return
+            else:
+                return
 
 client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
