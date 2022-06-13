@@ -1850,7 +1850,7 @@ class Bot(discord.Client):
             else:
                 return
     
-    async def on_server_join(self, guild):
+    async def on_guild_join(self, guild):
         for channel in guild.text_channels:
             if channel.permissions_for(guild.me).send_messages:
                 await channel.send('Hi there.')
