@@ -1851,12 +1851,10 @@ class Bot(discord.Client):
                 return
     
     async def on_server_join(self, guild):
-        general = find(lambda x: x.name == 'general', guild.text_channels)
-        if general and general.permissions_for(guild.me).send_messages:
-            await general.send('Hi there. ')
-    # @client.command()
-    # async def test(ctx):
-    #     await ctx.channel.send('hi')
+        for channel in guild.text_channels:
+            if channel.permissions_for(guild.me).send_messages:
+                await channel.send('Hi there.')
+            break
 
 client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
