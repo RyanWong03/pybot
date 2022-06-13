@@ -1261,7 +1261,7 @@ class Bot(discord.Client):
         #     print("Line number: ", line_num)
         #     print('DEBUG: Exception is %s' % e)
         #     await channel.send('Error: ' + str(e))
-                
+                #
     async def on_message(self, message):
         dump = client.get_channel(983209443770642462)
         var = 0
