@@ -1772,7 +1772,7 @@ async def scores(ctx, team):
     a = 0
     while a < 1:
         now = datetime.datetime.now()
-        if now.minute == 40:
+        if now.minute == 46:
             lineup_url = "https://www.baseballpress.com/lineups/2022-06-12" 
             r = requests.get(lineup_url)
             soup_lineup = BeautifulSoup(r.text, 'lxml') 
