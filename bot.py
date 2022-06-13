@@ -1263,12 +1263,10 @@ class Bot(discord.Client):
         #     await channel.send('Error: ' + str(e))
                 #
     async def on_message(self, message):
-        var = 0
         if(message.author == self.user) or message.author.bot:
             return
         else:
             message_array = message.content.split()
-            #while var < 1:
             if len(message_array) > 0:
                 if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                     if 'PLAYER' in message_array[1].upper():
@@ -1741,70 +1739,5 @@ class Bot(discord.Client):
     # async def test(ctx):
     #     await ctx.channel.send('hi')
 
-@client.event
-async def on_ready():
-    print('bot is ready')
-
-@client.command()
-async def test(ctx):
-    while True:
-        await ctx.send('hi')
-
-@client.command()
-async def bye(ctx):
-    await ctx.send('bye')
-
-@client.command()
-async def hi(ctx, command):
-    await ctx.send('shutting down')
-    command = client.get_command(command)
-    if command is None:
-        await ctx.send('cant find this command')
-    elif ctx.command == command:
-        await ctx.send('cant disable this')
-    else:
-        command.enabled = not command.enabled
-        ternary = "enabled" if command.enabled else "disabled"
-        await ctx.send(f"I have {ternary} {command.qualified_name} for you")
-
-@client.command()
-async def scores(ctx, team):
-    a = 0
-    while a < 1:
-        now = datetime.datetime.now()
-        if now.minute == 46:
-            lineup_url = "https://www.baseballpress.com/lineups/2022-06-12" 
-            r = requests.get(lineup_url)
-            soup_lineup = BeautifulSoup(r.text, 'lxml') 
-            lineup_list = []
-            pitchers = []
-            mets_visitors = 'Mets'
-            mets_home_team = 'Yankees'
-            for item in soup_lineup.select("[data-league='AL']:-soup-contains('Mets') .player > a.player-link"):
-                if item.get('data-razz') == '':
-                    player_name = 'Unknown Player'
-                    lineup_list.append(player_name)
-                else:
-                    player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                    lineup_list.append(player_name)
-            pitchers.append(lineup_list[0])
-            pitchers.append(lineup_list[1])
-            
-            await ctx.send('Starting Pitchers:\n' + str(mets_visitors) + ': ' + pitchers[0] + '\n' + str(mets_home_team) + ': ' + pitchers[1])
-
-            lineup_list.pop(0)
-            lineup_list.pop(0)
-            n = 9
-            home_list = lineup_list[n:]
-            away_list = lineup_list[:-n]
-
-            away_lineup = """```""" + str(mets_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
-            await ctx.send(away_lineup)
-
-            home_lineup = """```""" + str(mets_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-            await ctx.send(home_lineup)
-            a = 1
-
-
-#client = Bot()  
+client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
