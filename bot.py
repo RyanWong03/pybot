@@ -1,6 +1,7 @@
 import discord
 import os
 import requests
+from discord.ext import commands
 import datetime
 from datetime import timedelta
 import time
@@ -14,9 +15,9 @@ from bs4 import BeautifulSoup
 import lxml
 import copy
  #add click more button for pitching line fix local time
-# intents = discord.Intents.default()
-# intents.members = True
-# client = commands.Bot(command_prefix = '$', intents=intents)
+intents = discord.Intents.default()
+intents.members = True
+client = commands.Bot(command_prefix = '$', intents=intents)
 
 class TestFunctions:
     async def wait_for_response(self, message, user_response, wait_time):
@@ -1736,6 +1737,7 @@ class Bot(discord.Client):
                     return
             else:
                 return
+    @client.command()
     async def test(ctx):
         await ctx.channel.send('hi')
 
