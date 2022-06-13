@@ -1263,12 +1263,14 @@ class Bot(discord.Client):
         #     await channel.send('Error: ' + str(e))
                 
     async def on_message(self, message):
+        dump = client.get_channel(983209443770642462)
         var = 0
         if(message.author == self.user) or message.author.bot:
             return
         else:
             message_array = message.content.split()
             while var < 1:
+                await dump.send('msg')
                 if len(message_array) > 0:
                     if ('BOT' in message_array[0].upper() and len(message_array) > 1) or (str(self.user.id) in message_array[0].upper()):
                         if 'PLAYER' in message_array[1].upper():
