@@ -1195,6 +1195,18 @@ class Bot(discord.Client):
                             yankees_current_inning = str(yankees_schedule[0]['current_inning'])
                             yankees_half_inning = yankees_schedule[0]['inning_state']
                             yankees_current_inning_text = ''
+
+                            if yankees_current_inning[-1] == '1':
+                                yankees_current_inning += 'st'
+                                yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
+                            elif yankees_current_inning[-1] == '2':
+                                yankees_current_inning_text = 'nd'
+                            elif yankees_current_inning[-1] == '3':
+                                yankees_current_inning_text = 'rd'
+                            elif 4 <= int(yankees_current_inning[-1]) <= 10:
+                                yankees_current_inning += 'th'
+                                yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
+                                
                             if (now.hour == yankees_new_hour.hour) and hour_var < 1:    #change to 45 minutes before first pitch  
                                 if yankees_interleague == True:
                                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Yankees') .player > a.player-link"):
