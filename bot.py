@@ -1575,6 +1575,7 @@ class Bot(discord.Client):
                                 print('DEBUG: Exception was %s' % e)
                                 await message.channel.send('Sorry, something went wrong :( %s' % e)          
                         elif 'BREAK' in message_array[1].upper():
+                            await message.channel.send('breaking loop')
                             break
                         # elif message_array[1].upper() == 'ACTIVATE':
                         #     while break_var != True:
