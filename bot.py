@@ -679,30 +679,10 @@ class EmbedFunctions:
         pitching_change_embed.add_field(name='**%s**' % team, value=str(new_pitcher) + " replaces " + str(old_pitcher) + " in the " + inning + " inning.", inline=False)
         await channel.send(embed=pitching_change_embed)
 
-    # def get_temperature(self, city):
-    #     city = city.replace(" ", "+")
-    #     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-    #     res = requests.get(
-    #     f'https://www.google.com/search?q={city}&oq={city}&aqs=chrome.0.35i39l2j0l4j46j69i60.6128j1j7&sourceid=chrome&ie=UTF-8', headers=headers)
-    #     print("Searching...\n")
-    #     soup = BeautifulSoup(res.text, 'html.parser')
-    #     location = soup.select('#wob_loc')[0].getText().strip()
-    #     time = soup.select('#wob_dts')[0].getText().strip()
-    #     info = soup.select('#wob_dc')[0].getText().strip()
-    #     weather = soup.select('#wob_tm')[0].getText().strip()
-    #     print(location)
-    #     print(time)
-    #     print(info)
-    #     print(weather+"°C")
-    
-    # def print_temperature(self, city):
-    #     city = city + " weather"
-    #     return self.get_temperature(city)
     def file_code(self, game):
         if type(game) == list:
             game = game[0]
         
-        game_type = game['game_type']
         home_team = statsapi.lookup_team(game['home_name'])
         away_team = statsapi.lookup_team(game['away_name'])
         away_team_code = away_team[0]['fileCode'].upper()
@@ -1214,7 +1194,7 @@ class Bot(discord.Client):
                                 yankees_pitcher_var = 1
                                 if now.hour == (yankees_new_hour.hour - 1):
                                     yankees_pitcher_var = 0
-                            if (now.hour == yankees_new_hour.hour) and hour_var < 1:    #change to 45 minutes before first pitch  
+                            if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:    #change to 45 minutes before first pitch  
                                 if yankees_interleague == True:
                                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Yankees') .player > a.player-link"):
                                         if item.get('data-razz') == '':
@@ -1274,13 +1254,13 @@ class Bot(discord.Client):
                                 away_yankees_pitchers = yankees_pitchers[0]
                                 home_yankees_pitchers = yankees_pitchers[1]
 
-                                # if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
-                                #     await self.embedFunctions.pitching_change(channel, yankees_visitors, away_yankees_pitchers[len(away_yankees_pitchers) - 1], yankees_away_prob, yankees_current_inning_text)
-                                #     yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
+                                if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
+                                    await self.embedFunctions.pitching_change(channel, yankees_visitors, away_yankees_pitchers[len(away_yankees_pitchers) - 1], yankees_away_prob, yankees_current_inning_text)
+                                    yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
                                 
-                                # if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
-                                #     await self.embedFunctions.pitching_change(channel, yankees_home_team, home_yankees_pitchers[len(home_yankees_pitchers) - 1], yankees_home_prob, yankees_current_inning_text)
-                                #     yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
+                                if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
+                                    await self.embedFunctions.pitching_change(channel, yankees_home_team, home_yankees_pitchers[len(home_yankees_pitchers) - 1], yankees_home_prob, yankees_current_inning_text)
+                                    yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
 
                                 if yankees_away_score != yankees_away_team_score:
                                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
@@ -1366,12 +1346,6 @@ class Bot(discord.Client):
                             mets_home_score = 0
                             mets_away_score = 0
                             time.sleep(15)
-                   
-                    #         if previous_game is not None: await self.embedFunctions.final_game_embed(previous_game, message)
-                    #     elif any(game_status in queried_schedule[0]['status'] for game_status in  other_status_list):
-                    #         await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                    #         if len(next_games) > 0:
-                    #             await self.embedFunctions.scheduled_Game_Embed(next_games[0],  message)
 
         except Exception as e:
             exception_type, exception_object, exception_traceback = sys.exc_info()
