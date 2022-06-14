@@ -1301,7 +1301,7 @@ class Bot(discord.Client):
                                     """\n9: """ + away_list_yankees[8] + """```"""
                                     await channel.send(away_lineup_yankees)
 
-                                    home_lineup_yankees = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list_game_2[0] + """\n2: """ + \
+                                    home_lineup_yankees = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list_yankees[0] + """\n2: """ + \
                                     home_list_yankees[1] + """\n3: """ + home_list_yankees[2] + """\n4: """ + home_list_yankees[3] + """\n5: """ + \
                                     home_list_yankees[4] + """\n6: """ + home_list_yankees[5] + """\n7: """ + home_list_yankees[6] + """\n8: """ + \
                                     home_list_yankees[7] + """\n9: """ + home_list_yankees[8] + """```"""
