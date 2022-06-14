@@ -816,6 +816,7 @@ class Bot(discord.Client):
             final_met = 0
             final_met_game_2 = 0
             yankees_pitcher_var = 0
+            yankees_pitcher_var_game_2 = 0
             mets_pitcher_var = 0
             nl_teams = ["New York Mets", "Washington Nationals", "Atlanta Braves", "Philadelphia Phillies", "Miami Marlins", "Milwaukee Brewers", "Pittsburgh Pirates",
             "Cincinatti Reds", "Chicago Cubs", "St. Louis Cardinals", "Los Angeles Dodgers", "San Diego Padres", "San Francisco Giants", "Colorado Rockies", "Arizona Diamondbacks"]
@@ -1207,6 +1208,12 @@ class Bot(discord.Client):
                                 yankees_current_inning += 'th'
                                 yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
 
+                            if yankees_pitcher_var_game_2 < 1:
+                                yankees_home_prob = yankees_schedule[1]['home_probable_pitcher'] 
+                                yankees_away_prob = yankees_schedule[1]['away_probable_pitcher']
+                                yankees_pitcher_var = 1
+                                if now.hour == (yankees_new_hour.hour - 1):
+                                    yankees_pitcher_var = 0
                             if (now.hour == yankees_new_hour.hour) and hour_var < 1:    #change to 45 minutes before first pitch  
                                 if yankees_interleague == True:
                                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Yankees') .player > a.player-link"):
