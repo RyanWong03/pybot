@@ -786,7 +786,9 @@ class Bot(discord.Client):
             r = requests.get(lineup_url)
             soup_lineup = BeautifulSoup(r.text, 'lxml') 
             lineup_list = []
+            lineup_list_yankees = []
             lineup_list_game_2 = []
+            pitchers_yankees = []
             pitchers = []
             pitchers_game_2 = []
             hour_var_yankees = 0
@@ -1243,24 +1245,32 @@ class Bot(discord.Client):
                                 if yankees_interleague == True:
                                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Yankees') .player > a.player-link"):
                                         if item.get('data-razz') == '':
-                                            player_name = 'Unknown Player'
-                                            lineup_list.append(player_name)
+                                            player_name_yankees = 'Unknown Player'
+                                            lineup_list_yankees.append(player_name_yankees)
                                         else:
-                                            player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                                            lineup_list.append(player_name)
-                                    pitchers.append(lineup_list[0])
-                                    pitchers.append(lineup_list[1])
+                                            player_name_yankees = item.get('data-razz').split("/")[-2].replace("+"," ")
+                                            lineup_list_yankees.append(player_name_yankees)
+                                    pitchers_yankees.append(lineup_list_yankees[0])
+                                    pitchers_yankees.append(lineup_list_yankees[1])
                                     
-                                    await channel.send('Starting Pitchers:\n' + str(yankees_visitors) + ': ' + pitchers[0] + '\n' + str(yankees_home_team) + ': ' + pitchers[1])
+                                    await channel.send('Starting Pitchers:\n' + str(yankees_visitors) + ': ' + pitchers_yankees[0] + '\n' + str(yankees_home_team) + ': ' + pitchers_yankees[1])
 
-                                    lineup_list.pop(0)
-                                    lineup_list.pop(0)
+                                    lineup_list_yankees.pop(0)
+                                    lineup_list_yankees.pop(0)
+                                    n_yankees = 9
+                                    home_list_yankees = lineup_list_yankees[n_yankees:]
+                                    away_list_yankees = lineup_list_yankees[:-n_yankees]
 
-                                    away_lineup = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+                                    away_lineup_yankees = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list_yankees[0] + """\n2: """ 
+                                    + away_list_yankees[1] + """\n3: """ + away_list_yankees[2] + """\n4: """ + away_list_yankees[3] + """\n5: """ +\
+                                    away_list_yankees[4] + """\n6: """ + away_list_yankees[5] + """\n7: """ +\
+                                    away_list_yankees[6] + """\n8: """ + away_list_yankees[7] + """\n9: """ + away_list_yankees[8] + """```"""
                                     await channel.send(away_lineup)
 
-                                    home_lineup = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-                                    await channel.send(home_lineup)
+                                    home_lineup_yankees = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list_yankees[0] + """\n2: """ + \
+                                    home_list_yankees[1] + """\n3: """ + home_list_yankees[2] + """\n4: """ + home_list_yankees[3] + """\n5: """ + home_list_yankees[4] + """\n6: """ + \
+                                    home_list_yankees[5] + """\n7: """ + home_list_yankees[6] + """\n8: """ + home_list_yankees[7] + """\n9: """ + home_list_yankees[8] + """```"""
+                                    await channel.send(home_lineup_yankees)
                                     hour_var_yankees = 1
 
                                     if now.hour != (yankees_new_hour.hour - 1):
@@ -1268,24 +1278,31 @@ class Bot(discord.Client):
                                 elif yankees_interleague == False:
                                     for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
                                         if item.get('data-razz') == '':
-                                            player_name = 'Unknown Player'
-                                            lineup_list.append(player_name)
+                                            player_name_yankees = 'Unknown Player'
+                                            lineup_list_yankees.append(player_name_yankees)
                                         else:
-                                            player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
-                                            lineup_list.append(player_name)
-                                    pitchers.append(lineup_list[0])
-                                    pitchers.append(lineup_list[1])
+                                            player_name_yankees = item.get('data-razz').split("/")[-2].replace("+"," ")
+                                            lineup_list_yankees.append(player_name_yankees)
+                                    pitchers_yankees.append(lineup_list_yankees[0])
+                                    pitchers_yankees.append(lineup_list_yankees[1])
                                     
-                                    await channel.send('Starting Pitchers:\n' + str(yankees_visitors) + ': ' + pitchers[0] + '\n' + str(yankees_home_team) + ': ' + pitchers[1])
+                                    await channel.send('Starting Pitchers:\n' + str(yankees_visitors) + ': ' + pitchers_yankees[0] + '\n' +
+                                    str(yankees_home_team) + ': ' + pitchers_yankees[1])
 
-                                    lineup_list.pop(0)
-                                    lineup_list.pop(0)
+                                    lineup_list_yankees.pop(0)
+                                    lineup_list_yankees.pop(0)
 
-                                    away_lineup = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
-                                    await channel.send(away_lineup)
+                                    away_lineup_yankees = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list_yankees[0] + """\n2: """ +\
+                                    away_list_yankees[1] + """\n3: """ + away_list_yankees[2] + """\n4: """ + away_list_yankees[3] + """\n5: """ + \
+                                    away_list_yankees[4] + """\n6: """ + away_list_yankees[5] + """\n7: """ + away_list_yankees[6] + """\n8: """ + away_list_yankees[7] + \
+                                    """\n9: """ + away_list_yankees[8] + """```"""
+                                    await channel.send(away_lineup_yankees)
 
-                                    home_lineup = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
-                                    await channel.send(home_lineup)
+                                    home_lineup_yankees = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list_game_2[0] + """\n2: """ + \
+                                    home_list_yankees[1] + """\n3: """ + home_list_yankees[2] + """\n4: """ + home_list_yankees[3] + """\n5: """ + \
+                                    home_list_yankees[4] + """\n6: """ + home_list_yankees[5] + """\n7: """ + home_list_yankees[6] + """\n8: """ + \
+                                    home_list_yankees[7] + """\n9: """ + home_list_yankees[8] + """```"""
+                                    await channel.send(home_lineup_yankees)
                                     hour_var_yankees = 1
 
                                     if now.hour != (yankees_new_hour.hour - 1):
