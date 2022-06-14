@@ -789,8 +789,10 @@ class Bot(discord.Client):
             lineup_list_game_2 = []
             pitchers = []
             pitchers_game_2 = []
-            hour_var = 0
-            hour_var_game_2 = 0
+            hour_var_yankees = 0
+            hour_var_game_2_yankees = 0
+            hour_var_mets = 0
+            hour_var_mets_game_2 = 0
             final_yan = 0
             final_yan_game_2 = 0
             final_met = 0
@@ -813,6 +815,10 @@ class Bot(discord.Client):
                 yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
                 await dump.send('msg')
                 now = datetime.datetime.now() - timedelta(hours=10) #changing from 4 to 8/10
+                final_status_list = ["Final", "Game Over", "Completed Early"]
+                scheduled_status_list = ["Scheduled", "Pre-Game"]
+                live_status_list = ["In Progress", "Delayed"]
+                other_status_list = ["Postponed"]
                     
                 if len(mets_schedule) > 0:
                     mets_game_id = mets_schedule[0]['game_id']
@@ -856,7 +862,7 @@ class Bot(discord.Client):
                             time.sleep(15)
 
                     if (now.hour == (mets_new_hour.hour - 1)) and hour_var < 1:                
-                        for item in soup_lineup.select("[data-league='AL']:-soup-contains('Orioles') .player > a.player-link"):
+                        for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
                             if item.get('data-razz') == '':
                                 player_name = 'Unknown Player'
                                 lineup_list.append(player_name)
@@ -885,11 +891,6 @@ class Bot(discord.Client):
                             hour_var = 0
                     
                 if type(yankees_schedule) is list:
-                    final_status_list = ["Final", "Game Over", "Completed Early"]
-                    scheduled_status_list = ["Scheduled", "Pre-Game"]
-                    live_status_list = ["In Progress", "Delayed"]
-                    other_status_list = ["Postponed"]
-                    
                     if len(yankees_schedule) > 0:
                         yankees_visitors = yankees_schedule[0]['away_name']
                         yankees_home_team = yankees_schedule[0]['home_name']
@@ -928,7 +929,7 @@ class Bot(discord.Client):
                                 yankees_current_inning += 'th'
                                 yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
                             
-                            if (now.hour == yankees_new_hour.hour) and hour_var < 1:    #change to 45 minutes before first pitch  
+                            if (now.hour == (yankees_new_hour.hour -1)) and hour_var_yankees < 1:    #change to 45 minutes before first pitch  
                                 if yankees_interleague == True:
                                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Yankees') .player > a.player-link"):
                                         if item.get('data-razz') == '':
@@ -962,10 +963,10 @@ class Bot(discord.Client):
 
                                     home_lineup = """```Game 1 """ + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                                     await channel.send(home_lineup)
-                                    hour_var = 1
+                                    hour_var_yankees = 1
 
-                                    if now.hour != (yankees_new_hour.hour):
-                                        hour_var = 0
+                                    if now.hour != (yankees_new_hour.hour - 1):
+                                        hour_var_yankees = 0
                                 elif yankees_interleague == False:
                                     for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
                                         if item.get('data-razz') == '':
@@ -999,10 +1000,10 @@ class Bot(discord.Client):
 
                                     home_lineup = """```Game 1 """ + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                                     await channel.send(home_lineup)
-                                    hour_var = 1
+                                    hour_var_yankees = 1
 
-                                    if now.hour != (yankees_new_hour.hour):
-                                        hour_var = 0
+                                    if now.hour != (yankees_new_hour.hour - 1):
+                                        hour_var_yankees = 0
 
                             if yankees_pitcher_var < 1:
                                 #Example: Gerrit Cole is starting today. Once we get this pitcher we will skip over this if statement since it is no longer needed until the next day
@@ -1013,7 +1014,12 @@ class Bot(discord.Client):
                                 #sometime in the morning, the new starting pitchers will get updated. 
                                 yankees_home_prob = yankees_schedule[0]['home_probable_pitcher'] 
                                 yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
-                                yankees_pitcher_var = 1
+
+                                if not yankees_home_prob or not yankees_away_prob:
+                                    yankees_pitcher_var = 0
+                                else:
+                                    yankees_pitcher_var = 1
+
                                 if now.hour == (yankees_new_hour.hour - 1):
                                     yankees_pitcher_var = 0
                             # if away_team == True and (yankees_new_hour.hour <= now.hour <= (yankees_new_hour.hour + 6)):
@@ -1054,7 +1060,8 @@ class Bot(discord.Client):
                                 time.sleep(15)
 
                             elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list) and final_yan < 1:
-                                channel.send("Game 1 of the " + yankees_visitors + ' vs ' + yankees_home_team + ' DH is postponed.')
+                                await channel.send("Game 1 of the " + yankees_visitors + ' vs ' + yankees_home_team + ' DH is postponed.')
+                                yankees_game_time_local_game_2 = self.testFunctions.get_local_time(yankees_schedule[1]['game_datetime'])
                                 yankees_home_score = 0
                                 yankees_away_score = 0
                                 final_yan = 1
@@ -1101,8 +1108,8 @@ class Bot(discord.Client):
                                     pitchers_game_2[1])
 
                                     n_2 = 9
-                                    home_list_game_2 = lineup_list_game_2[n:]
-                                    away_list_game_2 = lineup_list_game_2[:-n]
+                                    home_list_game_2 = lineup_list_game_2[n_2:]
+                                    away_list_game_2 = lineup_list_game_2[:-n_2]
 
                                     away_lineup_game_2 = """```Game 2 """ + str(yankees_visitors) + """ lineup\n1: """ + away_list_game_2[0] + """\n2: """ + away_list_game_2[1] + \
                                     """\n3: """ + away_list_game_2[2] + """\n4: """ + away_list_game_2[3] + """\n5: """ + away_list_game_2[4] + """\n6: """ + away_list_game_2[5] + \
@@ -1115,7 +1122,7 @@ class Bot(discord.Client):
                                     await channel.send(home_lineup_game_2)
                                     hour_var_game_2 = 1
 
-                                    if now.hour != (yankees_new_hour_game_2.hour):
+                                    if now.hour != (yankees_new_hour_game_2.hour - 1):
                                         hour_var_game_2 = 0
                                 elif yankees_interleague == False:
                                     for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
@@ -1137,19 +1144,56 @@ class Bot(discord.Client):
 
                                     lineup_list.pop(0)
                                     lineup_list.pop(0)
-                                    n = 9
-                                    home_list = lineup_list[n:]
-                                    away_list = lineup_list[:-n]
+                                    n_2 = 9
+                                    home_list = lineup_list[n_2:]
+                                    away_list = lineup_list[:-n_2]
 
                                     away_lineup = """```Game 2 """ + str(yankees_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
                                     await channel.send(away_lineup)
 
                                     home_lineup = """```Game 2 """ + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                                     await channel.send(home_lineup)
-                                    hour_var = 1
+                                    hour_var_game_2 = 1
 
                                     if now.hour != (yankees_new_hour.hour - 1):
-                                        hour_var = 0
+                                        hour_var_game_2 = 0
+
+                            if yankees_pitcher_var_game_2 < 1:
+                                yankees_home_prob_game_2 = yankees_schedule[1]['home_probable_pitcher'] 
+                                yankees_away_prob_game_2 = yankees_schedule[1]['away_probable_pitcher']
+                                yankees_pitcher_var_game_2 = 1
+                                if now.hour == (yankees_new_hour_game_2.hour - 1):
+                                    yankees_pitcher_var_game_2 = 0
+
+                            if any(game_status in yankees_schedule[1]['status'] for game_status in live_status_list):
+                                yankees_away_team_score_game_2 = int(yankees_schedule[1]['away_score'])
+                                yankees_home_team_score_game_2 = int(yankees_schedule[1]['home_score'])
+
+                                yankees_pitchers_game_2 = await self.embedFunctions.boxscore(int(yankees_game_2_id))
+                                away_yankees_pitchers_game_2 = yankees_pitchers_game_2[0]
+                                home_yankees_pitchers_game_2 = yankees_pitchers_game_2[1]
+
+                                if away_yankees_pitchers_game_2[len(away_yankees_pitchers_game_2) - 1] != yankees_away_prob_game_2:
+                                    await self.embedFunctions.pitching_change(channel, yankees_visitors, away_yankees_pitchers_game_2[len(away_yankees_pitchers_game_2) - 1]\
+                                    , yankees_away_prob_game_2, yankees_current_inning_text_game_2)
+                                    yankees_away_prob_game_2 = away_yankees_pitchers_game_2[len(away_yankees_pitchers_game_2) - 1]
+                                
+                                if home_yankees_pitchers_game_2[len(home_yankees_pitchers_game_2) - 1] != yankees_home_prob_game_2:
+                                    await self.embedFunctions.pitching_change(channel, yankees_home_team, home_yankees_pitchers_game_2[len(home_yankees_pitchers_game_2) - 1],\
+                                     yankees_home_prob_game_2, yankees_current_inning_text_game_2)
+                                    yankees_home_prob_game_2 = home_yankees_pitchers_game_2[len(home_yankees_pitchers_game_2) - 1]
+
+                                if yankees_away_score != yankees_away_team_score_game_2:
+                                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[1], channel, yankees_visitors, yankees_away_team_score_game_2, 
+                                    yankees_home_team_score_game_2)
+                                    yankees_away_score = yankees_away_team_score_game_2
+                                    time.sleep(15)
+                                    
+                                if yankees_home_score != yankees_home_team_score_game_2:
+                                    await self.embedFunctions.scoring_plays_embed(yankees_schedule[1], channel, yankees_home_team, yankees_away_team_score_game_2, 
+                                    yankees_home_team_score_game_2)
+                                    yankees_home_score = yankees_home_team_score_game_2
+                                    time.sleep(15)
                             if any(game_status in yankees_schedule[1]['status'] for game_status in final_status_list) and final_yan_game_2 < 1:
                                 if yankees_away_team_score > yankees_home_team_score:
                                     await channel.send("""```Game 2 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """ 
@@ -1218,7 +1262,7 @@ class Bot(discord.Client):
                                     await channel.send(home_lineup)
                                     hour_var = 1
 
-                                    if now.hour != (yankees_new_hour.hour):
+                                    if now.hour != (yankees_new_hour.hour - 1):
                                         hour_var = 0
                                 elif yankees_interleague == False:
                                     for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
@@ -1243,7 +1287,7 @@ class Bot(discord.Client):
                                     await channel.send(home_lineup)
                                     hour_var = 1
 
-                                    if now.hour != (yankees_new_hour.hour):
+                                    if now.hour != (yankees_new_hour.hour - 1):
                                         hour_var = 0
                         
                             if any(game_status in yankees_schedule[0]['status'] for game_status in live_status_list):
@@ -1273,17 +1317,19 @@ class Bot(discord.Client):
                                     time.sleep(15)
 
                             if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list) and final_yan < 1: 
-                                yankees_game_time_local_game_2 = self.testFunctions.get_local_time(yankees_schedule[1]['game_datetime'])
-                                await channel.send("Game 1 of the " + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' DH has ended. The final score is ' 
-                                + str(yankees_away_team_code) + ': ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_code) + ': ' + str(yankees_home_team_score) + '. Game 2 will \
-                                    start at ' + str(yankees_game_time_local_game_2))
+                                if yankees_away_team_score > yankees_home_team_score:
+                                    await channel.send('The ' + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' game has ended. The final score is ' 
+                                    + str(yankees_away_team_code) + ': ' + str(yankees_away_team_score) + ' - ' + str(yankees_home_team_code) + ': ' + str(yankees_home_team_score))
+                                elif yankees_home_team_score > yankees_away_team_score:
+                                    await channel.send("The " + str(yankees_visitors) + " vs " + str(yankees_home_team) + " game has ended. The final score is "
+                                    + str(yankees_home_team_code) + ": " + str(yankees_home_team_score) + " - " + str(yankees_away_team_code) + ": " + str(yankees_away_team_score))
                                 yankees_home_score = 0
                                 yankees_away_score = 0
                                 final_yan = 1
                                 time.sleep(15)
 
                             elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list) and final_yan < 1:
-                                channel.send("Game 1 of the " + yankees_visitors + ' vs ' + yankees_home_team + ' DH is postponed.')
+                                channel.send("The " + yankees_visitors + ' vs ' + yankees_home_team + ' game is postponed.')
                                 yankees_home_score = 0
                                 yankees_away_score = 0
                                 final_yan = 1
@@ -1292,61 +1338,179 @@ class Bot(discord.Client):
                             if any(game_status in yankees_schedule[0]['status'] for game_status in scheduled_status_list):
                                 final_yan = 0
 
-                if type(mets_schedule) is list:
-                    final_status_list = ["Final", "Game Over", "Completed Early"]
-                    scheduled_status_list = ["Scheduled", "Pre-Game"]
-                    live_status_list = ["In Progress", "Delayed"]
-                    other_status_list = ["Postponed"]
-                    
-                    if len(mets_schedule) == 2:
-                        #game 1
-                        if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list): 
-                            await channel.send("Game 1 of the " + str(mets_visitors) + ' vs ' + str(mets_home_team) + ' DH has ended. The final score is ' 
-                            + str(mets_away_team_code) + ': ' + str(mets_away_team_score) + ' - ' + str(mets_home_team_code) + ': ' + str(mets_home_team_score) + '. Game 2 will \
-                                start at ' + str(yankees_game_time_local))
-                            mets_home_score = 0
-                            mets_away_score = 0
-                            time.sleep(15)
-                        elif any(game_status in mets_schedule[0]['status'] for game_status in other_status_list):
-                            channel.send(mets_schedule[0]['away_name'] + ' vs ' + mets_schedule[0]['home_name'] + ' game is postponed.')
-                            mets_home_score = 0
-                            mets_away_score = 0
-                            time.sleep(15)
+                # if type(mets_schedule) is list:
+                #     if len(mets_schedule) > 0:
+                #         mets_visitors = mets_schedule[0]['away_name']
+                #         mets_home_team = mets_schedule[0]['home_name']
+                #         mets_away_team_code = self.embedFunctions.file_code(mets_schedule[0])[0]
+                #         mets_home_team_code = self.embedFunctions.file_code(mets_schedule[0])[1]
 
-                        # #game 2
-                        # if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
-                        #     await self.embedFunctions.final_game_embed(queried_schedule[1], message)
-                        #     if len(next_games) > 0:
-                        #         await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                        # elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
-                        #     await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
-                        #     if previous_game is not None:
-                        #         await self.embedFunctions.final_game_embed(previous_game, message)
-                        # elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
-                        #     await self.embedFunctions.live_game_embed(queried_schedule[1], message)
-                        #     return
-                        # elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
-                        # if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
-                    
-                    elif ((len(mets_schedule) == 1) and (final_met < 1)):
-                        if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list):
-                            if mets_away_team_score > mets_home_team_score:
-                                await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
-                                + str(mets_away_team_score) + """ - """ + str(mets_home_team_score) + """```""")
-                            elif mets_home_team_score > mets_away_team_score:
-                                await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """
-                                + str(mets_home_team_score) + """```""")
-                            final_met = 1
-                            mets_home_score = 0
-                            mets_away_score = 0
-                            time.sleep(15)
+                #         for team in al_teams:
+                #             if mets_home_team == team:
+                #                 mets_interleague = True
+                #             else:
+                #                 mets_interleague = False
                         
-                        if any(game_status in mets_schedule[0]['status'] for game_status in scheduled_status_list):
-                            final_met = 0
-                            mets_home_score = 0
-                            mets_away_score = 0
-                            time.sleep(15)
+                        # if len(mets_schedule) == 2:
+                        #     #GAME 1
+                        #     mets_game_id = mets_schedule[0]['game_id']
+                        #     mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
+                        #     mets_new_hour = mets_game_time_local - timedelta(hours=10)
+                        #     mets_current_inning = str(mets_schedule[0]['current_inning'])
+                        #     mets_half_inning = mets_schedule[0]['inning_state']
+                        #     mets_current_inning_text = ''
 
+                        #     if mets_current_inning[-1] == '1':
+                        #         mets_current_inning += 'st'
+                        #         mets_current_inning_text = mets_half_inning.lower() + ' of the ' + mets_current_inning
+                        #     elif mets_current_inning[-1] == '2':
+                        #         mets_current_inning += 'nd'
+                        #         mets_current_inning_text = mets_half_inning.lower() + ' of the ' + mets_current_inning
+                        #     elif mets_current_inning[-1] == '3':
+                        #         mets_current_inning += 'rd'
+                        #         mets_current_inning_text = mets_half_inning.lower() + ' of the ' + mets_current_inning
+                        #     elif 4 <= int(mets_current_inning[-1]) <= 9 :
+                        #         mets_current_inning += 'th'
+                        #         mets_current_inning_text = mets_half_inning.lower() + ' of the ' + mets_current_inning
+
+                        #     if (now.hour == (mets_new_hour.hour - 1)) and hour_var_mets < 1:
+                        #         if mets_interleague == True:
+                        #             for item in soup_lineup.select("[data-league='AL']:-soup-contains('Mets') .player > a.player-link"):
+                        #                 if item.get('data-razz') == '':
+                        #                     player_name = 'Unknown Player'
+                        #                     lineup_list.append(player_name)
+                        #                 else:
+                        #                     player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                        #                     lineup_list.append(player_name)
+                                        
+                        #             pitchers.append(lineup_list[0])
+                        #             pitchers.append(lineup_list[1])
+
+                        #             await channel.send('Starting Pitchers for Game 1:\n' + str(mets_visitors) + ': ' + pitchers[0] + '\n' + str(mets_home_team) + ': '
+                        #             + pitchers[1])
+
+                        #             lineup_list.pop(0)
+                        #             lineup_list.pop(0)
+
+                        #             if len(lineup_list) == 19:
+                        #                 lineup_list.pop()
+                        #                 n = 9
+                        #                 home_list = lineup_list[n:]
+                        #                 away_list = lineup_list[:-n]
+                        #             elif len(lineup_list) == 20:
+                        #                 lineup_list.pop()
+                        #                 lineup_list.pop()
+                        #                 n = 9
+                        #                 home_list = lineup_list[n:]
+                        #                 away_list = lineup_list[:-n]
+                                    
+                        #             away_lineup = """```Game 1 """ + str(mets_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+                        #             await channel.send(away_lineup)
+
+                        #             home_lineup = """```Game 1 """ + str(mets_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                        #             await channel.send(home_lineup)
+                        #             hour_var_mets = 1
+
+                        #             if now.hour != (mets_new_hour.hour - 1):
+                        #                 hour_var_mets = 0
+                        #         elif mets_interleague == False:
+                        #             for item in soup_lineup.select("[data-league='NL']-soup-contains('Mets') .player > a.player-link"):
+                        #                 if item.get('data-razz') == '':
+                        #                     player_name = 'Unknown Player'
+                        #                     lineup_list.append(player_name)
+                        #                 else:
+                        #                     player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                        #                     lineup_list.append(player_name)
+                                    
+                        #             pitchers.append(lineup_list[0])
+                        #             pitchers.append(lineup_list[1])
+
+                        #             await channel.send('Starting Pitchers for Game 1:\n' + str(mets_visitors) + ': ' + pitchers[0] + '\n' + str(mets_home_team) + ': '
+                        #             + pitchers[1])
+
+                        #             lineup_list.pop(0)
+                        #             lineup_list.pop(0)
+
+                        #             if len(lineup_list) == 19:
+                        #                 lineup_list.pop()
+                        #                 n = 9
+                        #                 home_list = lineup_list[n:]
+                        #                 away_list = lineup_list[:-n]
+                        #             elif len(lineup_list) == 20:
+                        #                 lineup_list.pop()
+                        #                 lineup_list.pop()
+                        #                 n = 9
+                        #                 home_list = lineup_list[n:]
+                        #                 away_list = lineup_list[:-n]
+                                    
+                        #             away_lineup = """```Game 1 """ + str(mets_visitors) + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+                        #             await channel.send(away_lineup)
+
+                        #             home_lineup = """```Game 1 """ + str(mets_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+                        #             await channel.send(home_lineup)
+                        #             hour_var_mets = 1
+
+                        #             if now.hour != (mets_new_hour.hour - 1):
+                        #                 hour_var_mets = 0
+                            
+                        #     if mets_pitcher_var < 1:
+                        #         mets_home_prob = mets_schedule[0]['home_probable_pitcher'] 
+                        #         mets_away_prob = mets_schedule[0]['away_probable_pitcher']
+                        #         mets_pitcher_var = 1
+                        #         if now.hour == (mets_new_hour.hour - 1):
+                        #             mets_pitcher_var = 0
+
+                        #     if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list): 
+                        #         if mets_away_team_score > mets_home_team_score:
+                        #             await channel.send('Game 1 of the ' + str(mets_visitors) + ' vs ' + str(mets_home_team) + ' DH has ended. The final score is ' 
+                        #             + str(mets_away_team_code) + ': ' + str(mets_away_team_score) + ' - ' + str(mets_home_team_code) + ': ' + str(mets_home_team_score) + '. Game 2 will \
+                        #                 start at ' + str(yankees_game_time_local))
+                        #         elif mets_home_team_score > mets_away_team_score:
+                        #             await channel.send('Game 1 of the ' + str(mets_visitors) + ' vs ' + str(mets_home_team) + ' DH has ended. The final score is ' 
+                        #             + str(mets_home_team_code) + ': ' + str(mets_home_team_score) + ' - ' + str(mets_away_team_code) + ': ' + str(mets_away_team_score) + '. Game 2 will \
+                        #                 start at ' + str(yankees_game_time_local))
+                        #         mets_home_score = 0
+                        #         mets_away_score = 0
+                        #         time.sleep(15)
+                        #     elif any(game_status in mets_schedule[0]['status'] for game_status in other_status_list):
+                        #         channel.send('The ' + mets_schedule[0]['away_name'] + ' vs ' + mets_schedule[0]['home_name'] + ' game is postponed.')
+                        #         mets_home_score = 0
+                        #         mets_away_score = 0
+                        #         time.sleep(15)
+
+                            # #game 2
+                            # if any(game_status in queried_schedule[1]['status'] for game_status in final_status_list):
+                            #     await self.embedFunctions.final_game_embed(queried_schedule[1], message)
+                            #     if len(next_games) > 0:
+                            #         await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                            # elif any(game_status in queried_schedule[1]['status'] for game_status in scheduled_status_list):
+                            #     await self.embedFunctions.scheduled_game_embed(queried_schedule[1], message)
+                            #     if previous_game is not None:
+                            #         await self.embedFunctions.final_game_embed(previous_game, message)
+                            # elif any(game_status in queried_schedule[1]['status'] for game_status in live_status_list):
+                            #     await self.embedFunctions.live_game_embed(queried_schedule[1], message)
+                            #     return
+                            # elif any(game_status in queried_schedule[1]['status'] for game_status in other_status_list): await self.embedFunctions.generic_Game_Embed(queried_schedule[0], message)
+                            # if len(next_games) > 0: await self.embedFunctions.scheduled_game_embed(next_games[0], message)
+                        
+                        if ((len(mets_schedule) == 1) and (final_met < 1)):
+                            if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list):
+                                if mets_away_team_score > mets_home_team_score:
+                                    await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
+                                    + str(mets_away_team_score) + """ - """ + str(mets_home_team_score) + """```""")
+                                elif mets_home_team_score > mets_away_team_score:
+                                    await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """
+                                    + str(mets_home_team_score) + """```""")
+                                final_met = 1
+                                mets_home_score = 0
+                                mets_away_score = 0
+                                time.sleep(15)
+                            
+                            if any(game_status in mets_schedule[0]['status'] for game_status in scheduled_status_list):
+                                final_met = 0
+                                mets_home_score = 0
+                                mets_away_score = 0
+                                time.sleep(15)
         except Exception as e:
             exception_type, exception_object, exception_traceback = sys.exc_info()
             filename = exception_traceback.tb_frame.f_code.co_filename
