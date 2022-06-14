@@ -1265,7 +1265,7 @@ class Bot(discord.Client):
                                     + away_list_yankees[1] + """\n3: """ + away_list_yankees[2] + """\n4: """ + away_list_yankees[3] + """\n5: """ +\
                                     away_list_yankees[4] + """\n6: """ + away_list_yankees[5] + """\n7: """ +\
                                     away_list_yankees[6] + """\n8: """ + away_list_yankees[7] + """\n9: """ + away_list_yankees[8] + """```"""
-                                    await channel.send(away_lineup)
+                                    await channel.send(away_lineup_yankees)
 
                                     home_lineup_yankees = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list_yankees[0] + """\n2: """ + \
                                     home_list_yankees[1] + """\n3: """ + home_list_yankees[2] + """\n4: """ + home_list_yankees[3] + """\n5: """ + home_list_yankees[4] + """\n6: """ + \
@@ -1291,6 +1291,9 @@ class Bot(discord.Client):
 
                                     lineup_list_yankees.pop(0)
                                     lineup_list_yankees.pop(0)
+                                    n_yankees = 9
+                                    home_list_yankees = lineup_list_yankees[n_yankees:]
+                                    away_list_yankees = lineup_list_yankees[:-n_yankees]
 
                                     away_lineup_yankees = """```""" + str(yankees_visitors) + """ lineup\n1: """ + away_list_yankees[0] + """\n2: """ +\
                                     away_list_yankees[1] + """\n3: """ + away_list_yankees[2] + """\n4: """ + away_list_yankees[3] + """\n5: """ + \
