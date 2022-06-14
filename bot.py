@@ -1239,7 +1239,7 @@ class Bot(discord.Client):
                                 yankees_pitcher_var = 1
                                 if now.hour == (yankees_new_hour.hour - 1):
                                     yankees_pitcher_var = 0
-                            if (now.hour == (yankees_new_hour.hour - 1)) and hour_var < 1:    #change to 45 minutes before first pitch  
+                            if (now.hour == (yankees_new_hour.hour - 1)) and hour_var_yankees < 1:    #change to 45 minutes before first pitch  
                                 if yankees_interleague == True:
                                     for item in soup_lineup.select("[data-league='NL']:-soup-contains('Yankees') .player > a.player-link"):
                                         if item.get('data-razz') == '':
@@ -1261,10 +1261,10 @@ class Bot(discord.Client):
 
                                     home_lineup = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                                     await channel.send(home_lineup)
-                                    hour_var = 1
+                                    hour_var_yankees = 1
 
                                     if now.hour != (yankees_new_hour.hour - 1):
-                                        hour_var = 0
+                                        hour_var_yankees = 0
                                 elif yankees_interleague == False:
                                     for item in soup_lineup.select("[data-league='AL']:-soup-contains('Yankees') .player > a.player-link"):
                                         if item.get('data-razz') == '':
@@ -1286,10 +1286,10 @@ class Bot(discord.Client):
 
                                     home_lineup = """```""" + str(yankees_home_team) + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
                                     await channel.send(home_lineup)
-                                    hour_var = 1
+                                    hour_var_yankees = 1
 
                                     if now.hour != (yankees_new_hour.hour - 1):
-                                        hour_var = 0
+                                        hour_var_yankees = 0
                         
                             if any(game_status in yankees_schedule[0]['status'] for game_status in live_status_list):
                                 yankees_away_team_score = int(yankees_schedule[0]['away_score'])
