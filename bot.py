@@ -790,6 +790,7 @@ class Bot(discord.Client):
             pitchers = []
             pitchers_game_2 = []
             hour_var_yankees = 0
+            hour_var = 0
             hour_var_game_2_yankees = 0
             hour_var_mets = 0
             hour_var_mets_game_2 = 0
@@ -1995,11 +1996,23 @@ class Bot(discord.Client):
             else:
                 return
     
-    async def on_guild_join(self, guild):
-        for channel in guild.text_channels:
-            if channel.permissions_for(guild.me).send_messages:
-                await channel.send('Hi there.')
-            break
+    # async def on_guild_join(self, guild):
+    #     welcome_embed = discord.Embed()
+    #     welcome_embed.title = "Hi"
+    #     welcome_embed.type = 'rich'
+    #     welcome_embed.color = discord.Color.dark_blue()
+
+    #     # Add the fields with game info
+    #     welcome_embed.add_field(name='**Hi there**',
+    #                              value='Hi. Baseball bot that sends live in game notifications for any team you want. Bot still a work in progress, so it will not work if you add it\
+    #                              to any other server because it has not been setup for that yet. Default team notifications currently are Mets and Yankees, any other teams\
+    #                              you want added just tell me. Still working on a command to add notifications for any team.', inline=False)
+
+    #     await channel.send(embed=welcome_embed)
+    #     # for channel in guild.text_channels:
+    #     #     if channel.permissions_for(guild.me).send_messages:
+    #     #         await channel.send('Hi there.')
+    #     #     break
 
 client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
