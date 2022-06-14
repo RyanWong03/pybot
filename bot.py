@@ -1188,7 +1188,7 @@ class Bot(discord.Client):
                                 yankees_current_inning += 'th'
                                 yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
 
-                            if yankees_pitcher_var_game_2 < 1:
+                            if yankees_pitcher_var < 1:
                                 yankees_home_prob = yankees_schedule[0]['home_probable_pitcher'] 
                                 yankees_away_prob = yankees_schedule[0]['away_probable_pitcher']
                                 yankees_pitcher_var = 1
