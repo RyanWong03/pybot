@@ -2042,6 +2042,7 @@ class EmbedFunctions:
 @client.event
 async def on_ready():
     print('bot ready')
+    test.start()
 
 @tasks.loop(seconds=2)
 async def test():
@@ -2061,6 +2062,5 @@ async def hi(ctx, command):
         ternary = "enabled" if command.enabled else "disabled"
         await ctx.send(f"i have {ternary} {command.qualified_name} for you")
 
-test.start()
 # client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
