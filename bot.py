@@ -2044,8 +2044,9 @@ async def on_ready():
     print('bot ready')
 
 @tasks.loop(seconds=2)
-async def test(ctx):
-    await ctx.send('hi')
+async def test():
+    channel = client.get_channel(983209443770642462)
+    await channel.send('hi')
 
 @client.command()
 async def hi(ctx, command):
