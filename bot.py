@@ -847,6 +847,7 @@ class Bot(discord.Client):
                         home_mets_pitchers = mets_pitchers[1]
 
                         if away_mets_pitchers[len(away_mets_pitchers) - 1] != mets_away_prob:
+                            #await self.embedFunctions.pitching_change(channel, mets_visitors, away_mets_pitchers[len(away_mets_pitchers) - 1], mets_away_prob, mets_current_inning_text)
                             await channel.send(mets_away_prob + ' has been replaced by ' + str(away_mets_pitchers[len(away_mets_pitchers) - 1]))
                             mets_away_prob = away_mets_pitchers[len(away_mets_pitchers) - 1]
                     
@@ -1322,10 +1323,12 @@ class Bot(discord.Client):
                                 if away_yankees_pitchers[len(away_yankees_pitchers) - 1] != yankees_away_prob:
                                     await self.embedFunctions.pitching_change(channel, yankees_visitors, away_yankees_pitchers[len(away_yankees_pitchers) - 1], yankees_away_prob, yankees_current_inning_text)
                                     yankees_away_prob = away_yankees_pitchers[len(away_yankees_pitchers) - 1]
+                                    time.sleep(15)
                                 
                                 if home_yankees_pitchers[len(home_yankees_pitchers) - 1] != yankees_home_prob:
                                     await self.embedFunctions.pitching_change(channel, yankees_home_team, home_yankees_pitchers[len(home_yankees_pitchers) - 1], yankees_home_prob, yankees_current_inning_text)
                                     yankees_home_prob = home_yankees_pitchers[len(home_yankees_pitchers) - 1]
+                                    time.sleep(15)
 
                                 if yankees_away_score != yankees_away_team_score:
                                     await self.embedFunctions.scoring_plays_embed(yankees_schedule[0], channel, yankees_visitors, yankees_away_team_score, yankees_home_team_score)
