@@ -2039,6 +2039,13 @@ class EmbedFunctions:
 #     #     #         await channel.send('Hi there.')
 #     #     #     break
 
+global a, url, r, soup_lineup, lineup_list, pitchers
+a = 0
+pitchers = []
+lineup_list = []
+url = "https://www.baseballpress.com/lineups"
+r = requests.get(url)
+soup_lineup = BeautifulSoup(r.text, 'lxml')
 @client.event
 async def on_ready():
     print('bot ready')
@@ -2047,7 +2054,46 @@ async def on_ready():
 @tasks.loop(seconds=2)
 async def test():
     channel = client.get_channel(983209443770642462)
-    await channel.send('hi')
+    while a < 1:
+        for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
+            if item.get('data-razz') == '':
+                player_name = 'Unknown Player'
+                lineup_list.append(player_name)
+            else:
+                player_name = item.get('data-razz').split("/")[-2].replace("+"," ")
+                lineup_list.append(player_name)
+            
+        pitchers.append(lineup_list[0])
+        pitchers.append(lineup_list[1])
+
+        await channel.send('Starting Pitchers for Game 1:\n' + ': ' + pitchers[0] + '\n' + ': '
+        + pitchers[1])
+
+        lineup_list.pop(0)
+        lineup_list.pop(0)
+
+        if len(lineup_list) == 19:
+            lineup_list.pop()
+            n = 9
+            home_list = lineup_list[n:]
+            away_list = lineup_list[:-n]
+        elif len(lineup_list) == 20:
+            lineup_list.pop()
+            lineup_list.pop()
+            n = 9
+            home_list = lineup_list[n:]
+            away_list = lineup_list[:-n]
+        
+        away_lineup = """```Game 1 """ + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
+        await channel.send(away_lineup)
+
+        home_lineup = """```Game 1 """ + """ lineup\n1: """ + home_list[0] + """\n2: """ + home_list[1] + """\n3: """ + home_list[2] + """\n4: """ + home_list[3] + """\n5: """ + home_list[4] + """\n6: """ + home_list[5] + """\n7: """ + home_list[6] + """\n8: """ + home_list[7] + """\n9: """ + home_list[8] + """```"""
+        await channel.send(home_lineup)
+
+        a = 1
+        
+
+        
 
 @client.command()
 async def hi(ctx):
