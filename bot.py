@@ -2053,6 +2053,12 @@ async def on_ready():
 
 @tasks.loop(seconds=2)
 async def test():
+    a = 0
+    pitchers = []
+    lineup_list = []
+    url = "https://www.baseballpress.com/lineups"
+    r = requests.get(url)
+    soup_lineup = BeautifulSoup(r.text, 'lxml')
     channel = client.get_channel(983209443770642462)
     while a < 1:
         for item in soup_lineup.select("[data-league='NL']:-soup-contains('Mets') .player > a.player-link"):
@@ -2091,7 +2097,7 @@ async def test():
         await channel.send(home_lineup)
 
         a = 1
-        
+
 
         
 
