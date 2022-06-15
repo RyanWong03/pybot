@@ -2049,7 +2049,7 @@ soup_lineup = BeautifulSoup(r.text, 'lxml')
 @client.event
 async def on_ready():
     print('bot ready')
-    test.start()
+
 
 @tasks.loop(seconds=2)
 async def test():
