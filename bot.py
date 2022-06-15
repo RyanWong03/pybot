@@ -2050,17 +2050,19 @@ async def test():
     await channel.send('hi')
 
 @client.command()
-async def hi(ctx, command):
+async def hi(ctx):
     await ctx.send('stop')
-    command = client.get_command(command)
-    if command is None:
-        await ctx.send('cant find')
-    elif ctx.command == command:
-        await ctx.send('cant disable')
-    else:
-        command.enabled = not command.enabled
-        ternary = "enabled" if command.enabled else "disabled"
-        await ctx.send(f"i have {ternary} {command.qualified_name} for you")
+    test.stop()
+    # await ctx.send('stop')
+    # command = client.get_command(command)
+    # if command is None:
+    #     await ctx.send('cant find')
+    # elif ctx.command == command:
+    #     await ctx.send('cant disable')
+    # else:
+    #     command.enabled = not command.enabled
+    #     ternary = "enabled" if command.enabled else "disabled"
+    #     await ctx.send(f"i have {ternary} {command.qualified_name} for you")
 
 # client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
