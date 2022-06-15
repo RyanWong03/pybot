@@ -17,7 +17,7 @@ import copy
  #add click more button for pitching line fix local time
 # intents = discord.Intents.default()
 # intents.members = True
-# client = commands.Bot(command_prefix = '$', intents=intents)
+# client = commands.Bot(command_prefix = '$', intents=intents
 
 class TestFunctions:
     async def wait_for_response(self, message, user_response, wait_time):
