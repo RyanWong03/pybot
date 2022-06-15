@@ -2078,18 +2078,11 @@ async def test():
         lineup_list.pop(0)
         lineup_list.pop(0)
 
-        if len(lineup_list) == 19:
-            lineup_list.pop()
-            n = 9
-            home_list = lineup_list[n:]
-            away_list = lineup_list[:-n]
-        elif len(lineup_list) == 20:
-            lineup_list.pop()
-            lineup_list.pop()
-            n = 9
-            home_list = lineup_list[n:]
-            away_list = lineup_list[:-n]
         
+        n = 9
+        home_list = lineup_list[n:]
+        away_list = lineup_list[:-n]
+ 
         away_lineup = """```Game 1 """ + """ lineup\n1: """ + away_list[0] + """\n2: """ + away_list[1] + """\n3: """ + away_list[2] + """\n4: """ + away_list[3] + """\n5: """ + away_list[4] + """\n6: """ + away_list[5] + """\n7: """ + away_list[6] + """\n8: """ + away_list[7] + """\n9: """ + away_list[8] + """```"""
         await channel.send(away_lineup)
 
