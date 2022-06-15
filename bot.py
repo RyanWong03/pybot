@@ -2064,5 +2064,9 @@ async def hi(ctx):
     #     ternary = "enabled" if command.enabled else "disabled"
     #     await ctx.send(f"i have {ternary} {command.qualified_name} for you")
 
+@client.command()
+async def t(ctx):
+    await ctx.send('starting')
+    test.start()
 # client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
