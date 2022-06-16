@@ -1801,12 +1801,12 @@ class Bot(discord.Client):
                                     time.sleep(15)
 
                             if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list) and final_met < 1: 
-                                if mets_away_team_score > mets_home_team_score:
+                                if mets_away_score > mets_home_score:
                                     await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
-                                    + str(mets_away_team_code) + """: """ + str(mets_away_team_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_team_score))
-                                elif mets_home_team_score > mets_away_team_score:
+                                    + str(mets_away_team_code) + """: """ + str(mets_away_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_score))
+                                elif mets_home_score > mets_away_score:
                                     await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """
-                                    + str(mets_home_team_code) + """: """ + str(mets_home_team_score) + """ - """ + str(mets_away_team_code) + """: """ + str(mets_away_team_score))
+                                    + str(mets_home_team_code) + """: """ + str(mets_home_score) + """ - """ + str(mets_away_team_code) + """: """ + str(mets_away_score))
                                 mets_home_score = 0
                                 mets_away_score = 0
                                 final_met = 1
