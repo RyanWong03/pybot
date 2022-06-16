@@ -2327,6 +2327,7 @@ class Bot(discord.Client):
         for channel in guild.text_channels:
             if channel.permissions_for(guild.me).send_messages:
                 await channel.send(embed=welcome_embed)
+                print(channel)
             break
 
 client = Bot()  
