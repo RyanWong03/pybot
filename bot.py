@@ -2327,13 +2327,14 @@ class Bot(discord.Client):
                                  you want added just tell me. Still working on a command to add notifications for any team.', inline=False)
 
         # await channel.send(embed=welcome_embed)
+        # for channel in guild.text_channels:
+        #     if channel == 'general':
+        #         await channel.send('f')
         for channel in guild.text_channels:
-            if channel == 'general':
-                await channel.send('f')
-        for channel in guild.text_channels:
-            if channel == 'hello-there':
-                await channel.send(embed=welcome_embed)
-            break
+            print(channel)
+            # if channel == 'hello-there':
+            #     await channel.send(embed=welcome_embed)
+            # break
 
 client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
