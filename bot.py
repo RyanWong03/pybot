@@ -2325,9 +2325,8 @@ class Bot(discord.Client):
 
         # await channel.send(embed=welcome_embed)
         for channel in guild.text_channels:
-            if channel.permissions_for(guild.me).send_messages:
+            if channel == 'baseball-text':
                 await channel.send(embed=welcome_embed)
-                print(channel)
             break
 
 client = Bot()  
