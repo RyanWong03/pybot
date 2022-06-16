@@ -1001,28 +1001,28 @@ class Bot(discord.Client):
                                     yankees_home_score = yankees_home_team_score
                                     time.sleep(15)
 
-                            if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list) and final_yan < 1: 
-                                yankees_game_time_local_game_2 = self.testFunctions.get_local_time(yankees_schedule[1]['game_datetime'])
-                                if yankees_home_score > yankees_away_score:
-                                    await channel.send("""```Game 1 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """ 
-                                    + str(yankees_home_team_code) + """: """ + str(yankees_home_score) + """ - """ + str(yankees_away_team_code) + """: """ + 
-                                    str(yankees_away_score) + """. Game 2 will start at """ + str(yankees_game_time_local_game_2) + """```""")
-                                if yankees_away_score > yankees_home_score:
-                                    await channel.send("""```Game 1 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """ 
-                                    + str(yankees_away_team_code) + """: """ + str(yankees_away_score) + """ - """ + str(yankees_home_team_code) + """: """ + 
-                                    str(yankees_home_score) + """. Game 2 will start at """ + str(yankees_game_time_local_game_2) + """```""")
-                                yankees_home_score = 0
-                                yankees_away_score = 0
-                                final_yan = 1
-                                time.sleep(15)
+                                if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list) and final_yan < 1: 
+                                    yankees_game_time_local_game_2 = self.testFunctions.get_local_time(yankees_schedule[1]['game_datetime'])
+                                    if yankees_home_score > yankees_away_score:
+                                        await channel.send("""```Game 1 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """ 
+                                        + str(yankees_home_team_code) + """: """ + str(yankees_home_score) + """ - """ + str(yankees_away_team_code) + """: """ + 
+                                        str(yankees_away_score) + """. Game 2 will start at """ + str(yankees_game_time_local_game_2) + """```""")
+                                    if yankees_away_score > yankees_home_score:
+                                        await channel.send("""```Game 1 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """ 
+                                        + str(yankees_away_team_code) + """: """ + str(yankees_away_score) + """ - """ + str(yankees_home_team_code) + """: """ + 
+                                        str(yankees_home_score) + """. Game 2 will start at """ + str(yankees_game_time_local_game_2) + """```""")
+                                    yankees_home_score = 0
+                                    yankees_away_score = 0
+                                    final_yan = 1
+                                    time.sleep(15)
 
-                            elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list) and final_yan < 1:
-                                await channel.send("""```Game 1 of the """ + yankees_visitors + """ vs """ + yankees_home_team + """ DH is postponed.```""")
-                                yankees_game_time_local_game_2 = self.testFunctions.get_local_time(yankees_schedule[1]['game_datetime'])
-                                yankees_home_score = 0
-                                yankees_away_score = 0
-                                final_yan = 1
-                                time.sleep(15)
+                                elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list) and final_yan < 1:
+                                    await channel.send("""```Game 1 of the """ + yankees_visitors + """ vs """ + yankees_home_team + """ DH is postponed.```""")
+                                    yankees_game_time_local_game_2 = self.testFunctions.get_local_time(yankees_schedule[1]['game_datetime'])
+                                    yankees_home_score = 0
+                                    yankees_away_score = 0
+                                    final_yan = 1
+                                    time.sleep(15)
                             
                             if any(game_status in yankees_schedule[0]['status'] for game_status in scheduled_status_list):
                                 final_yan = 0
@@ -1156,22 +1156,22 @@ class Bot(discord.Client):
                                     yankees_home_team_score)
                                     yankees_home_score = yankees_home_team_score
                                     time.sleep(15)
-                            if any(game_status in yankees_schedule[1]['status'] for game_status in final_status_list) and final_yan_game_2 < 1:
-                                if yankees_away_score > yankees_home_score:
-                                    await channel.send("""```Game 2 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """ 
-                                    + yankees_away_team_code + ": " + str(yankees_away_score) + """ - """ + yankees_home_team_code + ": " + str(yankees_home_score) + """```""")
-                                elif yankees_home_score > yankees_away_score:
-                                    await channel.send("""```Game 2 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """
-                                    + yankees_home_team_code + ": " + str(yankees_home_score) + """ - """ + yankees_away_team_code + ": " + str(yankees_away_score) + """```""")
-                                final_yan_game_2 = 1
-                                yankees_home_score = 0
-                                yankees_away_score = 0
-                                time.sleep(15)
-                            elif any(game_status in yankees_schedule[1]['status'] for game_status in other_status_list) and final_yan_game_2 < 1:
-                                final_yan_game_2 = 0
-                                yankees_home_score = 0
-                                yankees_away_score = 0
-                                time.sleep(15)
+                                if any(game_status in yankees_schedule[1]['status'] for game_status in final_status_list) and final_yan_game_2 < 1:
+                                    if yankees_away_score > yankees_home_score:
+                                        await channel.send("""```Game 2 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """ 
+                                        + yankees_away_team_code + ": " + str(yankees_away_score) + """ - """ + yankees_home_team_code + ": " + str(yankees_home_score) + """```""")
+                                    elif yankees_home_score > yankees_away_score:
+                                        await channel.send("""```Game 2 of the """ + str(yankees_visitors) + """ vs """ + str(yankees_home_team) + """ DH has ended. The final score is """
+                                        + yankees_home_team_code + ": " + str(yankees_home_score) + """ - """ + yankees_away_team_code + ": " + str(yankees_away_score) + """```""")
+                                    final_yan_game_2 = 1
+                                    yankees_home_score = 0
+                                    yankees_away_score = 0
+                                    time.sleep(15)
+                                elif any(game_status in yankees_schedule[1]['status'] for game_status in other_status_list) and final_yan_game_2 < 1:
+                                    final_yan_game_2 = 0
+                                    yankees_home_score = 0
+                                    yankees_away_score = 0
+                                    time.sleep(15)
                             
                             if any(game_status in yankees_schedule[1]['status'] for game_status in scheduled_status_list):
                                 final_yan_game_2 = 0
@@ -1298,24 +1298,24 @@ class Bot(discord.Client):
                                     yankees_home_score = yankees_home_score
                                     time.sleep(15)
 
-                            if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list) and final_yan < 1: 
-                                if yankees_away_score > yankees_home_score:
-                                    await channel.send('The ' + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' game has ended. The final score is ' 
-                                    + str(yankees_away_team_code) + ': ' + str(yankees_away_score) + ' - ' + str(yankees_home_team_code) + ': ' + str(yankees_home_score))
-                                elif yankees_home_score > yankees_away_score:
-                                    await channel.send("The " + str(yankees_visitors) + " vs " + str(yankees_home_team) + " game has ended. The final score is "
-                                    + str(yankees_home_team_code) + ": " + str(yankees_home_score) + " - " + str(yankees_away_team_code) + ": " + str(yankees_away_score))
-                                yankees_home_score = 0
-                                yankees_away_score = 0
-                                final_yan = 1
-                                time.sleep(15)
+                                if any(game_status in yankees_schedule[0]['status'] for game_status in final_status_list) and final_yan < 1: 
+                                    if yankees_away_score > yankees_home_score:
+                                        await channel.send('The ' + str(yankees_visitors) + ' vs ' + str(yankees_home_team) + ' game has ended. The final score is ' 
+                                        + str(yankees_away_team_code) + ': ' + str(yankees_away_score) + ' - ' + str(yankees_home_team_code) + ': ' + str(yankees_home_score))
+                                    elif yankees_home_score > yankees_away_score:
+                                        await channel.send("The " + str(yankees_visitors) + " vs " + str(yankees_home_team) + " game has ended. The final score is "
+                                        + str(yankees_home_team_code) + ": " + str(yankees_home_score) + " - " + str(yankees_away_team_code) + ": " + str(yankees_away_score))
+                                    yankees_home_score = 0
+                                    yankees_away_score = 0
+                                    final_yan = 1
+                                    time.sleep(15)
 
-                            elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list) and final_yan < 1:
-                                channel.send("The " + yankees_visitors + ' vs ' + yankees_home_team + ' game is postponed.')
-                                yankees_home_score = 0
-                                yankees_away_score = 0
-                                final_yan = 1
-                                time.sleep(15)
+                                elif any(game_status in yankees_schedule[0]['status'] for game_status in other_status_list) and final_yan < 1:
+                                    channel.send("The " + yankees_visitors + ' vs ' + yankees_home_team + ' game is postponed.')
+                                    yankees_home_score = 0
+                                    yankees_away_score = 0
+                                    final_yan = 1
+                                    time.sleep(15)
                             
                             if any(game_status in yankees_schedule[0]['status'] for game_status in scheduled_status_list):
                                 final_yan = 0
@@ -1483,27 +1483,27 @@ class Bot(discord.Client):
                                     mets_away_score = mets_away_team_score
                                     time.sleep(15)
 
-                            if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list) and final_met < 1: 
-                                mets_game_time_local_game_2 = self.testFunctions.get_local_time(mets_schedule[1]['game_datetime'])
-                                if mets_away_score > mets_home_score:
-                                    await channel.send("""```Game 1 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is\n """ 
-                                    + str(mets_away_team_code) + """: """ + str(mets_away_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_score) + 
-                                    """. Game 2 will start at """ + str(yankees_game_time_local) + """```""")
-                                elif mets_home_score > mets_away_score:
-                                    await channel.send("""```Game 1 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is\n """ 
-                                    + str(mets_home_team_code) + """: """ + str(mets_home_score) + """ - """ + str(mets_away_team_code) + """: """ + str(mets_away_score) + 
-                                    """. Game 2 will start at """ + str(yankees_game_time_local) + """```""")
-                                mets_home_score = 0
-                                mets_away_score = 0
-                                final_met = 1
-                                time.sleep(15)
-                            elif any(game_status in mets_schedule[0]['status'] for game_status in other_status_list) and final_met < 1:
-                                await channel.send("""```Game 1 of he """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH is postponed.```""")
-                                mets_game_time_local_game_2 = self.testFunctions.get_local_time(mets_schedule[1]['game_datetime'])
-                                mets_home_score = 0
-                                mets_away_score = 0
-                                final_met = 1
-                                time.sleep(15)
+                                if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list) and final_met < 1: 
+                                    mets_game_time_local_game_2 = self.testFunctions.get_local_time(mets_schedule[1]['game_datetime'])
+                                    if mets_away_score > mets_home_score:
+                                        await channel.send("""```Game 1 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is\n """ 
+                                        + str(mets_away_team_code) + """: """ + str(mets_away_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_score) + 
+                                        """. Game 2 will start at """ + str(yankees_game_time_local) + """```""")
+                                    elif mets_home_score > mets_away_score:
+                                        await channel.send("""```Game 1 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is\n """ 
+                                        + str(mets_home_team_code) + """: """ + str(mets_home_score) + """ - """ + str(mets_away_team_code) + """: """ + str(mets_away_score) + 
+                                        """. Game 2 will start at """ + str(yankees_game_time_local) + """```""")
+                                    mets_home_score = 0
+                                    mets_away_score = 0
+                                    final_met = 1
+                                    time.sleep(15)
+                                elif any(game_status in mets_schedule[0]['status'] for game_status in other_status_list) and final_met < 1:
+                                    await channel.send("""```Game 1 of he """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH is postponed.```""")
+                                    mets_game_time_local_game_2 = self.testFunctions.get_local_time(mets_schedule[1]['game_datetime'])
+                                    mets_home_score = 0
+                                    mets_away_score = 0
+                                    final_met = 1
+                                    time.sleep(15)
                             
                             if any(game_status in mets_schedule[0]['status'] for game_status in scheduled_status_list):
                                 final_met = 0
@@ -1646,24 +1646,24 @@ class Bot(discord.Client):
                                     mets_away_score = mets_away_team_score
                                     time.sleep(15)
 
-                            if any(game_status in mets_schedule[1]['status'] for game_status in final_status_list) and final_met_game_2 < 1:
-                                if mets_away_score > mets_home_score:
-                                    await channel.send("""```Game 2 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is """
-                                    + mets_away_team_code + ": " + str(mets_away_score) + """ - """ + mets_home_team_code + ": " + str(mets_home_score) + """```""")
-                                elif mets_home_score > mets_away_score:
-                                    await channel.send("""```Game 2 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is """
-                                    + mets_home_team_code + ": " + str(mets_home_score) + """ - """ + mets_away_team_code + ": " + str(mets_away_score) + """```""")
-                                
-                                final_met_game_2 = 1
-                                mets_home_score = 0
-                                mets_away_score = 0
-                                time.sleep(15)
-                            elif any(game_status in mets_schedule[1]['status'] for game_status in other_status_list) and final_met_game_2 < 1:
-                                await channel.send("""```Game 2 of the """ + mets_visitors + """ vs """ + mets_home_team + """ DH has been postponed.```""")
-                                final_met_game_2 = 0
-                                mets_home_score = 0
-                                mets_away_score = 0
-                                time.sleep(15)
+                                if any(game_status in mets_schedule[1]['status'] for game_status in final_status_list) and final_met_game_2 < 1:
+                                    if mets_away_score > mets_home_score:
+                                        await channel.send("""```Game 2 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is """
+                                        + mets_away_team_code + ": " + str(mets_away_score) + """ - """ + mets_home_team_code + ": " + str(mets_home_score) + """```""")
+                                    elif mets_home_score > mets_away_score:
+                                        await channel.send("""```Game 2 of the """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ DH has ended. The final score is """
+                                        + mets_home_team_code + ": " + str(mets_home_score) + """ - """ + mets_away_team_code + ": " + str(mets_away_score) + """```""")
+                                    
+                                    final_met_game_2 = 1
+                                    mets_home_score = 0
+                                    mets_away_score = 0
+                                    time.sleep(15)
+                                elif any(game_status in mets_schedule[1]['status'] for game_status in other_status_list) and final_met_game_2 < 1:
+                                    await channel.send("""```Game 2 of the """ + mets_visitors + """ vs """ + mets_home_team + """ DH has been postponed.```""")
+                                    final_met_game_2 = 0
+                                    mets_home_score = 0
+                                    mets_away_score = 0
+                                    time.sleep(15)
 
                             if any(game_status in mets_schedule[1]['status'] for game_status in scheduled_status_list):
                                 final_met_game_2 = 0
@@ -1800,28 +1800,27 @@ class Bot(discord.Client):
                                     mets_home_score = mets_home_team_score
                                     time.sleep(15)
 
-                            if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list) and final_met < 1: 
-                                print('final')
-                                print(mets_away_score)
-                                print(mets_home_score)
-                                mets_home_score = 2
-                                if mets_away_score > mets_home_score:
-                                    await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
-                                    + str(mets_away_team_code) + """: """ + str(mets_away_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_score))
-                                elif mets_home_score > mets_away_score:
-                                    await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """
-                                    + str(mets_home_team_code) + """: """ + str(mets_home_score) + """ - """ + str(mets_away_team_code) + """: """ + str(mets_away_score))
-                                mets_home_score = 0
-                                mets_away_score = 0
-                                final_met = 1
-                                time.sleep(15)
+                                if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list) and final_met < 1: 
+                                    print('final')
+                                    print(mets_away_score)
+                                    print(mets_home_score)
+                                    if mets_away_score > mets_home_score:
+                                        await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
+                                        + str(mets_away_team_code) + """: """ + str(mets_away_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_score) + """```""")
+                                    elif mets_home_score > mets_away_score:
+                                        await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """
+                                        + str(mets_home_team_code) + """: """ + str(mets_home_score) + """ - """ + str(mets_away_team_code) + """: """ + str(mets_away_score) + """```""")
+                                    mets_home_score = 0
+                                    mets_away_score = 0
+                                    final_met = 1
+                                    time.sleep(15)
 
-                            elif any(game_status in mets_schedule[0]['status'] for game_status in other_status_list) and final_met < 1:
-                                channel.send("""```The """ + mets_visitors + """ vs """ + mets_home_team + """ game is postponed.""")
-                                mets_home_score = 0
-                                mets_away_score = 0
-                                final_met = 1
-                                time.sleep(15)
+                                elif any(game_status in mets_schedule[0]['status'] for game_status in other_status_list) and final_met < 1:
+                                    channel.send("""```The """ + mets_visitors + """ vs """ + mets_home_team + """ game is postponed.""")
+                                    mets_home_score = 0
+                                    mets_away_score = 0
+                                    final_met = 1
+                                    time.sleep(15)
                             
                             if any(game_status in mets_schedule[0]['status'] for game_status in scheduled_status_list):
                                 final_met = 0
