@@ -780,7 +780,8 @@ class Bot(discord.Client):
     testFunctions = TestFunctions()
     async def on_ready(self): #add the inning when the game ended if not equal to 9 and just say the team won n-n
         try:
-            channel = client.get_channel(983204319564288151) 
+            # joe = client.get_channel(956918028514250803)
+            channel = client.get_channel(956918028514250803) 
             dump = client.get_channel(983209443770642462)
             await self.change_presence(status = discord.Status.idle, activity = discord.Activity(type = discord.ActivityType.watching, name = "you cry"))
             print('Bot is ready.')
@@ -2310,13 +2311,13 @@ class Bot(discord.Client):
                 return
     
     async def on_guild_join(self):
-        channel = client.get_channel(956918028514250803)
+        #channel = client.get_channel(956918028514250803)
+        channel = client.get_channel(846421896000962570)
         welcome_embed = discord.Embed()
         welcome_embed.title = "Hi"
         welcome_embed.type = 'rich'
         welcome_embed.color = discord.Color.dark_blue()
 
-        # Add the fields with game info
         welcome_embed.add_field(name='**Hi there**',
                                  value='Hi. I send live in game notifications for any team you want. Bot still a work in progress, so it will not work if you add it\
                                  to any other server because it has not been setup for that yet. Default team notifications currently are Mets and Yankees, any other teams\
