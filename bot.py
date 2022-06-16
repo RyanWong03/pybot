@@ -821,8 +821,6 @@ class Bot(discord.Client):
             yankees_interleague = None
             mets_interleague = None
             
-            if final_met == 0:
-                print('hi')
             while var < 1:
                 target_date_time = datetime.datetime.now() - timedelta(hours=10) #changing from 4 to 8/10
                 yankees = self.testFunctions.get_team_no_msg('yankees')
@@ -1670,6 +1668,7 @@ class Bot(discord.Client):
                             if any(game_status in mets_schedule[1]['status'] for game_status in scheduled_status_list):
                                 final_met_game_2 = 0
                         elif len(mets_schedule) == 1:
+                            print('one')
                             mets_game_id = yankees_schedule[0]['game_id']
                             mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
                             mets_new_hour = mets_game_time_local - timedelta(hours=10)
@@ -1803,6 +1802,7 @@ class Bot(discord.Client):
                                     time.sleep(15)
 
                             if any(game_status in mets_schedule[0]['status'] for game_status in final_status_list) and final_met < 1: 
+                                print('final')
                                 if mets_away_score > mets_home_score:
                                     await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
                                     + str(mets_away_team_code) + """: """ + str(mets_away_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_score))
