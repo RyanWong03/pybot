@@ -2310,7 +2310,7 @@ class Bot(discord.Client):
             else:
                 return
     
-    async def on_guild_join(self):
+    async def on_guild_join():
         #channel = client.get_channel(956918028514250803)
         channel = client.get_channel(846421896000962570)
         welcome_embed = discord.Embed()
