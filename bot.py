@@ -2332,9 +2332,10 @@ class Bot(discord.Client):
         #         await channel.send('f')
         for channel in guild.text_channels:
             print(channel)
-            # if channel == 'hello-there':
-            #     await channel.send(embed=welcome_embed)
-            # break
+            if channel == 'hello-there':
+                print('yes')
+                await channel.send(embed=welcome_embed)
+            break
 
 client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
