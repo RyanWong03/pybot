@@ -828,7 +828,7 @@ class Bot(discord.Client):
                 mets = self.testFunctions.get_team_no_msg('mets')
                 mets_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(mets['id']))
                 yankees_schedule = statsapi.schedule(date = target_date_time.strftime('%Y-%m-%d'), team = int(yankees['id'])) #'%Y-%m-%d
-                await dump.send('msg')
+                #await dump.send('msg')
                 now = datetime.datetime.now() - timedelta(hours=10) #changing from 4 to 8/10
                 final_status_list = ["Final", "Game Over", "Completed Early"]
                 scheduled_status_list = ["Scheduled", "Pre-Game"]
