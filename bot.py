@@ -2325,6 +2325,9 @@ class Bot(discord.Client):
 
         # await channel.send(embed=welcome_embed)
         for channel in guild.text_channels:
+            if channel == 'mlb':
+                await channel.send('f')
+        for channel in guild.text_channels:
             if channel == 'ryan-sus':
                 await channel.send(embed=welcome_embed)
             break
