@@ -821,6 +821,8 @@ class Bot(discord.Client):
             yankees_interleague = None
             mets_interleague = None
             
+            if final_met == 0:
+                print('hi')
             while var < 1:
                 target_date_time = datetime.datetime.now() - timedelta(hours=10) #changing from 4 to 8/10
                 yankees = self.testFunctions.get_team_no_msg('yankees')
