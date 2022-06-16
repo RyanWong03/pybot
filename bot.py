@@ -2313,20 +2313,20 @@ class Bot(discord.Client):
     async def on_guild_join(self, guild):
         #channel = client.get_channel(956918028514250803)
         # channel = client.get_channel(846421896000962570)
-        # welcome_embed = discord.Embed()
-        # welcome_embed.title = "Hi"
-        # welcome_embed.type = 'rich'
-        # welcome_embed.color = discord.Color.dark_blue()
+        welcome_embed = discord.Embed()
+        welcome_embed.title = "Hi"
+        welcome_embed.type = 'rich'
+        welcome_embed.color = discord.Color.dark_blue()
 
-        # welcome_embed.add_field(name='**Hi there**',
-        #                          value='Hi. I send live in game notifications for any team you want. Bot still a work in progress, so it will not work if you add it\
-        #                          to any other server because it has not been setup for that yet. Default team notifications currently are Mets and Yankees, any other teams\
-        #                          you want added just tell me. Still working on a command to add notifications for any team.', inline=False)
+        welcome_embed.add_field(name='**Hi there**',
+                                 value='Hi. I send live in game notifications for any team you want. Bot still a work in progress, so it will not work if you add it\
+                                 to any other server because it has not been setup for that yet. Default team notifications currently are Mets and Yankees, any other teams\
+                                 you want added just tell me. Still working on a command to add notifications for any team.', inline=False)
 
         # await channel.send(embed=welcome_embed)
         for channel in guild.text_channels:
             if channel.permissions_for(guild.me).send_messages:
-                await channel.send('Hi there.')
+                await channel.send(embed=welcome_embed)
             break
 
 client = Bot()  
