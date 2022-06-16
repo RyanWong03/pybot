@@ -1668,7 +1668,6 @@ class Bot(discord.Client):
                             if any(game_status in mets_schedule[1]['status'] for game_status in scheduled_status_list):
                                 final_met_game_2 = 0
                         elif len(mets_schedule) == 1:
-                            print('one')
                             mets_game_id = yankees_schedule[0]['game_id']
                             mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
                             mets_new_hour = mets_game_time_local - timedelta(hours=10)
