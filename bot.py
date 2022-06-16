@@ -778,10 +778,10 @@ class EmbedFunctions:
 class Bot(discord.Client):
     embedFunctions = EmbedFunctions()
     testFunctions = TestFunctions()
-    async def on_ready(self, guild): #add the inning when the game ended if not equal to 9 and just say the team won n-n
+    async def on_ready(self): #add the inning when the game ended if not equal to 9 and just say the team won n-n
         print('hi')
-        for channel in guild.text_channels:
-            print(channel)
+        # for channel in guild.text_channels:
+        #     print(channel)
         # try:
         #     # joe = client.get_channel(956918028514250803)
         #     channel = client.get_channel(956918028514250803) 
