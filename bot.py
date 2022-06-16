@@ -1672,8 +1672,6 @@ class Bot(discord.Client):
                             mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
                             mets_new_hour = mets_game_time_local - timedelta(hours=10)
                             mets_current_inning = str(mets_schedule[0]['current_inning'])
-                            print(mets_current_inning)
-                            break
                             mets_half_inning = mets_schedule[0]['inning_state']
                             mets_current_inning_text = ''
 
@@ -1686,9 +1684,9 @@ class Bot(discord.Client):
                             elif mets_current_inning[-1] == '3':
                                 mets_current_inning += 'rd'
                                 mets_current_inning_text = mets_half_inning + ' of the ' + mets_current_inning
-                            elif 4 <= int(yankees_current_inning[-1]) <= 9:
-                                yankees_current_inning += 'th'
-                                yankees_current_inning_text = yankees_half_inning + ' of the ' + yankees_current_inning
+                            elif 4 <= int(mets_current_inning[-1]) <= 9:
+                                mets_current_inning += 'th'
+                                mets_current_inning_text = mets_half_inning + ' of the ' + mets_current_inning
                             elif mets_current_inning[-1] == '0':
                                 mets_current_inning += 'th'
                                 mets_current_inning_text = mets_half_inning + ' of the ' + mets_current_inning
