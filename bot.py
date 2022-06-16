@@ -1804,6 +1804,7 @@ class Bot(discord.Client):
                                 print('final')
                                 print(mets_away_score)
                                 print(mets_home_score)
+                                mets_home_score = 2
                                 if mets_away_score > mets_home_score:
                                     await channel.send("""```The """ + str(mets_visitors) + """ vs """ + str(mets_home_team) + """ game has ended. The final score is """ 
                                     + str(mets_away_team_code) + """: """ + str(mets_away_score) + """ - """ + str(mets_home_team_code) + """: """ + str(mets_home_score))
