@@ -2335,7 +2335,6 @@ class Bot(discord.Client):
             if channel == 'hello-there':
                 print('yes')
                 await channel.send(embed=welcome_embed)
-            break
 
 client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
