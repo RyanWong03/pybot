@@ -1672,6 +1672,8 @@ class Bot(discord.Client):
                             mets_game_time_local = self.testFunctions.get_local_time(mets_schedule[0]['game_datetime'])
                             mets_new_hour = mets_game_time_local - timedelta(hours=10)
                             mets_current_inning = str(mets_schedule[0]['current_inning'])
+                            print(mets_current_inning)
+                            break
                             mets_half_inning = mets_schedule[0]['inning_state']
                             mets_current_inning_text = ''
 
