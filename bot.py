@@ -2331,10 +2331,9 @@ class Bot(discord.Client):
         #     if channel == 'general':
         #         await channel.send('f')
         for channel in guild.text_channels:
-            print(channel)
-            if str(channel) == 'k':
-                print('yes')
+            if str(channel) == 'baseball-text':
                 await channel.send(embed=welcome_embed)
+            break
 
 client = Bot()  
 client.run(os.environ["DISCORD_TOKEN"])
