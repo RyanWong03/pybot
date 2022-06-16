@@ -2332,7 +2332,7 @@ class Bot(discord.Client):
         #         await channel.send('f')
         for channel in guild.text_channels:
             print(channel)
-            if channel == 'k':
+            if str(channel) == 'k':
                 print('yes')
                 await channel.send(embed=welcome_embed)
 
